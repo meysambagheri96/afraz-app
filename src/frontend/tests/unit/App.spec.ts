@@ -7,6 +7,7 @@ describe('FoundationView', () => {
     const wrapper = mount(FoundationView)
 
     expect(wrapper.get('h1').text()).toBe('استودیو افراز')
+    expect(wrapper.text()).toContain('.NET10')
+    expect(wrapper.text()).toContain('Vue3.5.42')
   })
 })
-

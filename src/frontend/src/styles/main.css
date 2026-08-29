@@ -74,8 +74,39 @@ h1 {
 
 .description {
   max-inline-size: 34rem;
-  margin-block: var(--space-4) var(--space-8);
+  margin-block: var(--space-4) var(--space-6);
   color: var(--color-text-muted);
+}
+
+.versions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-8);
+}
+
+.version-pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-block-size: 2.75rem;
+  padding-block: var(--space-2);
+  padding-inline: var(--space-4);
+  border: 1px solid rgb(113 63 82 / 14%);
+  border-radius: 999px;
+  background: var(--color-brand-50);
+}
+
+.version-pill dt {
+  color: var(--color-brand-700);
+  font-weight: 700;
+}
+
+.version-pill dd {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  direction: ltr;
 }
 
 .status {
@@ -93,4 +124,3 @@ h1 {
   background: currentcolor;
   box-shadow: 0 0 0 0.25rem rgb(47 114 84 / 12%);
 }
-
