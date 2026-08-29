@@ -6,10 +6,13 @@ This file defines the operating instructions for AI coding agents working in the
 
 Before making non-trivial changes, read:
 
-1. `docs/afraz-studio-reference.md` — business/product requirements
-2. `docs/constitution.md` or `docs/afraz-studio-constitution.md` — engineering rules and architecture
-3. Relevant ADRs under `docs/adr/`
-4. Existing code in the affected feature/module
+1. `docs/reference.md` — business/product requirements
+2. `docs/constitution.md` and `docs/architecture.md` — engineering rules and architecture
+4. Relevant ADRs under `docs/adr/`
+5. UI/UX Designs in `docs\design`
+6. Existing code in the affected feature/module
+7. Backend code base in `src\backend`
+8. Frontend code base in `src\frontend`
 
 If these documents conflict:
 
