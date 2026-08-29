@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <SpaRoot>$(MSBuildProjectDirectory)\..\..\frontend\</SpaRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Afraz.Application\Afraz.Application.csproj" />
+    <ProjectReference Include="..\Afraz.Infrastructure\Afraz.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
+    <PackageReference Include="Microsoft.OpenApi" Version="2.12.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
+  </ItemGroup>
+  <Target
+    Name="BuildFrontend"
+    BeforeTargets="PrepareForBuild"
+    Condition="'$(Configuration)' == 'Release' and '$(DesignTimeBuild)' != 'true'">
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm ci" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+  </Target>
+</Project>

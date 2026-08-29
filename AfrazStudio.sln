@@ -1,0 +1,49 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Afraz.Domain", "src\backend\Afraz.Domain\Afraz.Domain.csproj", "{F7C8E295-EC80-48DB-A7C8-59F79A06BF2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Afraz.Application", "src\backend\Afraz.Application\Afraz.Application.csproj", "{0A1F45ED-5EA8-44D3-B62D-2266725E55A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Afraz.Infrastructure", "src\backend\Afraz.Infrastructure\Afraz.Infrastructure.csproj", "{5768E7CE-5D58-4FBC-9CC3-06912B4CA3D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Afraz.Api", "src\backend\Afraz.Api\Afraz.Api.csproj", "{A0F87C29-A2CA-44C6-973E-B8187B766663}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Afraz.UnitTests", "tests\Afraz.UnitTests\Afraz.UnitTests.csproj", "{BA5B4F41-B1EC-42C2-9D7B-A43F22F69B7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Afraz.IntegrationTests", "tests\Afraz.IntegrationTests\Afraz.IntegrationTests.csproj", "{D24516C4-7581-48AE-84F5-5A821125CD72}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7C8E295-EC80-48DB-A7C8-59F79A06BF2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7C8E295-EC80-48DB-A7C8-59F79A06BF2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7C8E295-EC80-48DB-A7C8-59F79A06BF2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7C8E295-EC80-48DB-A7C8-59F79A06BF2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A1F45ED-5EA8-44D3-B62D-2266725E55A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A1F45ED-5EA8-44D3-B62D-2266725E55A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A1F45ED-5EA8-44D3-B62D-2266725E55A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A1F45ED-5EA8-44D3-B62D-2266725E55A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5768E7CE-5D58-4FBC-9CC3-06912B4CA3D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5768E7CE-5D58-4FBC-9CC3-06912B4CA3D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5768E7CE-5D58-4FBC-9CC3-06912B4CA3D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5768E7CE-5D58-4FBC-9CC3-06912B4CA3D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0F87C29-A2CA-44C6-973E-B8187B766663}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0F87C29-A2CA-44C6-973E-B8187B766663}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0F87C29-A2CA-44C6-973E-B8187B766663}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0F87C29-A2CA-44C6-973E-B8187B766663}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA5B4F41-B1EC-42C2-9D7B-A43F22F69B7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA5B4F41-B1EC-42C2-9D7B-A43F22F69B7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA5B4F41-B1EC-42C2-9D7B-A43F22F69B7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA5B4F41-B1EC-42C2-9D7B-A43F22F69B7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D24516C4-7581-48AE-84F5-5A821125CD72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D24516C4-7581-48AE-84F5-5A821125CD72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D24516C4-7581-48AE-84F5-5A821125CD72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D24516C4-7581-48AE-84F5-5A821125CD72}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
+

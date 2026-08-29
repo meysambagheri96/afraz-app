@@ -1,0 +1,37 @@
+:root {
+  --color-brand-50: #f9f4f6;
+  --color-brand-500: #925b70;
+  --color-brand-700: #713f52;
+  --color-background: #f6f2ed;
+  --color-surface: #fffdf9;
+  --color-text: #27201f;
+  --color-text-muted: #766b68;
+  --color-success: #2f7254;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+
+  --font-family-sans: Vazirmatn, IRANSans, system-ui, -apple-system, sans-serif;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-xl: clamp(2.2rem, 8vw, 4rem);
+  --line-height-body: 1.8;
+
+  --radius-sm: 0.5rem;
+  --radius-lg: 1.5rem;
+  --shadow-surface: 0 1.5rem 4rem rgb(65 43 51 / 10%);
+
+  --z-content: 1;
+  --z-overlay: 10;
+
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inline-start: env(safe-area-inset-left, 0px);
+  --safe-area-inline-end: env(safe-area-inset-right, 0px);
+}
+
