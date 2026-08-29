@@ -1,11 +1,11 @@
+using System.Net;
+using Afraz.Api.Contracts;
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Afraz.Api;
 
 internal sealed class GlobalExceptionHandler(
-    IProblemDetailsService problemDetailsService,
     ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
@@ -15,25 +15,29 @@ internal sealed class GlobalExceptionHandler(
     {
         logger.LogError(exception, "Unhandled exception for trace {TraceId}", httpContext.TraceIdentifier);
 
-        var statusCode = exception is ValidationException
-            ? StatusCodes.Status400BadRequest
-            : StatusCodes.Status500InternalServerError;
+        var isValidationError = exception is ValidationException;
+        var statusCode = isValidationError
+            ? HttpStatusCode.BadRequest
+            : HttpStatusCode.InternalServerError;
+        var errors = exception is ValidationException validationException
+            ? validationException.Errors
+                .GroupBy(failure => failure.PropertyName)
+                .Select(group => new ApiErrorEntry(
+                    group.Key,
+                    (int)HttpStatusCode.BadRequest,
+                    group.Select(failure => failure.ErrorMessage).ToArray()))
+                .ToArray()
+            : [];
+        var errorMessage = isValidationError
+            ? "Validation failed."
+            : "An unexpected error occurred.";
 
-        httpContext.Response.StatusCode = statusCode;
+        httpContext.Response.StatusCode = (int)statusCode;
 
-        return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
-        {
-            HttpContext = httpContext,
-            ProblemDetails = new ProblemDetails
-            {
-                Status = statusCode,
-                Title = statusCode == StatusCodes.Status400BadRequest
-                    ? "Validation failed"
-                    : "An unexpected error occurred",
-                Detail = statusCode == StatusCodes.Status400BadRequest ? exception.Message : null,
-            },
-            Exception = exception,
-        });
+        await httpContext.Response.WriteAsJsonAsync(
+            Envelop<object?>.HandledError(statusCode, errors, errorMessage),
+            cancellationToken);
+
+        return true;
     }
 }
-

@@ -1,14 +1,14 @@
-using MediatR;
+using Infra.Queries;
 
 namespace Afraz.Application.Features.Foundation.GetStatus;
 
-public sealed record GetStatusQuery : IRequest<GetStatusResponse>;
+public sealed record GetStatusQuery : IQueryResult<GetStatusResponse>;
 
 public sealed record GetStatusResponse(string Service, string Status);
 
-internal sealed class GetStatusHandler : IRequestHandler<GetStatusQuery, GetStatusResponse>
+internal sealed class GetStatusHandler : IQueryHandler<GetStatusQuery, GetStatusResponse>
 {
-    public Task<GetStatusResponse> Handle(
+    public Task<GetStatusResponse> HandleAsync(
         GetStatusQuery request,
         CancellationToken cancellationToken)
     {

@@ -1,4 +1,8 @@
 using System.Net;
+using System.Net.Http.Json;
+using Afraz.Api;
+using Afraz.Api.Contracts;
+using Afraz.Application.Features.Foundation.GetStatus;
 using FluentAssertions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -19,8 +23,13 @@ public sealed class ApiRoutingTests : IClassFixture<WebApplicationFactory<Progra
     public async Task StatusEndpoint_ShouldReturnSuccess()
     {
         var response = await _client.GetAsync("/api/status", TestContext.Current.CancellationToken);
+        var envelop = await response.Content.ReadFromJsonAsync<Envelop<GetStatusResponse>>(
+            TestContext.Current.CancellationToken);
 
         response.EnsureSuccessStatusCode();
+        envelop.Should().NotBeNull();
+        envelop!.Meta.Code.Should().Be(HttpStatusCode.OK);
+        envelop.Data.Should().BeEquivalentTo(new GetStatusResponse("Afraz.Api", "ready"));
     }
 
     [Fact]
@@ -31,7 +40,12 @@ public sealed class ApiRoutingTests : IClassFixture<WebApplicationFactory<Progra
             TestContext.Current.CancellationToken);
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        response.Content.Headers.ContentType?.MediaType.Should().Be("application/problem+json");
+        response.Content.Headers.ContentType?.MediaType.Should().Be("application/json");
+
+        var envelop = await response.Content.ReadFromJsonAsync<Envelop<object?>>(
+            TestContext.Current.CancellationToken);
+        envelop.Should().NotBeNull();
+        envelop!.Meta.Code.Should().Be(HttpStatusCode.NotFound);
     }
 
     [Theory]

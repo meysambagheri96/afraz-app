@@ -1,52 +1,77 @@
-using Afraz.Api;
-using Afraz.Application;
-using Afraz.Application.Features.Foundation.GetStatus;
-using Afraz.Infrastructure;
-using MediatR;
+using System.Net;
+using Afraz.Api.Contracts;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace Afraz.Api;
 
-builder.Host.UseSerilog((context, services, configuration) => configuration
-    .ReadFrom.Configuration(context.Configuration)
-    .ReadFrom.Services(services)
-    .Enrich.FromLogContext()
-    .Enrich.WithProperty("Application", "Afraz.Api")
-    .WriteTo.Console());
-
-builder.Services.AddProblemDetails();
-builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-builder.Services.AddOpenApi();
-builder.Services.AddHealthChecks();
-builder.Services.AddApplication();
-builder.Services.AddInfrastructure(builder.Configuration);
-
-var app = builder.Build();
-
-app.UseExceptionHandler();
-app.UseSerilogRequestLogging(options =>
-    options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
-        diagnosticContext.Set("TraceId", httpContext.TraceIdentifier));
-app.UseHttpsRedirection();
-app.UseDefaultFiles();
-app.UseStaticFiles();
-
-if (app.Environment.IsDevelopment())
+public sealed class Program
 {
-    app.MapOpenApi();
+    public static async Task Main(string[] args)
+    {
+        await CreateHostBuilder(args).Build().RunAsync();
+    }
+
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+            .UseSerilog((context, services, configuration) => configuration
+                .ReadFrom.Configuration(context.Configuration)
+                .ReadFrom.Services(services)
+                .Enrich.FromLogContext()
+                .Enrich.WithProperty("Application", "Afraz.Api")
+                .WriteTo.Console())
+            .ConfigureContainer<ContainerBuilder>((_, container) =>
+                container.AddCommandQueryInternal())
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.ConfigureServices((context, services) =>
+                {
+                    services.AddExceptionHandler<GlobalExceptionHandler>();
+                    services.AddExceptionHandler(options =>
+                        options.ExceptionHandler = _ => Task.CompletedTask);
+                    services.AddControllers().ConfigureApiBehaviorOptions(options =>
+                    {
+                        options.InvalidModelStateResponseFactory = context =>
+                        {
+                            var errors = context.ModelState
+                                .Where(entry => entry.Value?.Errors.Count > 0)
+                                .Select(entry => new ApiErrorEntry(
+                                    entry.Key,
+                                    (int)HttpStatusCode.BadRequest,
+                                    entry.Value!.Errors
+                                        .Select(error => error.ErrorMessage)
+                                        .ToArray()))
+                                .ToArray();
+
+                            return new BadRequestObjectResult(
+                                Envelop<object?>.HandledError(
+                                    HttpStatusCode.BadRequest,
+                                    errors,
+                                    "Validation failed."));
+                        };
+                    });
+                    services.AddSwaggerInternal();
+                    services.AddMemoryCache();
+                    services.AddDistributedMemoryCache();
+                    services.AddApplication();
+                    services.AddInfrastructure(context.Configuration);
+                });
+                webBuilder.Configure((context, app) =>
+                {
+                    app.UseExceptionHandler();
+                    app.UseSerilogRequestLogging(options =>
+                        options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+                            diagnosticContext.Set("TraceId", httpContext.TraceIdentifier));
+                    app.UseHttpsRedirection();
+                    app.UseDefaultFiles();
+                    app.UseStaticFiles();
+                    app.UseSwaggerInternal();
+                    app.UseRouting();
+                    app.UseEndpointsInternal();
+                });
+                webBuilder.CaptureStartupErrors(true);
+            });
 }
-
-app.MapHealthChecks("/health");
-
-var api = app.MapGroup("/api");
-api.MapGet("/status", async (ISender sender, CancellationToken cancellationToken) =>
-    Results.Ok(await sender.Send(new GetStatusQuery(), cancellationToken)));
-
-app.Map("/api/{**path}", () => Results.Problem(
-    statusCode: StatusCodes.Status404NotFound,
-    title: "API endpoint not found"));
-app.MapFallbackToFile("index.html");
-
-app.Run();
-
-public partial class Program;

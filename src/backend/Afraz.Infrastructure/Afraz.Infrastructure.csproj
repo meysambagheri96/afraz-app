@@ -3,6 +3,7 @@
     <ProjectReference Include="..\Afraz.Application\Afraz.Application.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Infra.EFCore" Version="2.0.35" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
