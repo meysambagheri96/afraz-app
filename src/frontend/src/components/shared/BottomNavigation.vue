@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import NavigationIcon from './NavigationIcon.vue'
+import AppIcon from '../ui/AppIcon.vue'
 import { primaryNavigationItems, type NavigationItemId } from './navigation'
 
 const route = useRoute()
@@ -23,7 +23,7 @@ const activeItem = computed<NavigationItemId>(() => {
         :aria-current="activeItem === item.id ? 'page' : undefined"
       >
         <span class="bottom-navigation__icon" aria-hidden="true">
-          <NavigationIcon :name="item.id" :active="activeItem === item.id" />
+          <AppIcon :name="item.id" :active="activeItem === item.id" />
         </span>
         <span class="bottom-navigation__label">{{ item.label }}</span>
       </RouterLink>

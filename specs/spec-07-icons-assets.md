@@ -3,7 +3,8 @@
 ## Objective
 
 - Create a consistent icon system inspired by Instagram/Material/SF-style simplicity while matching Afraz brand palette.
-
+- Sample icons are here `docs\design\icons\services-icons.png` and `docs\design\icons\categories-icons.png` 
+  
 ## Business Context
 
 This story is part of the Afraz Studio application. It must remain consistent with:
@@ -27,9 +28,9 @@ All customer-facing UI must be Persian, RTL, mobile-first, and optimized for the
 
 ## Acceptance Criteria
 
-- [ ] Icons use consistent stroke/scale.
-- [ ] No uncontrolled mix of icon libraries.
-- [ ] All icons are accessible and theme-aware.
+- [x] Icons use consistent stroke/scale.
+- [x] No uncontrolled mix of icon libraries.
+- [x] All icons are accessible and theme-aware.
 
 ## Codex Execution Instruction
 

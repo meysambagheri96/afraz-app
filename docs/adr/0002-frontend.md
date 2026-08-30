@@ -467,6 +467,35 @@ env(safe-area-inset-bottom)
 
 Do not start from desktop and shrink later.
 
+
+### Mobile-First & Responsive Design:
+
+The application MUST be implemented using a strict **mobile-first approach**.
+
+The mobile design is the primary design and the main source of truth.
+Desktop and tablet layouts are secondary adaptations of the mobile experience.
+
+Requirements:
+
+- Start all layouts and components from the mobile viewport.
+- The provided mobile reference image is the primary visual source of truth.
+- Implement the base CSS/Tailwind classes for mobile first.
+- Use responsive breakpoints only to progressively enhance the layout for larger screens.
+- Do NOT design desktop first and then shrink it for mobile.
+- Do NOT treat the mobile version as a simplified version of desktop.
+- Preserve the full functionality and visual quality on mobile.
+- All components must be responsive.
+- Avoid fixed widths that cause horizontal overflow.
+- Use fluid sizing, responsive grids, `max-width`, `min()`, `clamp()`, and responsive Tailwind utilities where appropriate.
+- Images must resize/crop responsively without breaking their intended composition.
+- Typography and spacing may scale progressively on larger screens.
+- Touch targets on mobile must be at least 44×44px.
+- Respect iOS/Android safe areas.
+- The bottom navigation is primarily designed for mobile.
+- On tablet/desktop, navigation and layout may adapt when appropriate, while preserving the same design system.
+- Desktop layouts should take advantage of additional space rather than simply stretching mobile components.
+
+
 ---
 
 # 13. Dynamic Island & Safe Area

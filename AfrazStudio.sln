@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11819.183 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Afraz.Domain", "src\backend\Afraz.Domain\Afraz.Domain.csproj", "{F7C8E295-EC80-48DB-A7C8-59F79A06BF2D}"
 EndProject
@@ -13,6 +13,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Afraz.UnitTests", "tests\Afraz.UnitTests\Afraz.UnitTests.csproj", "{BA5B4F41-B1EC-42C2-9D7B-A43F22F69B7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Afraz.IntegrationTests", "tests\Afraz.IntegrationTests\Afraz.IntegrationTests.csproj", "{D24516C4-7581-48AE-84F5-5A821125CD72}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sln", ".sln", "{9CA287A5-1581-47FB-8507-FFC2CD9BF067}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{ADBEF81C-6F42-4C6F-BE7A-5B20BF96D5A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,5 +49,10 @@ Global
 		{D24516C4-7581-48AE-84F5-5A821125CD72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D24516C4-7581-48AE-84F5-5A821125CD72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A0425AC5-3917-4F44-94EF-D0C8D208E026}
+	EndGlobalSection
 EndGlobal
-
