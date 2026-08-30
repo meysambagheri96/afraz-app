@@ -6,7 +6,6 @@ import SocialBrandIcon from './SocialBrandIcon.vue'
 
 const quickLinks = [
   { label: 'فروشگاه', to: { name: 'store' } },
-  { label: 'مقالات', to: { name: 'articles' } },
   { label: 'تماس با ما', to: { name: 'contact' } },
   { label: 'درباره ما', to: { name: 'studio' } },
 ]
@@ -83,7 +82,7 @@ const socialLinks = [
       </section>
 
       <section
-        class="site-footer__section site-footer__section--full"
+        class="site-footer__section site-footer__section--full site-footer__section--social"
         aria-labelledby="footer-social-title"
       >
         <h2 id="footer-social-title" class="site-footer__title text-card-title">
@@ -141,8 +140,8 @@ const socialLinks = [
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: var(--space-8);
-  row-gap: var(--space-2);
-  padding-block: var(--space-10) var(--space-8);
+  row-gap: var(--space-1);
+  padding-block: var(--space-4) var(--space-6);
 }
 
 .site-footer__section {
@@ -154,8 +153,12 @@ const socialLinks = [
 }
 
 .site-footer__section--badges {
-  margin-block-start: calc(var(--space-4) * -1);
-  margin-block-end: var(--space-6);
+  margin-block-start: calc(var(--space-2) * -1);
+  margin-block-end: 0;
+}
+
+.site-footer__section--social {
+  margin-block-start: var(--space-4);
 }
 
 .site-footer__title {
@@ -178,14 +181,14 @@ const socialLinks = [
 .site-footer__links {
   display: grid;
   gap: 0;
-  margin: var(--space-4) 0 0;
+  margin: var(--space-2) 0 0;
   padding: 0;
   list-style: none;
 }
 
 .site-footer__links a {
   display: inline-flex;
-  min-block-size: 2.25rem;
+  min-block-size: 2rem;
   align-items: center;
   color: var(--color-text-secondary);
   font-size: var(--font-size-sm);
@@ -204,13 +207,13 @@ const socialLinks = [
 .site-footer__contact {
   display: grid;
   gap: 0;
-  margin-block-start: var(--space-4);
+  margin-block-start: var(--space-2);
   font-style: normal;
 }
 
 .site-footer__contact a {
   display: flex;
-  min-block-size: 2.25rem;
+  min-block-size: 2rem;
   align-items: center;
   gap: var(--space-2);
   color: var(--color-text-secondary);
@@ -229,7 +232,7 @@ const socialLinks = [
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
-  margin-block-start: var(--space-4);
+  margin-block-start: var(--space-2);
 }
 
 .site-footer__badge {
@@ -257,7 +260,7 @@ const socialLinks = [
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-3);
-  margin-block-start: var(--space-4);
+  margin-block-start: var(--space-2);
 }
 
 .site-footer__social-link {
@@ -295,7 +298,7 @@ const socialLinks = [
 
 @media (min-width: 48rem) {
   .site-footer__inner {
-    padding-block-start: var(--space-12);
+    padding-block-start: var(--space-6);
   }
 }
 
