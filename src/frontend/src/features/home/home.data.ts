@@ -57,7 +57,7 @@ export const latestOrder: LastOrder = {
   studioName: 'آتلیه کودک',
   dateLabel: '۱۲ فروردین ۱۴۰۴',
   statusLabel: 'آماده انتخاب',
-  newPhotoCount: 235,
+  newPhotoCount: 236,
   thumbnailUrl: sampleOneUrl,
   to: { name: 'orders', query: { order: 'AFR-1404-0012' } },
 }
