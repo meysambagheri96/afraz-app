@@ -108,7 +108,7 @@ const currentYear = new Date().getFullYear()
     </div>
 
     <div class="site-footer__bottom">
-      <p class="text-caption">تمامی حقوق برای آتلیه افراز محفوظ است</p>
+      <p class="text-caption">تمامی حقوق برای آتلیه افراز محفوظ است، ۱۴۰۵</p>
     </div>
   </footer>
 </template>
