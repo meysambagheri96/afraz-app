@@ -27,7 +27,7 @@ withDefaults(
 </template>
 
 <style scoped>
-.app-badge { display: inline-flex; width: fit-content; align-items: center; gap: var(--space-1); color: var(--color-text-secondary); background: var(--color-surface-muted); font-weight: 700; line-height: 1; white-space: nowrap; }
+.app-badge { display: inline-flex; width: fit-content; align-items: center; gap: var(--space-1); color: var(--color-text-secondary); background: var(--color-surface-muted); font-weight: var(--font-weight-bold); line-height: 1; white-space: nowrap; }
 .app-badge--sm { min-height: 1.5rem; padding-inline: var(--space-2); font-size: 0.6875rem; }
 .app-badge--md { min-height: 1.75rem; padding-inline: var(--space-3); font-size: var(--font-size-xs); }
 .app-badge--rounded { border-radius: var(--radius-full); }

@@ -52,11 +52,11 @@ function handleError(event: Event) {
 .app-avatar--md { width: 2.75rem; height: 2.75rem; }
 .app-avatar--lg { width: 4rem; height: 4rem; }
 .app-avatar--xl { width: 5.5rem; height: 5.5rem; }
-.app-avatar__image, .app-avatar__fallback, .app-avatar__skeleton { width: 100%; height: 100%; border: 2px solid white; border-radius: 50%; }
+.app-avatar__image, .app-avatar__fallback, .app-avatar__skeleton { width: 100%; height: 100%; border: 2px solid var(--color-surface); border-radius: 50%; }
 .app-avatar__image { object-fit: cover; }
-.app-avatar__fallback { display: grid; place-items: center; color: var(--color-brand-primary); background: var(--color-brand-soft); font-weight: 800; }
+.app-avatar__fallback { display: grid; place-items: center; color: var(--color-brand-primary); background: var(--color-brand-soft); font-weight: var(--font-weight-bold); }
 .app-avatar__skeleton { background: linear-gradient(100deg, var(--color-surface-muted) 30%, white 50%, var(--color-surface-muted) 70%); background-size: 200% 100%; animation: app-shimmer 1.4s infinite; }
-.app-avatar__status { position: absolute; inset-inline-end: 0; inset-block-end: 0; width: 0.75rem; height: 0.75rem; border: 2px solid white; border-radius: 50%; }
+.app-avatar__status { position: absolute; inset-inline-end: 0; inset-block-end: 0; width: 0.75rem; height: 0.75rem; border: 2px solid var(--color-surface); border-radius: 50%; }
 .app-avatar__status--online { background: var(--color-success); }
 .app-avatar__status--offline { background: var(--color-disabled); }
 .app-avatar--disabled { filter: grayscale(1); opacity: 0.55; }

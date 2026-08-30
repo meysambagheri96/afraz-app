@@ -39,9 +39,9 @@ All customer-facing UI must be Persian, RTL, mobile-first, and optimized for the
 
 ## Acceptance Criteria
 
-- [ ] Tokens are documented.
-- [ ] Typography is consistent across nav, services, categories and body text.
-- [ ] No component needs ad-hoc theme values for standard use.
+- [x] Tokens are documented.
+- [x] Typography is consistent across nav, services, categories and body text.
+- [x] No component needs ad-hoc theme values for standard use.
 
 ## Codex Execution Instruction
 

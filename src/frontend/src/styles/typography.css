@@ -1,0 +1,26 @@
+@font-face {
+  font-family: 'Vazirmatn';
+  src: local('Vazirmatn');
+  font-display: swap;
+}
+
+.text-display,
+.text-page-title,
+.text-section-title,
+.text-card-title,
+.text-body,
+.text-label,
+.text-caption,
+.text-navigation {
+  margin: 0;
+  font-family: var(--font-family-sans);
+}
+
+.text-display { font-size: var(--font-size-hero); font-weight: var(--font-weight-bold); line-height: var(--line-height-tight); }
+.text-page-title { font-size: var(--font-size-2xl); font-weight: var(--font-weight-bold); line-height: var(--line-height-heading); }
+.text-section-title { font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); line-height: var(--line-height-heading); }
+.text-card-title { font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); line-height: var(--line-height-heading); }
+.text-body { font-size: var(--font-size-base); font-weight: var(--font-weight-regular); line-height: var(--line-height-body); }
+.text-label { font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); line-height: var(--line-height-caption); }
+.text-caption { font-size: var(--font-size-caption); font-weight: var(--font-weight-regular); line-height: var(--line-height-caption); }
+.text-navigation { font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); line-height: var(--line-height-caption); }

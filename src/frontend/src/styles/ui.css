@@ -1,20 +1,20 @@
 .app-button,
 .app-icon-button {
   border: 1px solid transparent;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   transition:
-    transform var(--motion-fast) ease,
-    background-color var(--motion-fast) ease,
-    border-color var(--motion-fast) ease,
-    color var(--motion-fast) ease,
-    opacity var(--motion-fast) ease;
+    transform var(--motion-fast) var(--ease-standard),
+    background-color var(--motion-fast) var(--ease-standard),
+    border-color var(--motion-fast) var(--ease-standard),
+    color var(--motion-fast) var(--ease-standard),
+    opacity var(--motion-fast) var(--ease-standard);
   cursor: pointer;
   user-select: none;
 }
 
 .app-icon-button svg {
-  inline-size: 1.25rem;
-  block-size: 1.25rem;
+  inline-size: var(--icon-size-sm);
+  block-size: var(--icon-size-sm);
 }
 
 .app-button:active:not(:disabled),
@@ -142,7 +142,7 @@
   align-items: center;
   gap: var(--space-1);
   font-size: var(--font-size-sm);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .app-field__required {
@@ -159,9 +159,9 @@
   border-radius: var(--radius-control);
   background: var(--color-surface);
   transition:
-    border-color var(--motion-fast) ease,
-    box-shadow var(--motion-fast) ease,
-    background-color var(--motion-fast) ease;
+    border-color var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-fast) var(--ease-standard),
+    background-color var(--motion-fast) var(--ease-standard);
 }
 
 .app-field__control:focus-within {
@@ -321,7 +321,7 @@
   margin-block-start: 0.1rem;
   border: 1px solid var(--color-border-subtle);
   background: var(--color-surface);
-  transition: all var(--motion-fast) ease;
+  transition: all var(--motion-fast) var(--ease-standard);
 }
 
 .app-choice__native:focus-visible + .app-choice__label .app-choice__indicator {
@@ -340,7 +340,7 @@
 }
 
 .app-choice__title {
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
 }
 
@@ -420,14 +420,14 @@
 .app-overlay-leave-active,
 .app-sheet-enter-active,
 .app-sheet-leave-active {
-  transition: opacity var(--motion-base) ease;
+  transition: opacity var(--motion-base) var(--ease-standard);
 }
 
 .app-overlay-enter-active .app-overlay__panel,
 .app-overlay-leave-active .app-overlay__panel,
 .app-sheet-enter-active .app-overlay__panel,
 .app-sheet-leave-active .app-overlay__panel {
-  transition: transform var(--motion-base) ease;
+  transition: transform var(--motion-base) var(--ease-emphasized);
 }
 
 .app-overlay-enter-from,

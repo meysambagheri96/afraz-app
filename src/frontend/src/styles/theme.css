@@ -1,0 +1,23 @@
+/* Tailwind v4 mappings keep utilities and component CSS on the same source of truth. */
+@theme inline {
+  --color-afraz: var(--color-brand-primary);
+  --color-afraz-dark: var(--color-brand-dark);
+  --color-afraz-soft: var(--color-brand-soft);
+  --color-afraz-pink: var(--color-accent-pink);
+  --color-afraz-yellow: var(--color-accent-yellow);
+  --color-afraz-mint: var(--color-accent-mint);
+  --color-afraz-blue: var(--color-accent-blue);
+  --color-afraz-lilac: var(--color-accent-lilac);
+  --color-app-canvas: var(--color-background);
+  --color-app-surface: var(--color-surface);
+  --color-app-surface-muted: var(--color-surface-muted);
+  --color-app-ink: var(--color-text-primary);
+  --color-app-ink-muted: var(--color-text-secondary);
+  --color-app-line: var(--color-border-subtle);
+  --font-afraz: var(--font-family-sans);
+  --radius-afraz-control: var(--radius-control);
+  --radius-afraz-card: var(--radius-card);
+  --radius-afraz-panel: var(--radius-xl);
+  --shadow-afraz-card: var(--shadow-card);
+  --shadow-afraz-floating: var(--shadow-floating);
+}

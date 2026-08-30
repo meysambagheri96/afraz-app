@@ -1,12 +1,9 @@
 @import 'tailwindcss';
 @import './tokens.css';
+@import './theme.css';
+@import './typography.css';
+@import './utilities.css';
 @import './ui.css';
-
-@font-face {
-  font-family: 'Vazirmatn';
-  src: local('Vazirmatn');
-  font-display: swap;
-}
 
 *,
 *::before,
@@ -27,9 +24,7 @@ body {
   min-height: 100dvh;
   margin: 0;
   color: var(--color-text);
-  background:
-    radial-gradient(circle at 85% 10%, rgb(146 91 112 / 12%), transparent 28rem),
-    var(--color-background);
+  background: var(--color-background);
 }
 
 button,
@@ -65,8 +60,8 @@ a {
 .foundation-card {
   inline-size: min(100%, 44rem);
   padding: clamp(var(--space-8), 8vw, var(--space-12));
-  border: 1px solid rgb(113 63 82 / 12%);
-  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
   background: color-mix(in srgb, var(--color-surface) 94%, transparent);
   box-shadow: var(--shadow-surface);
 }
@@ -75,15 +70,15 @@ a {
   margin: 0 0 var(--space-3);
   color: var(--color-brand-700);
   font-size: var(--font-size-sm);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 h1 {
   margin: 0;
-  font-size: var(--font-size-xl);
-  line-height: 1.2;
+  font-size: var(--font-size-hero);
+  line-height: var(--line-height-tight);
 }
 
 .description {
@@ -106,14 +101,14 @@ h1 {
   min-block-size: 2.75rem;
   padding-block: var(--space-2);
   padding-inline: var(--space-4);
-  border: 1px solid rgb(113 63 82 / 14%);
-  border-radius: 999px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-full);
   background: var(--color-brand-50);
 }
 
 .version-pill dt {
   color: var(--color-brand-700);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .version-pill dd {
@@ -134,7 +129,7 @@ h1 {
 .status span {
   inline-size: 0.55rem;
   block-size: 0.55rem;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   background: currentcolor;
-  box-shadow: 0 0 0 0.25rem rgb(47 114 84 / 12%);
+  box-shadow: 0 0 0 var(--space-1) var(--color-success-soft);
 }

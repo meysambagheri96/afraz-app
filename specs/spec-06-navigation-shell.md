@@ -39,6 +39,6 @@ Before coding:
 
 1. Read the project reference, constitution, architecture and `AGENTS.md`.
 2. Inspect existing code related to this feature.
-3. Produce a concise implementation plan listing affected modules/files, database changes, API changes, frontend changes, tests and risks.
 4. Implement only this story and required prerequisites.
 5. Run the relevant validation commands.
+6. Mark tasks current file as done with [x]

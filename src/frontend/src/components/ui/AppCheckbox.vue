@@ -51,9 +51,9 @@ const supportingId = computed(() =>
 </template>
 
 <style scoped>
-.app-checkbox__indicator { border-radius: 0.45rem; }
+.app-checkbox__indicator { border-radius: var(--radius-xs); }
 .app-choice__native:checked + .app-choice__label .app-checkbox__indicator {
-  color: white;
+  color: var(--color-surface);
   border-color: var(--color-brand-primary);
   background: var(--color-brand-primary);
 }

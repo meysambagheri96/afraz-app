@@ -48,12 +48,12 @@ const supportingId = computed(() =>
 <style scoped>
 .app-switch { display: flex; min-height: var(--touch-target); align-items: center; justify-content: space-between; gap: var(--space-4); }
 .app-switch__content { display: grid; gap: var(--space-1); }
-.app-switch__label { color: var(--color-text-primary); font-size: var(--font-size-sm); font-weight: 700; cursor: pointer; }
+.app-switch__label { color: var(--color-text-primary); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); cursor: pointer; }
 .app-switch__description { color: var(--color-text-secondary); font-size: var(--font-size-xs); }
 .app-switch__description--error { color: var(--color-danger); }
-.app-switch__track { position: relative; flex: none; width: 3.25rem; height: 1.9rem; padding: 0.2rem; border: 0; border-radius: var(--radius-full); background: var(--color-disabled); cursor: pointer; transition: background var(--motion-fast); }
+.app-switch__track { position: relative; flex: none; width: 3.25rem; height: 1.9rem; padding: 0.2rem; border: 0; border-radius: var(--radius-full); background: var(--color-disabled); cursor: pointer; transition: background var(--motion-fast) var(--ease-standard); }
 .app-switch__track--checked { background: var(--color-brand-primary); }
-.app-switch__thumb { display: block; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: white; box-shadow: 0 2px 6px rgb(15 23 42 / 20%); transform: translateX(0); transition: transform var(--motion-fast); }
+.app-switch__thumb { display: block; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--color-surface); box-shadow: var(--shadow-thumb); transform: translateX(0); transition: transform var(--motion-fast) var(--ease-standard); }
 [dir='rtl'] .app-switch__track--checked .app-switch__thumb { transform: translateX(-1.35rem); }
 [dir='ltr'] .app-switch__track--checked .app-switch__thumb { transform: translateX(1.35rem); }
 .app-switch__spinner { margin: auto; }

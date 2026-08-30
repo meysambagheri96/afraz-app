@@ -48,21 +48,24 @@ Use CSS variables as the single source of truth.
 :root {
   --color-bg: #FCFBF9;
   --color-surface: #FFFFFF;
-  --color-surface-soft: #F9FAFA;
+  --color-surface-soft: #F8FAFB;
 
-  --color-primary: #0A8098;
-  --color-primary-strong: #075E72;
-  --color-primary-soft: #DDF4F7;
+  --color-primary: #075D69;
+  --color-primary-strong: #03454F;
+  --color-primary-soft: #E8F5F5;
 
-  --color-text: #202326;
-  --color-text-strong: #07586B;
-  --color-text-muted: #676B70;
+  --color-text: #172B2F;
+  --color-text-strong: #075D69;
+  --color-text-muted: #66777A;
 
-  --color-border: rgba(20, 25, 30, 0.06);
+  --color-border: rgba(23, 43, 47, 0.08);
   --color-icon: #1D1F21;
 
-  --color-accent: #F5A623;
-  --color-accent-soft: #FFF3DE;
+  --color-accent-pink: #FF6B8A;
+  --color-accent-yellow: #FFC857;
+  --color-accent-mint: #7DD3C7;
+  --color-accent-blue: #8FBAFB;
+  --color-accent-lilac: #C9B8E8;
 
   --color-white: #FFFFFF;
   --color-black: #111111;
@@ -73,7 +76,8 @@ Rules:
 
 - Teal is reserved for important headings, links, CTA buttons and active states.
 - Primary body text is near-black/charcoal.
-- Orange is a small accent only: notification dot, spark, edit status.
+- Pink, yellow, mint, blue and lilac are controlled accents for status, illustration and child-friendly details.
+- Accent colors must remain secondary to photography, neutral surfaces and the teal brand color.
 - Do not introduce extra brand colors without a design requirement.
 
 ## 4. Typography
@@ -343,3 +347,24 @@ When implementing from the screenshot:
 2. Follow the screenshot for visual proportions.
 3. If they conflict, preserve the screenshot appearance.
 4. Do not redesign or creatively reinterpret the approved Home screen.
+
+## 16. Frontend Token Implementation
+
+The runtime design system is split by responsibility:
+
+```txt
+src/frontend/src/styles/tokens.css      color, spacing, type, radius, shadow, icon, motion and layer values
+src/frontend/src/styles/theme.css       Tailwind v4 theme mappings
+src/frontend/src/styles/typography.css  semantic Persian typography roles
+src/frontend/src/styles/utilities.css   layout, surface, icon, safe-area, glass and pattern utilities
+src/frontend/src/assets/patterns/       reusable decorative SVG assets
+```
+
+Feature screens must use the semantic typography classes (`text-display`, `text-page-title`,
+`text-section-title`, `text-card-title`, `text-body`, `text-label`, `text-caption`, and
+`text-navigation`) or their matching tokens. Standard section rhythm uses `app-section`, with
+`app-section--compact` and `app-section--spacious` only when the visual hierarchy requires it.
+
+Icons use `app-icon` and the `xs`, `sm`, `md`, `lg`, and `xl` token scale. Decorative patterns
+use `afraz-pattern` together with `afraz-pattern--sparkles` or `afraz-pattern--confetti`; pattern
+layers are non-interactive and remain behind readable content.
