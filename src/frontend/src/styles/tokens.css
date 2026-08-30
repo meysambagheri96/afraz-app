@@ -68,6 +68,8 @@
   --section-gap-lg: clamp(2rem, 8vw, 3rem);
   --content-max-width: 64rem;
   --mobile-canvas-max-width: 30rem;
+  --bottom-nav-height: 5.25rem;
+  --bottom-nav-radius: 2rem;
 
   /* Persian typography: semantic roles prevent page-level type drift */
   --font-family-sans: 'Vazirmatn', 'IRANSansX', 'Dana', system-ui, -apple-system, sans-serif;
@@ -141,8 +143,8 @@
   /* Native safe areas */
   --safe-area-top: env(safe-area-inset-top, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-area-inline-start: env(safe-area-inset-left, 0px);
-  --safe-area-inline-end: env(safe-area-inset-right, 0px);
+  --safe-area-inline-start: env(safe-area-inset-right, 0px);
+  --safe-area-inline-end: env(safe-area-inset-left, 0px);
 
   /* Reusable, lightweight decorative assets */
   --pattern-sparkles: url('../assets/patterns/afraz-sparkles.svg');

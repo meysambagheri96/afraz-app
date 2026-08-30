@@ -1,47 +1,64 @@
 <script setup lang="ts">
-import { version as vueVersion } from 'vue'
-
-defineProps<{
-  title: string
-  description: string
-}>()
+import { RouterView } from 'vue-router'
+import BottomNavigation from '../components/shared/BottomNavigation.vue'
 </script>
 
 <template>
-  <main class="app-shell">
-    <section
-      class="foundation-card"
-      aria-labelledby="page-title"
-    >
-      <p class="eyebrow">
-        Afraz Studio
-      </p>
-      <h1 id="page-title">
-        {{ title }}
-      </h1>
-      <p class="description">
-        {{ description }}
-      </p>
-      <dl
-        class="versions"
-        aria-label="نسخه فناوری‌های اصلی"
-      >
-        <div class="version-pill">
-          <dt>.NET</dt>
-          <dd>10</dd>
-        </div>
-        <div class="version-pill">
-          <dt>Vue</dt>
-          <dd>{{ vueVersion }}</dd>
-        </div>
-      </dl>
-      <div
-        class="status"
-        role="status"
-      >
-        <span aria-hidden="true" />
-        زیرساخت اولیه آماده توسعه است
-      </div>
-    </section>
-  </main>
+  <div class="application-shell">
+    <a class="application-shell__skip-link" href="#main-content">رفتن به محتوای اصلی</a>
+    <main id="main-content" class="application-shell__content" tabindex="-1">
+      <RouterView />
+    </main>
+    <BottomNavigation />
+  </div>
 </template>
+
+<style scoped>
+.application-shell {
+  min-block-size: 100dvh;
+  color: var(--color-text-primary);
+  background: var(--color-background);
+}
+
+.application-shell__content {
+  inline-size: min(100%, var(--mobile-canvas-max-width));
+  min-block-size: 100dvh;
+  margin-inline: auto;
+  padding-block-start: max(var(--space-3), var(--safe-area-top));
+  padding-block-end: calc(
+    var(--bottom-nav-height) + max(var(--space-2), var(--safe-area-bottom)) + var(--space-6)
+  );
+  padding-inline: calc(var(--page-gutter) + var(--safe-area-inline-start))
+    calc(var(--page-gutter) + var(--safe-area-inline-end));
+}
+
+.application-shell__content:focus { outline: none; }
+
+.application-shell__skip-link {
+  position: fixed;
+  inset-block-start: calc(var(--safe-area-top) + var(--space-2));
+  inset-inline-start: var(--space-3);
+  z-index: var(--z-toast);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-control);
+  color: var(--color-surface);
+  background: var(--color-brand-primary);
+  transform: translateY(-200%);
+  transition: transform var(--motion-fast) var(--ease-standard);
+}
+
+.application-shell__skip-link:focus { transform: translateY(0); }
+
+@media (min-width: 64rem) {
+  .application-shell { background: var(--color-surface-muted); }
+
+  .application-shell__content {
+    border-inline: 1px solid var(--color-border-subtle);
+    background: var(--color-background);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .application-shell__skip-link { transition: none; }
+}
+</style>

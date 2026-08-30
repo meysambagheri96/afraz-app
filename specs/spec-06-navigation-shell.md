@@ -29,9 +29,9 @@ All customer-facing UI must be Persian, RTL, mobile-first, and optimized for the
 
 ## Acceptance Criteria
 
-- [ ] Works on iPhone 17 Pro Max viewport.
-- [ ] Bottom nav remains readable on varying backgrounds.
-- [ ] Navigation works with Vue Router.
+- [x] Works on iPhone 17 Pro Max viewport.
+- [x] Bottom nav remains readable on varying backgrounds.
+- [x] Navigation works with Vue Router.
 
 ## Codex Execution Instruction
 
