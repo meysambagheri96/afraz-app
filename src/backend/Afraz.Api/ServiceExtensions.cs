@@ -5,6 +5,7 @@ using Autofac;
 using FluentValidation;
 using Infra.Commands;
 using Infra.Common.Decorators;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using StackExchange.Redis;
@@ -13,20 +14,44 @@ namespace Afraz.Api;
 
 public static class ServiceExtensions
 {
-    public static ContainerBuilder AddCommandQueryInternal(this ContainerBuilder container)
-    {
-        container.AddCommandQuery(scannedAssemblies: typeof(GetStatusQuery).Assembly);
-        container.RegisterGeneric(typeof(FluentValidationCommandValidator<>))
-            .As(typeof(ICommandValidator<>))
-            .InstancePerLifetimeScope();
-
-        return container;
-    }
-
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddValidatorsFromAssembly(typeof(GetStatusQuery).Assembly);
 
+        return services;
+    }
+
+    public static IServiceCollection AddProblemDetailsInternal(this IServiceCollection services)
+    {
+        services.AddProblemDetails(options =>
+        {
+            options.CustomizeProblemDetails = problemContext =>
+            {
+                problemContext.ProblemDetails.Extensions["traceId"] = problemContext.HttpContext.TraceIdentifier;
+            };
+        });
+
+        return services;
+    }
+
+    public static IServiceCollection AddControllersInternal(this IServiceCollection services)
+    {
+        services.AddControllers().ConfigureApiBehaviorOptions(options =>
+        {
+            options.InvalidModelStateResponseFactory = context =>
+            {
+                var problemDetails = new ValidationProblemDetails(context.ModelState)
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "Validation failed.",
+                };
+
+                problemDetails.Extensions["traceId"] =
+                    context.HttpContext.TraceIdentifier;
+
+                return new BadRequestObjectResult(problemDetails);
+            };
+        });
         return services;
     }
 
@@ -46,9 +71,7 @@ public static class ServiceExtensions
         return services;
     }
 
-    public static IServiceCollection AddInfrastructure(
-        this IServiceCollection services,
-        IConfiguration configuration)
+    public static IServiceCollection AddDbContextInternal(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection")
             ?? throw new InvalidOperationException(
@@ -58,16 +81,13 @@ public static class ServiceExtensions
             connectionString,
             sql => sql.MigrationsAssembly(typeof(AfrazDbContext).Assembly.FullName)));
 
-        var redisConnection = configuration["Redis:ConnectionString"]
-            ?? throw new InvalidOperationException("Redis:ConnectionString is required.");
-
-        services.AddSingleton<IConnectionMultiplexer>(_ =>
-            ConnectionMultiplexer.Connect(new ConfigurationOptions
-            {
-                AbortOnConnectFail = false,
-                EndPoints = { redisConnection },
-            }));
-
         return services;
+    }
+
+    public static ContainerBuilder AddCommandQueryInternal(this ContainerBuilder container)
+    {
+        container.AddCommandQuery(scannedAssemblies: typeof(GetStatusQuery).Assembly);
+     
+        return container;
     }
 }

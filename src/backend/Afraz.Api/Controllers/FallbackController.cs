@@ -1,5 +1,3 @@
-using System.Net;
-using Afraz.Api.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Afraz.Api.Controllers;
@@ -12,9 +10,9 @@ public sealed class FallbackController(IWebHostEnvironment environment) : ApiCon
     [AcceptVerbs("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")]
     public IActionResult ApiNotFound()
     {
-        return ApiError<object?>(
-            HttpStatusCode.NotFound,
-            "API endpoint not found");
+        return Problem(
+            statusCode: StatusCodes.Status404NotFound,
+            title: "API endpoint not found.");
     }
 
     [HttpGet("{**path}", Order = int.MaxValue)]

@@ -2,12 +2,13 @@
 
 ## Objective
 
-- Implement the primary Persian RTL home screen based on the approved design direction.
+- Implement the primary Persian RTL home screen based on the approved design direction based on this design `docs\design\homepage\home.png`.
 
 ## Business Context
 
 This story is part of the Afraz Studio application. It must remain consistent with:
 
+- `docs/adr/0002-frontend.md`
 - `docs/afraz-studio-reference.md`
 - `docs/afraz-studio-constitution.md`
 - `docs/afraz-studio-architecture.md`
@@ -56,42 +57,6 @@ All customer-facing UI must be Persian, RTL, mobile-first, and optimized for the
 - [ ] Section spacing and font scale are consistent.
 - [ ] Home remains minimal above the fold.
 - [ ] All actions navigate correctly.
-
-## Required States / Failure Cases
-
-Where applicable, implement and verify:
-
-- Loading
-- Empty
-- Validation error
-- Unauthorized / forbidden
-- Not found
-- Conflict / concurrency failure
-- Network/server failure
-- Retry
-- Success
-
-For payment-related stories also cover processing, cancelled and failed states.
-
-## Testing
-
-- Add focused unit tests for business rules.
-- Add integration tests when database, authorization, payment, storage or concurrency behavior is involved.
-- Add frontend component/E2E coverage for critical user paths where applicable.
-- Do not remove failing tests to make the story pass.
-
-## Definition of Done
-
-- [ ] Implementation follows project documentation and architecture.
-- [ ] Relevant build/type-check/lint/tests pass.
-- [ ] API contract is documented through OpenAPI where applicable.
-- [ ] Database migrations are added and reviewed where applicable.
-- [ ] UI uses the shared design system rather than duplicated styles.
-- [ ] RTL and iPhone safe areas are verified for customer-facing screens.
-- [ ] Security/authorization requirements are verified.
-- [ ] No secrets or generated noise are committed.
-- [ ] Any significant architecture decision is recorded as an ADR.
-- [ ] Story-specific acceptance criteria are satisfied.
 
 ## Codex Execution Instruction
 

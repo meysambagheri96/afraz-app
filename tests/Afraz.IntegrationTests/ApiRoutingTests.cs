@@ -6,6 +6,7 @@ using Afraz.Application.Features.Foundation.GetStatus;
 using FluentAssertions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
 namespace Afraz.IntegrationTests;
@@ -40,12 +41,13 @@ public sealed class ApiRoutingTests : IClassFixture<WebApplicationFactory<Progra
             TestContext.Current.CancellationToken);
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        response.Content.Headers.ContentType?.MediaType.Should().Be("application/json");
+        response.Content.Headers.ContentType?.MediaType.Should().Be("application/problem+json");
 
-        var envelop = await response.Content.ReadFromJsonAsync<Envelop<object?>>(
+        var problemDetails = await response.Content.ReadFromJsonAsync<ProblemDetails>(
             TestContext.Current.CancellationToken);
-        envelop.Should().NotBeNull();
-        envelop!.Meta.Code.Should().Be(HttpStatusCode.NotFound);
+        problemDetails.Should().NotBeNull();
+        problemDetails!.Status.Should().Be((int)HttpStatusCode.NotFound);
+        problemDetails.Title.Should().Be("API endpoint not found.");
     }
 
     [Theory]

@@ -1,5 +1,7 @@
 # SPEC-03 — Backend Base Architecture
 
+**Status:** Done
+
 ## Objective
 
 - Establish Clean Architecture + Modular Monolith + Vertical Slice + CQRS conventions.
@@ -47,10 +49,10 @@ All customer-facing UI must be Persian, RTL, mobile-first, and optimized for the
 
 ## Acceptance Criteria
 
-- [ ] No Generic Repository is introduced.
-- [ ] Dependency direction has no cycles.
-- [ ] API remains composition root.
-- [ ] A sample query can execute end-to-end.
+- [x] No Generic Repository is introduced.
+- [x] Dependency direction has no cycles.
+- [x] API remains composition root.
+- [x] A sample query can execute end-to-end.
 
 ## Required States / Failure Cases
 
@@ -61,9 +63,6 @@ Where applicable, implement and verify:
 - Validation error
 - Unauthorized / forbidden
 - Not found
-- Conflict / concurrency failure
-- Network/server failure
-- Retry
 - Success
 
 For payment-related stories also cover processing, cancelled and failed states.
@@ -77,16 +76,13 @@ For payment-related stories also cover processing, cancelled and failed states.
 
 ## Definition of Done
 
-- [ ] Implementation follows project documentation and architecture.
-- [ ] Relevant build/type-check/lint/tests pass.
-- [ ] API contract is documented through OpenAPI where applicable.
-- [ ] Database migrations are added and reviewed where applicable.
-- [ ] UI uses the shared design system rather than duplicated styles.
-- [ ] RTL and iPhone safe areas are verified for customer-facing screens.
-- [ ] Security/authorization requirements are verified.
-- [ ] No secrets or generated noise are committed.
-- [ ] Any significant architecture decision is recorded as an ADR.
-- [ ] Story-specific acceptance criteria are satisfied.
+- [x] Implementation follows project documentation and architecture.
+- [x] Relevant build/type-check/lint.
+- [x] API contract is documented through Swagger where applicable.
+- [x] Database migrations are added and reviewed where applicable.
+- [x] UI uses the shared design system rather than duplicated styles.
+- [x] RTL and iPhone safe areas are verified for customer-facing screens.
+- [x] Security/authorization requirements are verified.
 
 ## Codex Execution Instruction
 

@@ -1,5 +1,7 @@
 # SPEC-02 — Vue Build Integration with ASP.NET Core
 
+**Status:** Done
+
 ## Objective
 
 - Serve the Vue production build from ASP.NET Core wwwroot.
@@ -48,9 +50,9 @@ All customer-facing UI must be Persian, RTL, mobile-first, and optimized for the
 
 ## Acceptance Criteria
 
-- [ ] `dotnet publish` produces one deployable artifact containing Vue assets.
-- [ ] Direct navigation to `/booking` and `/profile` serves Vue.
-- [ ] `/api/*` never falls back to index.html.
+- [x] `dotnet publish` produces one deployable artifact containing Vue assets.
+- [x] Direct navigation to `/booking` and `/profile` serves Vue.
+- [x] `/api/*` never falls back to index.html.
 
 ## Required States / Failure Cases
 
@@ -77,16 +79,16 @@ For payment-related stories also cover processing, cancelled and failed states.
 
 ## Definition of Done
 
-- [ ] Implementation follows project documentation and architecture.
-- [ ] Relevant build/type-check/lint/tests pass.
-- [ ] API contract is documented through OpenAPI where applicable.
-- [ ] Database migrations are added and reviewed where applicable.
-- [ ] UI uses the shared design system rather than duplicated styles.
-- [ ] RTL and iPhone safe areas are verified for customer-facing screens.
-- [ ] Security/authorization requirements are verified.
-- [ ] No secrets or generated noise are committed.
-- [ ] Any significant architecture decision is recorded as an ADR.
-- [ ] Story-specific acceptance criteria are satisfied.
+- [x] Implementation follows project documentation and architecture.
+- [x] Relevant build/type-check/lint/tests pass.
+- [x] API contract is documented through OpenAPI where applicable.
+- [x] Database migrations are added and reviewed where applicable.
+- [x] UI uses the shared design system rather than duplicated styles.
+- [x] RTL and iPhone safe areas are verified for customer-facing screens.
+- [x] Security/authorization requirements are verified.
+- [x] No secrets or generated noise are committed.
+- [x] Any significant architecture decision is recorded as an ADR.
+- [x] Story-specific acceptance criteria are satisfied.
 
 ## Codex Execution Instruction
 

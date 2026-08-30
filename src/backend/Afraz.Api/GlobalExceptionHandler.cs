@@ -1,12 +1,12 @@
-using System.Net;
-using Afraz.Api.Contracts;
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Afraz.Api;
 
 internal sealed class GlobalExceptionHandler(
-    ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
+    ILogger<GlobalExceptionHandler> logger,
+    IProblemDetailsService problemDetailsService) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
@@ -17,26 +17,33 @@ internal sealed class GlobalExceptionHandler(
 
         var isValidationError = exception is ValidationException;
         var statusCode = isValidationError
-            ? HttpStatusCode.BadRequest
-            : HttpStatusCode.InternalServerError;
-        var errors = exception is ValidationException validationException
-            ? validationException.Errors
-                .GroupBy(failure => failure.PropertyName)
-                .Select(group => new ApiErrorEntry(
-                    group.Key,
-                    (int)HttpStatusCode.BadRequest,
-                    group.Select(failure => failure.ErrorMessage).ToArray()))
-                .ToArray()
-            : [];
-        var errorMessage = isValidationError
-            ? "Validation failed."
-            : "An unexpected error occurred.";
+            ? StatusCodes.Status400BadRequest
+            : StatusCodes.Status500InternalServerError;
+        ProblemDetails problemDetails = exception is ValidationException validationException
+            ? new ValidationProblemDetails(
+                validationException.Errors
+                    .GroupBy(failure => failure.PropertyName)
+                    .ToDictionary(
+                        group => group.Key,
+                        group => group.Select(failure => failure.ErrorMessage).ToArray()))
+                {
+                    Status = statusCode,
+                    Title = "Validation failed.",
+                }
+            : new ProblemDetails
+            {
+                Status = statusCode,
+                Title = "An unexpected error occurred.",
+            };
 
-        httpContext.Response.StatusCode = (int)statusCode;
+        problemDetails.Instance = httpContext.Request.Path;
+        httpContext.Response.StatusCode = statusCode;
 
-        await httpContext.Response.WriteAsJsonAsync(
-            Envelop<object?>.HandledError(statusCode, errors, errorMessage),
-            cancellationToken);
+        await problemDetailsService.WriteAsync(new ProblemDetailsContext
+        {
+            HttpContext = httpContext,
+            ProblemDetails = problemDetails,
+        });
 
         return true;
     }

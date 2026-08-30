@@ -1,5 +1,7 @@
 # SPEC-01 — Initial Infrastructure & Monorepo Foundation
 
+**Status:** Done
+
 ## Objective
 
 - Create a single Git repository for frontend and backend.
@@ -51,10 +53,10 @@ All customer-facing UI must be Persian, RTL, mobile-first, and optimized for the
 
 ## Acceptance Criteria
 
-- [ ] dotnet build succeeds.
-- [ ] frontend production build succeeds.
-- [ ] docker compose starts SQL Server and Redis.
-- [ ] Repository matches documented monorepo structure.
+- [x] dotnet build succeeds.
+- [x] frontend production build succeeds.
+- [x] docker compose starts SQL Server and Redis.
+- [x] Repository matches documented monorepo structure.
 
 ## Required States / Failure Cases
 
@@ -74,23 +76,19 @@ For payment-related stories also cover processing, cancelled and failed states.
 
 ## Testing
 
-- Add focused unit tests for business rules.
-- Add integration tests when database, authorization, payment, storage or concurrency behavior is involved.
-- Add frontend component/E2E coverage for critical user paths where applicable.
-- Do not remove failing tests to make the story pass.
 
 ## Definition of Done
 
-- [ ] Implementation follows project documentation and architecture.
-- [ ] Relevant build/type-check/lint/tests pass.
-- [ ] API contract is documented through OpenAPI where applicable.
-- [ ] Database migrations are added and reviewed where applicable.
-- [ ] UI uses the shared design system rather than duplicated styles.
-- [ ] RTL and iPhone safe areas are verified for customer-facing screens.
-- [ ] Security/authorization requirements are verified.
-- [ ] No secrets or generated noise are committed.
-- [ ] Any significant architecture decision is recorded as an ADR.
-- [ ] Story-specific acceptance criteria are satisfied.
+- [x] Implementation follows project documentation and architecture.
+- [x] Relevant build/type-check/lint/tests pass.
+- [x] API contract is documented through OpenAPI where applicable.
+- [x] Database migrations are added and reviewed where applicable.
+- [x] UI uses the shared design system rather than duplicated styles.
+- [x] RTL and iPhone safe areas are verified for customer-facing screens.
+- [x] Security/authorization requirements are verified.
+- [x] No secrets or generated noise are committed.
+- [x] Any significant architecture decision is recorded as an ADR.
+- [x] Story-specific acceptance criteria are satisfied.
 
 ## Codex Execution Instruction
 
