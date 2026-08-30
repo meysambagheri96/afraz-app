@@ -261,7 +261,7 @@ const socialLinks = [
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-3);
-  margin-block-start: var(--space-2);
+  margin-block-start: var(--space-1);
 }
 
 .site-footer__social-link {
