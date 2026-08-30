@@ -27,7 +27,7 @@ import SiteFooter from '../components/shared/SiteFooter.vue'
   min-block-size: 100dvh;
   margin-inline: auto;
   padding-block-start: max(14px, var(--safe-area-top));
-  padding-block-end: var(--space-12);
+  padding-block-end: calc(var(--space-12) + var(--space-4));
   padding-inline: calc(10px + var(--safe-area-inline-start))
     calc(10px + var(--safe-area-inline-end));
 }
