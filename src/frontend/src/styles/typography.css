@@ -1,6 +1,32 @@
 @font-face {
-  font-family: 'Vazirmatn';
-  src: local('Vazirmatn');
+  font-family: 'Alibaba';
+  src: url('../assets/fonts/alibaba/Alibaba-Light.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alibaba';
+  src: url('../assets/fonts/alibaba/Alibaba-Regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alibaba';
+  src: url('../assets/fonts/alibaba/Alibaba-Bold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Alibaba';
+  src: url('../assets/fonts/alibaba/Alibaba-Black.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 900;
   font-display: swap;
 }
 

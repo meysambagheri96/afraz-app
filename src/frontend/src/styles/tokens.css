@@ -72,7 +72,7 @@
   --bottom-nav-radius: 2rem;
 
   /* Persian typography: semantic roles prevent page-level type drift */
-  --font-family-sans: 'Vazirmatn', 'IRANSansX', 'Dana', system-ui, -apple-system, sans-serif;
+  --font-family-sans: 'Alibaba', 'Vazirmatn', 'IRANSansX', 'Dana', system-ui, -apple-system, sans-serif;
   --font-size-caption: 0.75rem;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;

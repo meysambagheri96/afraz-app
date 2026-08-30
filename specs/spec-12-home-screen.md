@@ -108,10 +108,10 @@ All customer-facing UI must be Persian, RTL, mobile-first, and optimized for the
 
 ## Acceptance Criteria
 
-- [ ] Layout fits iPhone 17 Pro Max scale.
-- [ ] Section spacing and font scale are consistent.
-- [ ] Home remains minimal above the fold.
-- [ ] All actions navigate correctly.
+- [x] Layout fits iPhone 17 Pro Max scale.
+- [x] Section spacing and font scale are consistent.
+- [x] Home remains minimal above the fold.
+- [x] All actions navigate correctly.
 
 ## Codex Execution Instruction
 
