@@ -3,9 +3,58 @@
 ## Objective
 
 - Implement the primary Persian RTL home screen based on the approved design direction based on this design `docs\design\homepage\home.png`.
+- Implement the Home screen based on:
 
-Components:
+### Requirements:
 
+- Reproduce the reference as closely as possible.
+- Persian RTL layout.
+- Target viewport: iPhone 17 Pro Max.
+- Respect iOS safe areas.
+- Add Dynamic Island.
+- Use reusable components.
+- Do not use the screenshot itself as UI.
+- Use actual layout, text, icons and image assets.
+- Use monochrome Instagram-style icons.
+- Inactive navigation icons: black outline.
+- Active navigation icon: black filled.
+- Bottom navigation must use an iOS liquid-glass appearance.
+- Match spacing, typography, corner radius and proportions from the reference.
+- Keep all sizing responsive rather than hardcoding the entire screen.
+- Extract repeated dimensions/colors into design tokens.
+
+### Before implementation:
+1. Analyze the screenshot.
+2. Identify all visual sections.
+3. Define components and design tokens.
+4. Implement the screen.
+5. Run the app and take a screenshot.
+6. Compare the implementation against the reference.
+7. Iteratively fix visual differences until it closely matches the reference.
+
+Do not redesign or creatively interpret the UI.
+The uploaded reference is the source of truth.
+
+###
+
+Steps:
+Reference Image
+      ↓
+Design Specification
+      ↓
+Design Tokens
+      ↓
+Reusable Components
+      ↓
+Codex Implementation
+      ↓
+Screenshot
+      ↓
+Visual Comparison
+      ↓
+Pixel-perfect fixes
+
+### Guides:
 docs/
 ├── design/
 │   └── homepage/home.png
@@ -13,6 +62,8 @@ docs/
 ├── DESIGN-SYSTEM.md and `docs\design\designsystem.png`
 ├── UI-GUIDELINES.md 
 └── SCREEN-HOME.md
+
+## Components:
 
 HomeScreen
 ├── StatusBar
@@ -68,6 +119,6 @@ Before coding:
 
 1. Read the project reference, constitution, architecture and `AGENTS.md`.
 2. Inspect existing code related to this feature.
-3. Produce a concise implementation plan listing affected modules/files.
 4. Implement only this story and required prerequisites.
 5. Run the relevant validation commands.
+6. Mark tasks current file as done with [x]
