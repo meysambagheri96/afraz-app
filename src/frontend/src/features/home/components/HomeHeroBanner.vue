@@ -138,4 +138,11 @@ const router = useRouter()
   .home-hero__description { font-size: 12px; }
   .home-hero__cta { min-block-size: 40px; padding-inline: 12px; font-size: 12px; }
 }
+
+@media (min-width: 48rem) {
+  .home-hero {
+    inline-size: 100%;
+    margin-inline: 0;
+  }
+}
 </style>
