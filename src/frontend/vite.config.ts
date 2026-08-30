@@ -17,58 +17,38 @@ export default defineConfig(({ mode }) => {
       VitePWA({
         registerType: 'autoUpdate',
         injectRegister: 'auto',
-        includeAssets: [
-          'icons/favicon.ico',
-          'icons/apple-touch-icon-180x180.png',
-          'icons/afraz-logo.svg',
-        ],
-        manifest: {
-          id: '/afraz-app/',
-          name: 'آتلیه افراز قم',
-          short_name: 'افراز',
-          description: 'اپلیکیشن آتلیه افراز قم',
-          lang: 'fa',
-          dir: 'rtl',
-          start_url: '.',
-          scope: '.',
-          display: 'standalone',
-          orientation: 'portrait-primary',
-          theme_color: '#075d69',
-          background_color: '#fcfbf9',
-          icons: [
-            {
-              src: 'icons/pwa-192x192.png',
-              sizes: '192x192',
-              type: 'image/png',
-              purpose: 'any',
-            },
-            {
-              src: 'icons/pwa-512x512.png',
-              sizes: '512x512',
-              type: 'image/png',
-              purpose: 'any',
-            },
-            {
-              src: 'icons/maskable-icon-192x192.png',
-              sizes: '192x192',
-              type: 'image/png',
-              purpose: 'maskable',
-            },
-            {
-              src: 'icons/maskable-icon-512x512.png',
-              sizes: '512x512',
-              type: 'image/png',
-              purpose: 'maskable',
-            },
-          ],
-        },
+        manifest: false,
         workbox: {
-          globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp,woff2}'],
+          globPatterns: [
+            'assets/**/*.{js,css,ico,png,svg,jpg,jpeg,webp,avif,woff,woff2}',
+          ],
+          manifestTransforms: [
+            (entries) => ({
+              manifest: entries.filter(({ url }) => url.startsWith('assets/')),
+              warnings: [],
+            }),
+          ],
           cleanupOutdatedCaches: true,
           clientsClaim: true,
           skipWaiting: true,
-          navigateFallback: 'index.html',
-          runtimeCaching: [],
+          navigateFallback: null,
+          runtimeCaching: [
+            {
+              urlPattern: ({ request }) => request.mode === 'navigate',
+              handler: 'NetworkOnly',
+              options: { fetchOptions: { cache: 'no-store' } },
+            },
+            {
+              urlPattern: ({ url }) => url.pathname.endsWith('/manifest.webmanifest'),
+              handler: 'NetworkOnly',
+              options: { fetchOptions: { cache: 'no-store' } },
+            },
+            {
+              urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
+              handler: 'NetworkOnly',
+              options: { fetchOptions: { cache: 'no-store' } },
+            },
+          ],
         },
       }),
     ],
