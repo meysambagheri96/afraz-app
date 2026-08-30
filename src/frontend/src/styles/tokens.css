@@ -1,37 +1,85 @@
 :root {
-  --color-brand-50: #f9f4f6;
-  --color-brand-500: #925b70;
-  --color-brand-700: #713f52;
-  --color-background: #f6f2ed;
-  --color-surface: #fffdf9;
-  --color-text: #27201f;
-  --color-text-muted: #766b68;
-  --color-success: #2f7254;
+  --color-brand-primary: #075d69;
+  --color-brand-dark: #03454f;
+  --color-brand-soft: #e8f5f5;
+  --color-accent-pink: #ff6b8a;
+  --color-accent-yellow: #ffc857;
+  --color-accent-mint: #7dd3c7;
+  --color-accent-blue: #8fbafb;
+  --color-background: #f8fafb;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f4f7f7;
+  --color-text-primary: #172b2f;
+  --color-text-secondary: #66777a;
+  --color-border-subtle: #e7e9e7;
+  --color-success: #198765;
+  --color-success-soft: #e8f7f2;
+  --color-warning: #a96800;
+  --color-warning-soft: #fff7e5;
+  --color-danger: #d93d5d;
+  --color-danger-soft: #fff0f3;
+  --color-info: #3d72b8;
+  --color-info-soft: #eef5ff;
+  --color-disabled: #a8b2b4;
+  --color-disabled-soft: #f1f3f3;
+  --color-overlay: rgb(3 34 40 / 48%);
+  --color-glass: rgb(255 255 255 / 68%);
+  --color-glass-border: rgb(255 255 255 / 78%);
+
+  /* Compatibility aliases used by the existing foundation screen. */
+  --color-brand-50: var(--color-brand-soft);
+  --color-brand-500: var(--color-brand-primary);
+  --color-brand-700: var(--color-brand-dark);
+  --color-text: var(--color-text-primary);
+  --color-text-muted: var(--color-text-secondary);
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
   --space-4: 1rem;
+  --space-5: 1.25rem;
   --space-6: 1.5rem;
   --space-8: 2rem;
+  --space-10: 2.5rem;
   --space-12: 3rem;
 
   --font-family-sans: Vazirmatn, IRANSans, system-ui, -apple-system, sans-serif;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-title: 1.5rem;
   --font-size-xl: clamp(2.2rem, 8vw, 4rem);
+  --line-height-tight: 1.4;
   --line-height-body: 1.8;
 
   --radius-sm: 0.5rem;
+  --radius-control: 0.75rem;
+  --radius-card: 1rem;
   --radius-lg: 1.5rem;
-  --shadow-surface: 0 1.5rem 4rem rgb(65 43 51 / 10%);
+  --radius-xl: 2rem;
+  --radius-full: 999px;
+  --shadow-control: 0 0.5rem 1.5rem rgb(7 93 105 / 8%);
+  --shadow-surface: 0 1.5rem 4rem rgb(7 69 79 / 10%);
+  --shadow-overlay: 0 1.5rem 4rem rgb(3 69 79 / 18%);
+
+  --control-height-sm: 2.75rem;
+  --control-height-md: 2.875rem;
+  --control-height-lg: 3.25rem;
+  --touch-target: 2.75rem;
+
+  --motion-fast: 140ms;
+  --motion-base: 220ms;
+  --focus-ring: 0 0 0 0.2rem rgb(143 186 251 / 45%);
 
   --z-content: 1;
-  --z-overlay: 10;
+  --z-sticky: 10;
+  --z-nav: 20;
+  --z-overlay: 40;
+  --z-modal: 50;
+  --z-toast: 60;
 
   --safe-area-top: env(safe-area-inset-top, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   --safe-area-inline-start: env(safe-area-inset-left, 0px);
   --safe-area-inline-end: env(safe-area-inset-right, 0px);
 }
-

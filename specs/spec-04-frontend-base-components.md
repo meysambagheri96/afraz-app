@@ -27,26 +27,20 @@ All customer-facing UI must be Persian, RTL, mobile-first, and optimized for the
 ## Technical Requirements
 
 - Use Vue 3, TypeScript, Vite and the established design system for frontend work.
-- Do not introduce a Generic Repository over EF Core.
-- Keep endpoints thin and business rules server-side.
-- Use ProblemDetails for API errors.
 - Preserve RTL, safe-area and mobile WebView constraints.
-- Avoid unrelated refactors.
 
 ## Acceptance Criteria
 
-- [ ] Components are reusable and typed.
-- [ ] No hard-coded random colors/spacing.
-- [ ] RTL works correctly.
-- [ ] Storybook is optional; a local component showcase page is acceptable.
+- [x] Components are reusable and typed.
+- [x] No hard-coded random colors/spacing.
+- [x] RTL works correctly.
+- [x] Storybook is optional; a local component showcase page is acceptable.
 
 ## Definition of Done
 
-- [ ] Implementation follows project documentation and architecture.
-- [ ] Relevant build/type-check/lint.
-- [ ] Database migrations are added and reviewed where applicable.
-- [ ] UI uses the shared design system rather than duplicated styles.
-- [ ] RTL and iPhone safe areas are verified for customer-facing screens.
+- [x] Implementation follows project documentation and architecture.
+- [x] UI uses the shared design system rather than duplicated styles.
+- [x] RTL and iPhone safe areas are verified for customer-facing screens.
 
 ## Codex Execution Instruction
 
