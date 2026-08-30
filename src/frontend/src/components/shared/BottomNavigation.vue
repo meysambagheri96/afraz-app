@@ -91,17 +91,19 @@ function finishPreview() {
   margin-inline: auto;
   overflow: hidden;
   padding: 2px;
-  border: 1px solid rgb(255 255 255 / 72%);
+  border: 1px solid rgb(255 255 255 / 52%);
   border-radius: 31px;
   color: #101820;
   background:
-    linear-gradient(180deg, rgb(255 255 255 / 40%) 0%, rgb(238 241 243 / 18%) 48%, rgb(255 255 255 / 24%) 100%);
+    radial-gradient(circle at 12% -25%, rgb(255 255 255 / 34%), transparent 38%),
+    linear-gradient(180deg, rgb(255 255 255 / 22%) 0%, rgb(238 241 243 / 6%) 48%, rgb(255 255 255 / 13%) 100%);
   box-shadow:
-    0 12px 30px rgb(15 23 42 / 10%),
-    0 2px 8px rgb(15 23 42 / 4%),
-    inset 0 1px 0 rgb(255 255 255 / 72%);
-  backdrop-filter: blur(22px) saturate(165%) contrast(104%);
-  -webkit-backdrop-filter: blur(22px) saturate(165%) contrast(104%);
+    0 14px 34px rgb(15 23 42 / 8%),
+    0 2px 8px rgb(15 23 42 / 3%),
+    inset 0 1px 0 rgb(255 255 255 / 72%),
+    inset 0 -1px 0 rgb(255 255 255 / 18%);
+  backdrop-filter: blur(18px) saturate(190%) contrast(108%);
+  -webkit-backdrop-filter: blur(18px) saturate(190%) contrast(108%);
   pointer-events: auto;
   isolation: isolate;
 }
@@ -117,18 +119,19 @@ function finishPreview() {
 .bottom-navigation::before {
   inset: 1px;
   z-index: 3;
-  border: 1px solid rgb(255 255 255 / 24%);
+  border: 1px solid rgb(255 255 255 / 20%);
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 86%),
-    inset 0 -1px 0 rgb(255 255 255 / 12%);
+    inset 0 1px 0 rgb(255 255 255 / 78%),
+    inset 0 -1px 0 rgb(255 255 255 / 16%);
 }
 
 .bottom-navigation::after {
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(180deg, rgb(255 255 255 / 36%) 0%, rgb(255 255 255 / 10%) 34%, transparent 62%),
-    radial-gradient(ellipse at 50% 115%, rgb(255 255 255 / 16%), transparent 58%);
+    linear-gradient(115deg, rgb(255 255 255 / 28%) 0%, transparent 28%, rgb(255 255 255 / 9%) 52%, transparent 72%, rgb(255 255 255 / 18%) 100%),
+    linear-gradient(180deg, rgb(255 255 255 / 18%) 0%, rgb(255 255 255 / 4%) 34%, transparent 62%),
+    radial-gradient(ellipse at 50% 115%, rgb(255 255 255 / 12%), transparent 58%);
   mix-blend-mode: screen;
 }
 
@@ -138,18 +141,18 @@ function finishPreview() {
   inset-inline-start: 2px;
   z-index: 2;
   inline-size: calc((100% - 4px) / 5);
-  border: 1px solid rgb(255 255 255 / 68%);
+  border: 1px solid rgb(255 255 255 / 56%);
   border-radius: 28px;
   background:
-    radial-gradient(circle at 50% -12%, rgb(255 255 255 / 82%), transparent 58%),
-    linear-gradient(180deg, rgb(255 255 255 / 50%), rgb(190 197 202 / 26%));
+    radial-gradient(circle at 50% -12%, rgb(255 255 255 / 54%), transparent 58%),
+    linear-gradient(180deg, rgb(255 255 255 / 28%), rgb(190 197 202 / 10%));
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 94%),
-    inset 0 -1px 0 rgb(255 255 255 / 18%),
-    inset 1px 0 0 rgb(255 255 255 / 28%),
-    0 5px 14px rgb(15 23 42 / 7%);
-  backdrop-filter: blur(11px) saturate(180%) contrast(103%);
-  -webkit-backdrop-filter: blur(11px) saturate(180%) contrast(103%);
+    inset 0 1px 0 rgb(255 255 255 / 82%),
+    inset 0 -1px 0 rgb(255 255 255 / 14%),
+    inset 1px 0 0 rgb(255 255 255 / 22%),
+    0 5px 14px rgb(15 23 42 / 5%);
+  backdrop-filter: blur(14px) saturate(205%) contrast(106%);
+  -webkit-backdrop-filter: blur(14px) saturate(205%) contrast(106%);
   transform: translateX(calc(var(--active-index) * -100%));
   transform-origin: center;
   transition:
@@ -169,13 +172,13 @@ function finishPreview() {
 
 .bottom-navigation__lens::before {
   inset: 0;
-  background: radial-gradient(circle at 50% 0%, rgb(255 255 255 / 68%), rgb(255 255 255 / 16%) 43%, transparent 72%);
+  background: radial-gradient(circle at 50% 0%, rgb(255 255 255 / 48%), rgb(255 255 255 / 8%) 43%, transparent 72%);
 }
 
 .bottom-navigation__lens::after {
   inset: 2px;
-  border: 1px solid rgb(255 255 255 / 20%);
-  box-shadow: inset 0 -7px 13px rgb(126 137 145 / 7%);
+  border: 1px solid rgb(255 255 255 / 14%);
+  box-shadow: inset 0 -7px 13px rgb(126 137 145 / 5%);
 }
 
 .bottom-navigation__items {
@@ -237,14 +240,14 @@ function finishPreview() {
 .bottom-navigation:has(.bottom-navigation__item:active) .bottom-navigation__lens {
   filter: brightness(1.025);
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 100%),
-    inset 0 -1px 0 rgb(255 255 255 / 22%),
-    0 6px 16px rgb(15 23 42 / 8%);
+    inset 0 1px 0 rgb(255 255 255 / 88%),
+    inset 0 -1px 0 rgb(255 255 255 / 16%),
+    0 6px 16px rgb(15 23 42 / 6%);
 }
 
 @supports not ((backdrop-filter: blur(1rem)) or (-webkit-backdrop-filter: blur(1rem))) {
   .bottom-navigation {
-    background: rgb(247 248 248 / 92%);
+    background: rgb(247 248 248 / 72%);
   }
 }
 
