@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import BottomNavigation from '../components/shared/BottomNavigation.vue'
+import SiteFooter from '../components/shared/SiteFooter.vue'
 </script>
 
 <template>
@@ -9,6 +10,7 @@ import BottomNavigation from '../components/shared/BottomNavigation.vue'
     <main id="main-content" class="application-shell__content" tabindex="-1">
       <RouterView />
     </main>
+    <SiteFooter />
     <BottomNavigation />
   </div>
 </template>

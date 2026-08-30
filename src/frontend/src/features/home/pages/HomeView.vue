@@ -25,7 +25,7 @@ import {
       <HomeQuickActions class="home-page__section" :actions="quickActions" />
       <HomeFeaturedPortfolio class="home-page__section" :items="featuredPortfolio" />
       <HomeCategories class="home-page__section" :categories="photographyCategories" />
-      <HomeLastOrderCard class="home-page__section" :order="latestOrder" />
+      <HomeLastOrderCard class="home-page__section home-page__section--photo-ready" :order="latestOrder" />
       <HomeAlbumPreview class="home-page__section" :items="albumPreviews" />
     </div>
   </div>
@@ -36,4 +36,5 @@ import {
 
 .home-page__content { margin-block-start: 9px; }
 .home-page__section { margin-block-start: 15px; }
+.home-page__section--photo-ready { margin-block-start: 20px; }
 </style>

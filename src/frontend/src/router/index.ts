@@ -72,6 +72,56 @@ const shellRoutes: RouteRecordRaw[] = [
     meta: { navigation: 'home' },
   },
   {
+    path: 'articles',
+    name: 'articles',
+    component: FoundationView,
+    props: {
+      title: 'مقالات',
+      description: 'راهنماها و نوشته‌های آتلیه افراز درباره عکاسی کودک و ثبت خاطره‌ها.',
+    },
+    meta: { navigation: 'home' },
+  },
+  {
+    path: 'contact',
+    name: 'contact',
+    component: FoundationView,
+    props: {
+      title: 'تماس با ما',
+      description: 'راه‌های ارتباط با آتلیه افراز، نشانی و ساعات پاسخ‌گویی.',
+    },
+    meta: { navigation: 'home' },
+  },
+  {
+    path: 'privacy',
+    name: 'privacy',
+    component: FoundationView,
+    props: {
+      title: 'حریم خصوصی',
+      description: 'شیوه نگهداری و حفاظت از اطلاعات و تصاویر مشتریان آتلیه افراز.',
+    },
+    meta: { navigation: 'home' },
+  },
+  {
+    path: 'terms',
+    name: 'terms',
+    component: FoundationView,
+    props: {
+      title: 'قوانین و مقررات',
+      description: 'قوانین استفاده از خدمات، رزرو، سفارش و پرداخت در آتلیه افراز.',
+    },
+    meta: { navigation: 'home' },
+  },
+  {
+    path: 'faq',
+    name: 'faq',
+    component: FoundationView,
+    props: {
+      title: 'سوالات متداول',
+      description: 'پاسخ پرسش‌های رایج درباره رزرو، عکاسی، انتخاب عکس و سفارش‌ها.',
+    },
+    meta: { navigation: 'home' },
+  },
+  {
     path: 'booking',
     name: 'booking',
     component: FoundationView,
