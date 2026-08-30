@@ -21,7 +21,6 @@ const socialLinks = [
   { label: 'ایتا', name: 'eitaa' as const, href: 'https://web.eitaa.com/#@afrastudio_qom' },
 ]
 
-const currentYear = new Date().getFullYear()
 </script>
 
 <template>
