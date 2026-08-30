@@ -30,9 +30,11 @@ const router = useRouter()
 <style scoped>
 .home-hero {
   position: relative;
+  inline-size: 100vw;
   block-size: clamp(202px, 50vw, 218px);
+  margin-inline: calc(50% - 50vw);
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: 0;
   background: #f5eadf;
   isolation: isolate;
 }
@@ -43,6 +45,7 @@ const router = useRouter()
   inset-inline-start: 0;
   inline-size: 61%;
   overflow: hidden;
+  border-radius: 0;
 }
 
 .home-hero__photo::after {
@@ -61,6 +64,7 @@ const router = useRouter()
   max-inline-size: none;
   object-fit: cover;
   object-position: right center;
+  border-radius: 0;
 }
 
 .home-hero__content {

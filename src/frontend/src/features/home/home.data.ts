@@ -1,4 +1,4 @@
-import bannerUrl from '../../assets/images/photography/home/banner.png'
+import bannerUrl from '../../assets/images/photography/home/banner.jpg'
 import sampleOneUrl from '../../assets/images/photography/home/sample-1.png'
 import sampleTwoUrl from '../../assets/images/photography/home/sample-2.png'
 import sampleThreeUrl from '../../assets/images/photography/home/sample-3.png'
