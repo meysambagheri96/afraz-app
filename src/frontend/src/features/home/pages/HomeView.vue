@@ -6,12 +6,10 @@ import HomeHeader from '../components/HomeHeader.vue'
 import HomeHeroBanner from '../components/HomeHeroBanner.vue'
 import HomeLastOrderCard from '../components/HomeLastOrderCard.vue'
 import HomeQuickActions from '../components/HomeQuickActions.vue'
-import HomeStories from '../components/HomeStories.vue'
 import {
   albumPreviews,
   featuredPortfolio,
   homeHeroImageUrl,
-  homeStories,
   latestOrder,
   photographyCategories,
   quickActions,
@@ -21,7 +19,6 @@ import {
 <template>
   <div class="home-page">
     <HomeHeader />
-    <HomeStories :stories="homeStories" />
 
     <div class="home-page__content">
       <HomeHeroBanner :image-url="homeHeroImageUrl" />
