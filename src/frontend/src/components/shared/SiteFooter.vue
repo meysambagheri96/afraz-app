@@ -20,6 +20,8 @@ const socialLinks = [
   { label: 'تلگرام', name: 'telegram' as const, href: 'https://t.me/+989013623000' },
   { label: 'ایتا', name: 'eitaa' as const, href: 'https://web.eitaa.com/#@afrastudio_qom' },
 ]
+
+const currentYear = new Date().getFullYear()
 </script>
 
 <template>
@@ -36,9 +38,9 @@ const socialLinks = [
             <AppIcon name="location" size="sm" />
             <span>قم، کیوانفر، نبش کوچه ۵</span>
           </a>
-          <a href="tel:+989013623055">
+          <a href="tel:+989013623000">
             <AppIcon name="phone" size="sm" />
-            <span dir="ltr">+98 901 362 3055</span>
+            <span dir="ltr">+98 901 362 3000</span>
           </a>
         </address>
       </section>
@@ -106,7 +108,7 @@ const socialLinks = [
     </div>
 
     <div class="site-footer__bottom">
-      <p class="text-caption">تمامی حقوق برای آتلیه افراز محفوظ است.</p>
+      <p class="text-caption">تمامی حقوق برای آتلیه افراز محفوظ است</p>
     </div>
   </footer>
 </template>
@@ -294,6 +296,7 @@ const socialLinks = [
 
 .site-footer__bottom p {
   color: var(--color-text-secondary);
+  text-align: center;
 }
 
 @media (min-width: 48rem) {
