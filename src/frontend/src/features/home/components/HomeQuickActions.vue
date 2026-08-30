@@ -10,7 +10,8 @@ defineProps<{ actions: readonly HomeAction[] }>()
     <div class="quick-actions">
       <RouterLink v-for="action in actions" :key="action.id" class="quick-action" :to="action.to">
         <AppIcon :name="action.icon" size="xl" tone="default" />
-        <span>{{ action.label }}</span>
+        <strong>{{ action.label }}</strong>
+        <small>{{ action.subtitle }}</small>
       </RouterLink>
     </div>
   </section>
@@ -20,35 +21,42 @@ defineProps<{ actions: readonly HomeAction[] }>()
 .quick-actions {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(var(--space-2), 2.5vw, var(--space-3));
+  gap: 0;
+  min-block-size: 93px;
 }
 
 .quick-action {
   display: flex;
   min-inline-size: 0;
-  min-block-size: clamp(7rem, 28vw, 8rem);
+  position: relative;
+  min-block-size: 93px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-1);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-xl);
+  gap: 1px;
+  padding: 8px 2px 4px;
+  border: 0;
+  border-radius: 0;
   color: var(--color-text-primary);
-  background: var(--color-surface);
-  box-shadow: var(--shadow-card);
-  font-size: clamp(var(--font-size-xs), 3.2vw, var(--font-size-base));
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-heading);
+  background: transparent;
+  box-shadow: none;
+  font-size: 13px;
+  line-height: 1.4;
   text-align: center;
   text-decoration: none;
   transition: transform var(--motion-fast) var(--ease-standard);
 }
 
+.quick-action:not(:last-child)::after { position: absolute; inset-block: 14px; inset-inline-end: 0; inline-size: 1px; background: #ececec; content: ''; }
+.quick-action :deep(svg) { inline-size: 27px; block-size: 27px; margin-block-end: 7px; }
+.quick-action strong { font-weight: 700; white-space: nowrap; }
+.quick-action small { color: #969a9f; font-size: 11px; font-weight: 400; white-space: nowrap; }
+
 .quick-action:active { transform: scale(0.98); }
 
 @media (max-width: 22.5rem) {
-  .quick-action { min-block-size: 6.5rem; }
+  .quick-action { min-block-size: 88px; font-size: 12px; }
+  .quick-action small { font-size: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

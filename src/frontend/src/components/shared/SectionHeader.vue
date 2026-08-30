@@ -30,7 +30,8 @@ defineProps<{
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  margin-block-end: var(--space-3);
+  min-block-size: 28px;
+  margin-block-end: 7px;
 }
 
 .section-header__title {
@@ -38,7 +39,9 @@ defineProps<{
   min-inline-size: 0;
   align-items: center;
   gap: var(--space-2);
-  color: var(--color-text-strong);
+  color: #111820;
+  font-size: 17px;
+  font-weight: 900;
 }
 
 .section-header__sparkle { color: var(--color-accent-yellow); }
@@ -49,9 +52,9 @@ defineProps<{
   flex: none;
   align-items: center;
   gap: var(--space-1);
-  color: var(--color-brand-primary);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
+  color: #111820;
+  font-size: 12px;
+  font-weight: 600;
   text-decoration: none;
 }
 </style>

@@ -79,11 +79,17 @@
     <circle cx="10.5" cy="10.5" r="7" stroke="currentColor"/>
     <path d="m16 16 5 5" stroke="currentColor" stroke-linecap="round"/>
   </symbol>
+  <symbol id="afraz-send-outline" viewBox="0 0 24 24" fill="none">
+    <path d="M21 3 9.7 14.3M21 3l-7 18-4.3-6.7L3 10l18-7Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
   <symbol id="afraz-notification-outline" viewBox="0 0 24 24" fill="none">
     <path d="M5 17h14l-1.7-2.4V10a5.3 5.3 0 0 0-10.6 0v4.6L5 17ZM9.5 20c.7.7 1.5 1 2.5 1s1.8-.3 2.5-1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
   </symbol>
   <symbol id="afraz-chevron-back-outline" viewBox="0 0 24 24" fill="none">
     <path d="m14.5 5-7 7 7 7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="afraz-chevron-down-outline" viewBox="0 0 24 24" fill="none">
+    <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
   </symbol>
   <symbol id="afraz-photo-stack-outline" viewBox="0 0 24 24" fill="none">
     <rect x="6" y="4" width="15" height="14" rx="2" stroke="currentColor"/>

@@ -11,7 +11,6 @@ defineProps<{ items: readonly PortfolioItem[] }>()
       id="featured-portfolio-title"
       title="نمونه‌کارهای منتخب"
       :to="{ name: 'portfolio' }"
-      decorated
     />
     <div class="featured-portfolio" role="list">
       <RouterLink
@@ -30,9 +29,11 @@ defineProps<{ items: readonly PortfolioItem[] }>()
 <style scoped>
 .featured-portfolio {
   display: grid;
-  grid-auto-columns: calc((100% - var(--space-6)) / 3);
+  grid-auto-columns: clamp(78px, 21vw, 91px);
   grid-auto-flow: column;
-  gap: var(--space-3);
+  gap: 7px;
+  margin-inline: -5px;
+  padding-inline: 5px;
   overflow-x: auto;
   scroll-snap-type: inline proximity;
   scrollbar-width: none;
@@ -42,9 +43,9 @@ defineProps<{ items: readonly PortfolioItem[] }>()
 
 .featured-portfolio__item {
   display: block;
-  aspect-ratio: 0.92;
+  aspect-ratio: 1 / 0.95;
   overflow: hidden;
-  border-radius: var(--radius-sm);
+  border-radius: 10px;
   background: var(--color-surface-muted);
   scroll-snap-align: start;
 }

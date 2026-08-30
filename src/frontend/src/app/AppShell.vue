@@ -24,12 +24,12 @@ import BottomNavigation from '../components/shared/BottomNavigation.vue'
   inline-size: min(100%, var(--mobile-canvas-max-width));
   min-block-size: 100dvh;
   margin-inline: auto;
-  padding-block-start: max(var(--space-3), var(--safe-area-top));
+  padding-block-start: max(14px, var(--safe-area-top));
   padding-block-end: calc(
     var(--bottom-nav-height) + max(var(--space-2), var(--safe-area-bottom)) + var(--space-6)
   );
-  padding-inline: calc(var(--page-gutter) + var(--safe-area-inline-start))
-    calc(var(--page-gutter) + var(--safe-area-inline-end));
+  padding-inline: calc(10px + var(--safe-area-inline-start))
+    calc(10px + var(--safe-area-inline-end));
 }
 
 .application-shell__content:focus { outline: none; }

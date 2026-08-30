@@ -9,12 +9,13 @@ const router = useRouter()
 <template>
   <header class="home-header">
     <div class="home-header__brand">
-      <div class="home-header__logo" aria-label="نشان آتلیه افراز">
+      <div class="home-header__logo" role="img" aria-label="نشان آتلیه افراز">
         <span class="home-header__logo-text">افراز</span>
-        <span class="home-header__logo-sun" aria-hidden="true" />
+        <span class="home-header__logo-mark" aria-hidden="true">✦</span>
       </div>
       <div class="home-header__copy">
         <h1 class="home-header__title text-page-title">آتلیه افراز قم</h1>
+        <AppIcon class="home-header__chevron" name="chevron-down" size="xs" />
         <p class="home-header__subtitle">
           <span aria-hidden="true">✦</span>
           ثبت خاطره‌های شیرین کودک شما
@@ -26,7 +27,7 @@ const router = useRouter()
       <AppIconButton
         class="home-header__action"
         label="اعلان‌ها"
-        variant="glass"
+        variant="ghost"
         @click="router.push({ name: 'notifications' })"
       >
         <AppIcon name="notification" size="lg" />
@@ -35,10 +36,10 @@ const router = useRouter()
       <AppIconButton
         class="home-header__action"
         label="جستجو"
-        variant="glass"
+        variant="ghost"
         @click="router.push({ name: 'search' })"
       >
-        <AppIcon name="search" size="lg" />
+        <AppIcon name="send" size="lg" />
       </AppIconButton>
     </div>
   </header>
@@ -49,64 +50,70 @@ const router = useRouter()
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3);
+  min-block-size: 59px;
+  gap: 10px;
 }
 
 .home-header__brand {
   display: flex;
   min-inline-size: 0;
   align-items: center;
-  gap: var(--space-3);
+  gap: 10px;
 }
 
 .home-header__logo {
   position: relative;
   display: grid;
-  inline-size: clamp(3rem, 14vw, 4rem);
-  block-size: clamp(3rem, 14vw, 4rem);
+  inline-size: 43px;
+  block-size: 43px;
   flex: none;
   place-items: center;
-  border: 3px solid var(--color-surface);
+  border: 2px solid #fff;
   border-radius: 50%;
   color: var(--color-accent-yellow);
-  background: var(--color-brand-primary);
-  box-shadow: var(--shadow-card);
+  background: radial-gradient(circle at 35% 30%, #1598a3, #02707a 68%, #00535e);
+  box-shadow: 0 4px 14px rgb(14 66 72 / 16%);
 }
 
 .home-header__logo-text {
-  font-size: clamp(0.9rem, 4vw, 1.2rem);
-  font-weight: var(--font-weight-bold);
+  font-size: 17px;
+  font-weight: 700;
   line-height: 1;
 }
 
-.home-header__logo-sun {
+.home-header__logo-mark {
   position: absolute;
-  inset-block-start: 0.35rem;
-  inset-inline-start: 50%;
-  inline-size: var(--space-2);
-  block-size: var(--space-2);
-  border-radius: 50%;
-  background: var(--color-accent-yellow);
-  transform: translateX(50%);
+  inset-block-start: 3px;
+  inset-inline-start: 9px;
+  color: #ffd22f;
+  font-size: 8px;
 }
 
-.home-header__copy { min-inline-size: 0; }
+.home-header__copy { position: relative; min-inline-size: 0; }
 
 .home-header__title {
   overflow: hidden;
-  color: var(--color-text-strong);
-  font-size: clamp(var(--font-size-lg), 5vw, var(--font-size-2xl));
+  color: #101820;
+  font-size: 19px;
+  font-weight: 900;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.home-header__chevron {
+  position: absolute;
+  inset-block-start: 7px;
+  inset-inline-end: -20px;
+  color: #17202a;
 }
 
 .home-header__subtitle {
   display: flex;
   align-items: center;
   gap: var(--space-1);
-  margin: var(--space-1) 0 0;
-  color: var(--color-text-secondary);
-  font-size: clamp(var(--font-size-xs), 2.8vw, var(--font-size-sm));
+  margin: 1px 0 0;
+  color: #777b80;
+  font-size: 11px;
   white-space: nowrap;
 }
 
@@ -115,27 +122,29 @@ const router = useRouter()
 .home-header__actions {
   display: flex;
   flex: none;
-  gap: var(--space-2);
+  gap: 4px;
 }
 
 .home-header__action {
   position: relative;
-  inline-size: clamp(var(--touch-target), 12vw, 3.5rem);
-  block-size: clamp(var(--touch-target), 12vw, 3.5rem);
-  border-radius: var(--radius-lg);
+  inline-size: 42px;
+  block-size: 44px;
+  border-radius: 50%;
   color: var(--color-icon);
-  background: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  background: transparent;
 }
+
+.home-header__action :deep(svg) { inline-size: 27px; block-size: 27px; }
 
 .home-header__notification-dot {
   position: absolute;
-  inset-block-start: var(--space-2);
-  inset-inline-start: var(--space-2);
-  inline-size: var(--space-2);
-  block-size: var(--space-2);
+  inset-block-start: 7px;
+  inset-inline-start: 7px;
+  inline-size: 7px;
+  block-size: 7px;
   border: 2px solid var(--color-surface);
   border-radius: 50%;
-  background: var(--color-accent-yellow);
+  background: #ff3347;
 }
 
 @media (max-width: 22.5rem) {

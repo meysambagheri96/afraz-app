@@ -67,7 +67,7 @@
   --section-gap: clamp(1.75rem, 6vw, 2.25rem);
   --section-gap-lg: clamp(2rem, 8vw, 3rem);
   --content-max-width: 64rem;
-  --mobile-canvas-max-width: 30rem;
+  --mobile-canvas-max-width: 26.875rem;
   --bottom-nav-height: 5.25rem;
   --bottom-nav-radius: 2rem;
 

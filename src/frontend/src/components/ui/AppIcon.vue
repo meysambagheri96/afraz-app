@@ -52,7 +52,7 @@ const symbolHref = computed(() => `${iconSpriteUrl}#afraz-${props.name}-${varian
 .app-icon-svg--inherit { color: inherit; }
 .app-icon-svg--default { color: var(--color-icon); }
 .app-icon-svg--brand,
-.app-icon-svg--active { color: var(--color-brand-primary); }
+.app-icon-svg--active { color: #142632; }
 .app-icon-svg--muted { color: var(--color-text-secondary); }
 .app-icon-svg--accent { color: var(--color-accent-pink); }
 </style>

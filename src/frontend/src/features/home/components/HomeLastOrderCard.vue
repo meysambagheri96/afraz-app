@@ -6,114 +6,51 @@ defineProps<{ order: LastOrder }>()
 </script>
 
 <template>
-  <section class="last-order app-surface-card" aria-labelledby="last-order-title">
-    <h2 id="last-order-title" class="last-order__title text-section-title">آخرین سفارش شما</h2>
-    <div class="last-order__content">
-      <img
-        class="last-order__thumbnail"
-        :src="order.thumbnailUrl"
-        alt="تصویر سفارش عکاسی نوزاد"
-        width="258"
-        height="278"
-        loading="lazy"
-      />
-      <div class="last-order__identity">
-        <h3 class="text-card-title">{{ order.studioName }}</h3>
-        <p>{{ order.dateLabel }}</p>
-        <span class="last-order__status">{{ order.statusLabel }}</span>
-      </div>
-      <RouterLink class="last-order__summary" :to="order.to">
-        <span class="last-order__photos" aria-hidden="true">
-          <AppIcon name="photo-stack" size="lg" tone="brand" />
-        </span>
-        <span class="last-order__count">{{ order.newPhotoCount.toLocaleString('fa-IR') }}</span>
-        <span class="last-order__caption">عکس جدید</span>
-        <span class="last-order__action">
-          مشاهده و انتخاب
-          <AppIcon name="chevron-back" size="xs" />
-        </span>
-      </RouterLink>
+  <section class="photo-ready" aria-labelledby="photo-ready-title">
+    <div class="photo-ready__thumb">
+      <img :src="order.thumbnailUrl" alt="تصویر مجموعه عکس آماده انتخاب" width="90" height="90" loading="lazy" />
+      <span>{{ order.newPhotoCount.toLocaleString('fa-IR') }}</span>
+    </div>
+    <div class="photo-ready__copy">
+      <h2 id="photo-ready-title">عکس‌های شما آماده انتخاب است</h2>
+      <p>{{ order.dateLabel }} - {{ order.studioName }}</p>
+      <RouterLink :to="order.to">مشاهده و انتخاب عکس‌ها <AppIcon name="chevron-back" size="xs" /></RouterLink>
+    </div>
+    <div class="photo-ready__art" aria-hidden="true">
+      <AppIcon name="photo-stack" size="xl" />
+      <span>♡</span>
     </div>
   </section>
 </template>
 
 <style scoped>
-.last-order {
-  padding: var(--space-4);
-  border-radius: var(--radius-xl);
-}
-
-.last-order__title {
-  margin-block-end: var(--space-3);
-  color: var(--color-text-strong);
-}
-
-.last-order__content {
+.photo-ready {
   display: grid;
-  grid-template-columns: 4.75rem minmax(0, 1fr) auto;
+  grid-template-columns: 82px minmax(0, 1fr) 77px;
+  min-block-size: 81px;
   align-items: center;
-  gap: var(--space-4);
+  overflow: hidden;
+  border: 1px solid #f0f1f2;
+  border-radius: 14px;
+  background: #fafcfc;
 }
 
-.last-order__thumbnail {
-  inline-size: 4.75rem;
-  block-size: 4.75rem;
-  border-radius: var(--radius-sm);
-  object-fit: cover;
-}
+.photo-ready__thumb { position: relative; align-self: stretch; }
+.photo-ready__thumb img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; }
+.photo-ready__thumb span { position: absolute; inset-block-start: 6px; inset-inline-start: 5px; padding: 2px 6px; border-radius: 6px; color: #fff; background: #2d3033; font-size: 11px; font-weight: 700; }
+.photo-ready__copy { min-inline-size: 0; padding: 7px 10px; }
+.photo-ready__copy h2,
+.photo-ready__copy p { margin: 0; }
+.photo-ready__copy h2 { overflow: hidden; color: #111820; font-size: 13px; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.photo-ready__copy p { margin-block: 2px 4px; color: #8a8e92; font-size: 10px; }
+.photo-ready__copy a { display: inline-flex; align-items: center; gap: 3px; color: #111820; font-size: 11px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.photo-ready__art { position: relative; display: grid; block-size: 100%; place-items: center; color: #92dce5; opacity: .75; }
+.photo-ready__art :deep(svg) { inline-size: 43px; block-size: 43px; stroke-width: 1.2; }
+.photo-ready__art span { position: absolute; inset-block-start: 8px; inset-inline-start: 11px; font-size: 18px; }
 
-.last-order__identity { min-inline-size: 0; }
-.last-order__identity h3,
-.last-order__identity p { margin: 0; }
-.last-order__identity p { margin-block: var(--space-1) var(--space-2); color: var(--color-text-secondary); font-size: var(--font-size-xs); }
-
-.last-order__status {
-  display: inline-flex;
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-full);
-  color: var(--color-warning);
-  background: var(--color-warning-soft);
-  font-size: var(--font-size-xs);
-  white-space: nowrap;
-}
-
-.last-order__summary {
-  display: grid;
-  grid-template-columns: auto auto;
-  align-items: center;
-  gap: 0 var(--space-2);
-  color: var(--color-text-primary);
-  text-decoration: none;
-}
-
-.last-order__photos {
-  grid-row: span 2;
-  display: grid;
-  inline-size: 3.5rem;
-  block-size: 3.5rem;
-  place-items: center;
-  border-radius: var(--radius-md);
-  background: var(--color-brand-soft);
-}
-
-.last-order__count { font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); }
-.last-order__caption { color: var(--color-text-secondary); font-size: var(--font-size-xs); }
-.last-order__action {
-  grid-column: 1 / -1;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  margin-block-start: var(--space-2);
-  color: var(--color-brand-primary);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  white-space: nowrap;
-}
-
-@media (max-width: 22.5rem) {
-  .last-order__content { grid-template-columns: 4rem minmax(0, 1fr); gap: var(--space-3); }
-  .last-order__thumbnail { inline-size: 4rem; block-size: 4rem; }
-  .last-order__summary { grid-column: 1 / -1; grid-template-columns: auto 1fr; padding-block-start: var(--space-3); border-block-start: 1px solid var(--color-border-subtle); }
-  .last-order__action { justify-content: flex-end; }
+@media (max-width: 375px) {
+  .photo-ready { grid-template-columns: 72px minmax(0, 1fr) 54px; }
+  .photo-ready__copy { padding-inline: 7px; }
+  .photo-ready__copy h2 { font-size: 12px; }
 }
 </style>

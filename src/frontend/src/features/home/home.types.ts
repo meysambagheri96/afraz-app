@@ -4,8 +4,18 @@ import type { AppIconName } from '../../components/ui/icon.types'
 export interface HomeAction {
   id: string
   label: string
+  subtitle: string
   icon: AppIconName
   to: RouteLocationRaw
+}
+
+export interface HomeStory {
+  id: string
+  label: string
+  imageUrl?: string
+  imageAlt?: string
+  icon?: AppIconName
+  create?: boolean
 }
 
 export interface PortfolioItem {
@@ -35,6 +45,6 @@ export interface AlbumPreviewItem {
   id: string
   title: string
   caption: string
-  accent: 'mint' | 'pink' | 'lilac'
+  accent: 'mint' | 'pink' | 'cream'
   to: RouteLocationRaw
 }

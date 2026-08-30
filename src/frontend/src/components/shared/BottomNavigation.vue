@@ -37,10 +37,10 @@ const activeItem = computed<NavigationItemId>(() => {
   inset-inline: 0;
   inset-block-end: 0;
   z-index: var(--z-nav);
-  padding-block-start: var(--space-2);
-  padding-block-end: max(var(--space-2), var(--safe-area-bottom));
-  padding-inline-start: max(var(--space-3), var(--safe-area-inline-start));
-  padding-inline-end: max(var(--space-3), var(--safe-area-inline-end));
+  padding-block-start: 6px;
+  padding-block-end: max(12px, var(--safe-area-bottom));
+  padding-inline-start: max(26px, var(--safe-area-inline-start));
+  padding-inline-end: max(26px, var(--safe-area-inline-end));
   pointer-events: none;
 }
 
@@ -48,10 +48,15 @@ const activeItem = computed<NavigationItemId>(() => {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   inline-size: min(100%, var(--mobile-canvas-max-width));
-  min-block-size: var(--bottom-nav-height);
+  min-block-size: 72px;
   margin-inline: auto;
-  padding: var(--space-2);
-  border-radius: var(--bottom-nav-radius);
+  padding: 7px 8px;
+  border-radius: 40px;
+  color: #101820;
+  background: rgb(255 255 255 / 84%);
+  box-shadow: 0 10px 35px rgb(30 35 40 / 8%);
+  backdrop-filter: blur(26px) saturate(160%);
+  -webkit-backdrop-filter: blur(26px) saturate(160%);
   pointer-events: auto;
 }
 
@@ -63,9 +68,9 @@ const activeItem = computed<NavigationItemId>(() => {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 1px;
   border-radius: var(--radius-full);
-  color: var(--color-icon);
+  color: #111820;
   text-decoration: none;
   transition:
     color var(--motion-fast) var(--ease-standard),
@@ -78,9 +83,11 @@ const activeItem = computed<NavigationItemId>(() => {
 }
 
 .bottom-navigation__item--active {
-  color: var(--color-brand-primary);
-  background: color-mix(in srgb, var(--color-brand-soft) 72%, transparent);
+  color: #142632;
+  background: transparent;
 }
+
+.bottom-navigation__item--active::after { position: absolute; inset-block-end: 0; inline-size: 5px; block-size: 5px; border-radius: 50%; background: #ff3347; content: ''; }
 
 .bottom-navigation__icon {
   display: grid;
@@ -91,7 +98,7 @@ const activeItem = computed<NavigationItemId>(() => {
 .bottom-navigation__label {
   max-inline-size: 100%;
   overflow: hidden;
-  font-size: var(--font-size-xs);
+  font-size: 11px;
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-caption);
   text-overflow: ellipsis;
@@ -99,8 +106,10 @@ const activeItem = computed<NavigationItemId>(() => {
 }
 
 .bottom-navigation__item--active .bottom-navigation__label {
-  font-weight: var(--font-weight-bold);
+  font-weight: 700;
 }
+
+.bottom-navigation__icon :deep(svg) { inline-size: 25px; block-size: 25px; }
 
 @supports not ((backdrop-filter: blur(1rem)) or (-webkit-backdrop-filter: blur(1rem))) {
   .bottom-navigation {
