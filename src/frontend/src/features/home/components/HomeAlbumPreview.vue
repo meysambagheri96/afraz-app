@@ -30,7 +30,7 @@ defineProps<{ items: readonly AlbumPreviewItem[] }>()
 .album-card--pink .album-card__ribbon { background: rgb(238 139 153 / 55%); }
 .album-card--mint .album-card__ribbon { background: rgb(233 164 125 / 45%); }
 .album-card__copy { position: relative; z-index: 1; display: flex; min-inline-size: 0; flex-direction: column; gap: 5px; }
-.album-card strong { font-size: 13px; font-weight: 700; white-space: nowrap; }
+.album-card strong { font-size: 13px; font-weight: 600; white-space: nowrap; }
 .album-card small { color: #34383b; font-size: 9px; white-space: nowrap; }
 
 @media (max-width: 400px) {

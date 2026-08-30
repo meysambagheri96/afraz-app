@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@capacitor/core": "^7.4.3",
+    "@lucide/vue": "^1.37.0",
     "axios": "^1.12.2",
     "motion-v": "^1.7.1",
     "pinia": "^3.0.3",
@@ -44,4 +45,3 @@
     "vue-tsc": "^3.1.1"
   }
 }
-

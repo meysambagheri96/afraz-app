@@ -49,8 +49,8 @@ defineProps<{ actions: readonly HomeAction[] }>()
 
 .quick-action:not(:last-child)::after { position: absolute; inset-block: 14px; inset-inline-end: 0; inline-size: 1px; background: #ececec; content: ''; }
 .quick-action :deep(svg) { inline-size: 27px; block-size: 27px; margin-block-end: 7px; }
-.quick-action strong { font-weight: 700; white-space: nowrap; }
-.quick-action small { color: #969a9f; font-size: 11px; font-weight: 400; white-space: nowrap; }
+.quick-action strong { font-weight: 500; white-space: nowrap; }
+.quick-action small { color: #969a9f; font-size: 11px; font-weight: 300; white-space: nowrap; }
 
 .quick-action:active { transform: scale(0.98); }
 

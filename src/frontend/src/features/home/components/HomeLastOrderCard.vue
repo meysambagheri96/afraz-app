@@ -37,13 +37,13 @@ defineProps<{ order: LastOrder }>()
 
 .photo-ready__thumb { position: relative; align-self: stretch; }
 .photo-ready__thumb img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; }
-.photo-ready__thumb span { position: absolute; inset-block-start: 6px; inset-inline-start: 5px; padding: 2px 6px; border-radius: 6px; color: #fff; background: #2d3033; font-size: 11px; font-weight: 700; }
+.photo-ready__thumb span { position: absolute; inset-block-start: 6px; inset-inline-start: 5px; padding: 2px 6px; border-radius: 6px; color: #fff; background: #2d3033; font-size: 11px; font-weight: 600; }
 .photo-ready__copy { min-inline-size: 0; padding: 7px 10px; }
 .photo-ready__copy h2,
 .photo-ready__copy p { margin: 0; }
-.photo-ready__copy h2 { overflow: hidden; color: #111820; font-size: 13px; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.photo-ready__copy h2 { overflow: hidden; color: #111820; font-size: 13px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
 .photo-ready__copy p { margin-block: 2px 4px; color: #8a8e92; font-size: 10px; }
-.photo-ready__copy a { display: inline-flex; align-items: center; gap: 3px; color: #111820; font-size: 11px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.photo-ready__copy a { display: inline-flex; align-items: center; gap: 3px; color: #111820; font-size: 11px; font-weight: 500; text-decoration: none; white-space: nowrap; }
 .photo-ready__art { position: relative; display: grid; block-size: 100%; place-items: center; color: #92dce5; opacity: .75; }
 .photo-ready__art :deep(svg) { inline-size: 43px; block-size: 43px; stroke-width: 1.2; }
 .photo-ready__art span { position: absolute; inset-block-start: 8px; inset-inline-start: 11px; font-size: 18px; }

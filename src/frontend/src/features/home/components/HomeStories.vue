@@ -39,7 +39,7 @@ defineProps<{ stories: readonly HomeStory[] }>()
   color: #111820;
   background: transparent;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.35;
   cursor: pointer;
 }

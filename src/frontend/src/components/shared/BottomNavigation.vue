@@ -229,7 +229,7 @@ function finishPreview() {
 }
 
 .bottom-navigation__item--active .bottom-navigation__label {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .bottom-navigation__icon :deep(svg) { inline-size: 24px; block-size: 24px; }

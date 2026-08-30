@@ -41,7 +41,7 @@ defineProps<{
   gap: var(--space-2);
   color: #111820;
   font-size: 17px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .section-header__sparkle { color: var(--color-accent-yellow); }
@@ -54,7 +54,7 @@ defineProps<{
   gap: var(--space-1);
   color: #111820;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   text-decoration: none;
 }
 </style>

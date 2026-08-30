@@ -1,13 +1,23 @@
 <script setup lang="ts">
+import type { Component } from 'vue'
+import { Baby, CakeSlice, PersonStanding, Smile, TreePine, UsersRound } from '@lucide/vue'
 import SectionHeader from '../../../components/shared/SectionHeader.vue'
-import AppIcon from '../../../components/ui/AppIcon.vue'
 import type { PhotographyCategory } from '../home.types'
 
 defineProps<{ categories: readonly PhotographyCategory[] }>()
+
+const categoryIcons: Readonly<Record<string, Component>> = {
+  outdoor: TreePine,
+  family: UsersRound,
+  pregnancy: PersonStanding,
+  birthday: CakeSlice,
+  child: Smile,
+  newborn: Baby,
+}
 </script>
 
 <template>
-  <section aria-labelledby="home-categories-title">
+  <section class="home-categories-section" aria-labelledby="home-categories-title">
     <SectionHeader id="home-categories-title" title="دسته‌بندی‌ها" />
     <div class="home-categories">
       <RouterLink
@@ -17,7 +27,7 @@ defineProps<{ categories: readonly PhotographyCategory[] }>()
         :to="category.to"
       >
         <span class="home-category__icon" aria-hidden="true">
-          <AppIcon :name="category.icon" size="xl" tone="default" />
+          <component :is="categoryIcons[category.id]" :stroke-width="1.8" />
         </span>
         <span>{{ category.label }}</span>
       </RouterLink>
@@ -26,6 +36,10 @@ defineProps<{ categories: readonly PhotographyCategory[] }>()
 </template>
 
 <style scoped>
+.home-categories-section {
+  padding-block-start: 8px;
+}
+
 .home-categories {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));

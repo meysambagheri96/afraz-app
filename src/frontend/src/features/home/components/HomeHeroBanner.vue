@@ -86,7 +86,7 @@ const router = useRouter()
 .home-hero__eyebrow {
   color: #121b24;
   font-size: 22px;
-  font-weight: 900;
+  font-weight: 500;
   line-height: 1.3;
 }
 
@@ -95,7 +95,7 @@ const router = useRouter()
   margin: 0;
   color: #121b24;
   font-size: 28px;
-  font-weight: 900;
+  font-weight: 800;
   line-height: 1.3;
   white-space: nowrap;
 }

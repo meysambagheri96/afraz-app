@@ -77,7 +77,7 @@ const router = useRouter()
 
 .home-header__logo-text {
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
 }
 
@@ -95,7 +95,7 @@ const router = useRouter()
   overflow: hidden;
   color: #101820;
   font-size: 19px;
-  font-weight: 900;
+  font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
