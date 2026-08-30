@@ -17,8 +17,8 @@ const socialLinks = [
     name: 'instagram' as const,
     href: 'https://www.instagram.com/afraz_studio_qom/',
   },
-  { label: 'واتساپ', name: 'whatsapp' as const, href: 'https://wa.me/989013623055' },
-  { label: 'تلگرام', name: 'telegram' as const, href: 'https://t.me/+989013623055' },
+  { label: 'واتساپ', name: 'whatsapp' as const, href: 'https://wa.me/989013623000' },
+  { label: 'تلگرام', name: 'telegram' as const, href: 'https://t.me/+989013623000' },
   { label: 'ایتا', name: 'eitaa' as const, href: 'https://web.eitaa.com/#@afrastudio_qom' },
 ]
 </script>
