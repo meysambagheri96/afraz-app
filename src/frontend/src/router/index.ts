@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
 import AppShell from '../app/AppShell.vue'
 
 const FoundationView = () => import('./views/FoundationView.vue')
@@ -114,7 +114,7 @@ const shellRoutes: RouteRecordRaw[] = [
 ]
 
 export const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(),
   routes: [
     { path: '/', component: AppShell, children: shellRoutes },
     { path: '/:pathMatch(.*)*', redirect: { name: 'home' } },

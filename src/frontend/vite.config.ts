@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
+    base: '/afraz-app/',
     plugins: [vue(), tailwindcss()],
     resolve: {
       alias: {
@@ -16,7 +17,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      outDir: '../backend/Afraz.Api/wwwroot',
+      outDir: 'dist',
       emptyOutDir: true,
     },
     server: {
