@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import AppPageHeader from '../../../components/shared/AppPageHeader.vue'
 import AppButton from '../../../components/ui/AppButton.vue'
 import AppIcon from '../../../components/ui/AppIcon.vue'
@@ -9,7 +10,7 @@ import PersianCalendar from '../components/PersianCalendar.vue'
 
 const selectedDateKey = ref<string | null>(null)
 const selectedDateLabel = ref<string | null>(null)
-const announcement = ref('')
+const router = useRouter()
 
 function handleDateSelection(dateKey: string | null, label: string | null) {
   selectedDateKey.value = dateKey
@@ -25,7 +26,13 @@ function showHelp() {
 
 function continueBooking() {
   if (!selectedDateLabel.value) return
-  announcement.value = `${selectedDateLabel.value} انتخاب شد. مرحله انتخاب ساعت در ادامه اضافه می‌شود.`
+  void router.push({
+    name: 'booking-create',
+    query: {
+      dateKey: selectedDateKey.value,
+      dateLabel: selectedDateLabel.value,
+    },
+  })
 }
 </script>
 
@@ -51,10 +58,13 @@ function continueBooking() {
       @click="continueBooking"
     >
       مرحله بعد
-      <template #trailing><AppIcon name="chevron-back" size="sm" /></template>
+      <template #trailing>
+        <AppIcon
+          name="chevron-back"
+          size="sm"
+        />
+      </template>
     </AppButton>
-
-    <p class="visually-hidden" aria-live="polite">{{ announcement }}</p>
   </article>
 </template>
 

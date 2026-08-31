@@ -8,7 +8,6 @@ const emit = defineEmits<{ select: [dateKey: string | null, label: string | null
 
 const {
   days,
-  islamicMonthLabel,
   monthLabel,
   selectedDay,
   shortWeekdayNames,
@@ -37,7 +36,6 @@ watch(
 
       <div class="persian-calendar__heading">
         <h2 id="booking-calendar-month" class="text-section-title">{{ monthLabel }}</h2>
-        <p class="text-label">{{ islamicMonthLabel }}</p>
       </div>
 
       <AppIconButton
@@ -98,11 +96,6 @@ watch(
 .persian-calendar__heading h2 {
   color: var(--color-text-primary);
   font-size: var(--font-size-xl);
-}
-
-.persian-calendar__heading p {
-  margin-block-start: var(--space-1);
-  color: var(--color-text-secondary);
 }
 
 .persian-calendar__nav {

@@ -23,8 +23,11 @@ export const appIconNames = [
   'photo-stack',
   'location',
   'phone',
+  'mobile',
   'clock',
   'shield',
+  'info',
+  'lock',
 ] as const
 
 export type AppIconName = (typeof appIconNames)[number]

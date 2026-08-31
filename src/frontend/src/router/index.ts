@@ -4,6 +4,7 @@ import AppShell from '../app/AppShell.vue'
 const FoundationView = () => import('./views/FoundationView.vue')
 const HomeView = () => import('../features/home/pages/HomeView.vue')
 const BookingDatePage = () => import('../features/booking/pages/BookingDatePage.vue')
+const BookingCustomerInfoPage = () => import('../features/booking/pages/BookingCustomerInfoPage.vue')
 
 const shellRoutes: RouteRecordRaw[] = [
   {
@@ -126,6 +127,12 @@ const shellRoutes: RouteRecordRaw[] = [
     path: 'booking',
     name: 'booking',
     component: BookingDatePage,
+    meta: { navigation: 'booking', focusedFlow: true },
+  },
+  {
+    path: 'booking/customer-info',
+    name: 'booking-create',
+    component: BookingCustomerInfoPage,
     meta: { navigation: 'booking', focusedFlow: true },
   },
   {

@@ -25,12 +25,6 @@ const persianPartsFormatter = new Intl.DateTimeFormat('en-US-u-ca-persian-nu-lat
   month: 'numeric',
   day: 'numeric',
 })
-const islamicPartsFormatter = new Intl.DateTimeFormat('fa-IR-u-ca-islamic', {
-  timeZone: 'Asia/Tehran',
-  year: 'numeric',
-  month: 'long',
-})
-
 function readCalendarParts(formatter: Intl.DateTimeFormat, date: Date) {
   return Object.fromEntries(
     formatter
@@ -89,13 +83,6 @@ function getBaseState(
   return 'available'
 }
 
-function getIslamicMonthLabel(firstDate: Date, lastDate: Date) {
-  const first = readCalendarParts(islamicPartsFormatter, firstDate)
-  const last = readCalendarParts(islamicPartsFormatter, lastDate)
-  if (first.month === last.month) return `${first.month} ${last.year}`
-  return `${first.month} - ${last.month} ${last.year}`
-}
-
 export function usePersianCalendar() {
   const todayParts = getPersianParts(new Date())
   const displayedYear = ref(todayParts.year)
@@ -108,11 +95,6 @@ export function usePersianCalendar() {
       month: displayedMonth.value,
       day: 1,
     })
-    const nextMonth = addMonths(displayedYear.value, displayedMonth.value, 1)
-    const nextMonthFirstDate = findGregorianDate({ ...nextMonth, day: 1 })
-    const monthLength = Math.round(
-      (nextMonthFirstDate.getTime() - firstDate.getTime()) / dayInMilliseconds,
-    )
     const firstWeekdayOffset = (firstDate.getUTCDay() + 1) % 7
     const gridStart = new Date(firstDate.getTime() - firstWeekdayOffset * dayInMilliseconds)
     const todayNumber = toDateNumber(todayParts)
@@ -140,14 +122,7 @@ export function usePersianCalendar() {
       }
     })
 
-    return {
-      days,
-      monthLength,
-      islamicMonthLabel: getIslamicMonthLabel(
-        firstDate,
-        new Date(firstDate.getTime() + (monthLength - 1) * dayInMilliseconds),
-      ),
-    }
+    return { days }
   })
 
   watch(
@@ -183,7 +158,6 @@ export function usePersianCalendar() {
 
   return {
     days: computed(() => calendarData.value.days),
-    islamicMonthLabel: computed(() => calendarData.value.islamicMonthLabel),
     monthLabel,
     selectedDay,
     shortWeekdayNames,
