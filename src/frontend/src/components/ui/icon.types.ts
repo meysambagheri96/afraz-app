@@ -28,6 +28,11 @@ export const appIconNames = [
   'shield',
   'info',
   'lock',
+  'check',
+  'copy',
+  'mail',
+  'camera',
+  'wallet',
 ] as const
 
 export type AppIconName = (typeof appIconNames)[number]

@@ -134,4 +134,23 @@
     <rect x="5" y="10" width="14" height="11" rx="2.5" stroke="currentColor"/>
     <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10M12 14.5v2" stroke="currentColor" stroke-linecap="round"/>
   </symbol>
+  <symbol id="afraz-check-outline" viewBox="0 0 24 24" fill="none">
+    <path d="m5 12.5 4.3 4.2L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="afraz-copy-outline" viewBox="0 0 24 24" fill="none">
+    <rect x="8" y="4" width="11" height="14" rx="2" stroke="currentColor"/>
+    <path d="M16 20H6a2 2 0 0 1-2-2V7" stroke="currentColor" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="afraz-mail-outline" viewBox="0 0 24 24" fill="none">
+    <rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor"/>
+    <path d="m4.5 7 7.5 6 7.5-6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="afraz-camera-outline" viewBox="0 0 24 24" fill="none">
+    <path d="M4.5 7.5h3l1.4-2h6.2l1.4 2h3A2.5 2.5 0 0 1 22 10v8.5a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 18.5V10a2.5 2.5 0 0 1 2.5-2.5Z" stroke="currentColor" stroke-linejoin="round"/>
+    <circle cx="12" cy="14" r="3.5" stroke="currentColor"/>
+  </symbol>
+  <symbol id="afraz-wallet-outline" viewBox="0 0 24 24" fill="none">
+    <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H19v16H6.5A2.5 2.5 0 0 1 4 17.5v-11Z" stroke="currentColor" stroke-linejoin="round"/>
+    <path d="M15 10h6v5h-6a2.5 2.5 0 0 1 0-5Z" stroke="currentColor" stroke-linejoin="round"/>
+  </symbol>
 </svg>

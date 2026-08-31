@@ -56,7 +56,10 @@ function continueBooking() {
     return
   }
 
-  announcement.value = 'اطلاعات شما ثبت شد. اتصال به پرداخت در مرحله بعد انجام می‌شود.'
+  void router.push({
+    name: 'booking-success',
+    query: { dateLabel: selectedDateLabel.value },
+  })
 }
 </script>
 

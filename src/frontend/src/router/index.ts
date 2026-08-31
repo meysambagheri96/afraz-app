@@ -5,6 +5,7 @@ const FoundationView = () => import('./views/FoundationView.vue')
 const HomeView = () => import('../features/home/pages/HomeView.vue')
 const BookingDatePage = () => import('../features/booking/pages/BookingDatePage.vue')
 const BookingCustomerInfoPage = () => import('../features/booking/pages/BookingCustomerInfoPage.vue')
+const BookingSuccessPage = () => import('../features/booking/pages/BookingSuccessPage.vue')
 
 const shellRoutes: RouteRecordRaw[] = [
   {
@@ -134,6 +135,22 @@ const shellRoutes: RouteRecordRaw[] = [
     name: 'booking-create',
     component: BookingCustomerInfoPage,
     meta: { navigation: 'booking', focusedFlow: true },
+  },
+  {
+    path: 'booking/success',
+    name: 'booking-success',
+    component: BookingSuccessPage,
+    meta: { navigation: 'booking', focusedFlow: true },
+  },
+  {
+    path: 'bookings',
+    name: 'bookings',
+    component: FoundationView,
+    props: {
+      title: 'نوبت‌های من',
+      description: 'نوبت‌های ثبت‌شده شما در این بخش نمایش داده می‌شوند.',
+    },
+    meta: { navigation: 'booking' },
   },
   {
     path: 'orders',
