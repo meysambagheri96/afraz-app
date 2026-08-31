@@ -1,17 +1,26 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { computed } from 'vue'
+import { RouterView, useRoute } from 'vue-router'
 import BottomNavigation from '../components/shared/BottomNavigation.vue'
 import SiteFooter from '../components/shared/SiteFooter.vue'
+
+const route = useRoute()
+const isFocusedFlow = computed(() => route.meta.focusedFlow === true)
 </script>
 
 <template>
   <div class="application-shell">
     <a class="application-shell__skip-link" href="#main-content">رفتن به محتوای اصلی</a>
-    <main id="main-content" class="application-shell__content" tabindex="-1">
+    <main
+      id="main-content"
+      class="application-shell__content"
+      :class="{ 'application-shell__content--focused': isFocusedFlow }"
+      tabindex="-1"
+    >
       <RouterView />
     </main>
-    <SiteFooter />
-    <BottomNavigation />
+    <SiteFooter v-if="!isFocusedFlow" />
+    <BottomNavigation v-if="!isFocusedFlow" />
   </div>
 </template>
 
@@ -33,6 +42,12 @@ import SiteFooter from '../components/shared/SiteFooter.vue'
 }
 
 .application-shell__content:focus { outline: none; }
+
+.application-shell__content--focused {
+  padding-block-end: 0;
+  padding-inline: calc(var(--space-4) + var(--safe-area-inline-start))
+    calc(var(--space-4) + var(--safe-area-inline-end));
+}
 
 .application-shell__skip-link {
   position: fixed;

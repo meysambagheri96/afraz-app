@@ -1,6 +1,7 @@
 .app-button,
 .app-icon-button {
   border: 1px solid transparent;
+  font-family: var(--font-family-sans);
   font-weight: var(--font-weight-bold);
   transition:
     transform var(--motion-fast) var(--ease-standard),

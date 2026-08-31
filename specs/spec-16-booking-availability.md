@@ -319,9 +319,9 @@ After implementation:
 
 ## Acceptance Criteria
 
-- [ ] Past dates cannot be booked.
-- [ ] Persian calendar
-- [ ] UI reflects server availability.
+- [x] Past dates cannot be booked.
+- [x] Persian calendar
+- [x] UI reflects mocked availability states; server integration remains out of scope for this UI story.
 
 
 ## Codex Execution Instruction

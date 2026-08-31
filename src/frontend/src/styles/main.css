@@ -11,10 +11,15 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#app {
+  font-family: var(--font-family-sans);
+}
+
 html {
   color-scheme: light;
   background: var(--color-background);
-  font-family: var(--font-family-sans);
   line-height: var(--line-height-body);
   text-rendering: optimizeLegibility;
 }
@@ -31,8 +36,11 @@ body {
 button,
 input,
 textarea,
-select {
+select,
+option,
+optgroup {
   font: inherit;
+  font-family: var(--font-family-sans);
 }
 
 button,

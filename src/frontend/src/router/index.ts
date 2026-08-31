@@ -3,6 +3,7 @@ import AppShell from '../app/AppShell.vue'
 
 const FoundationView = () => import('./views/FoundationView.vue')
 const HomeView = () => import('../features/home/pages/HomeView.vue')
+const BookingDatePage = () => import('../features/booking/pages/BookingDatePage.vue')
 
 const shellRoutes: RouteRecordRaw[] = [
   {
@@ -124,12 +125,8 @@ const shellRoutes: RouteRecordRaw[] = [
   {
     path: 'booking',
     name: 'booking',
-    component: FoundationView,
-    props: {
-      title: 'رزرو نوبت',
-      description: 'از این بخش می‌توانید زمان مناسب عکاسی را انتخاب و رزرو کنید.',
-    },
-    meta: { navigation: 'booking' },
+    component: BookingDatePage,
+    meta: { navigation: 'booking', focusedFlow: true },
   },
   {
     path: 'orders',
