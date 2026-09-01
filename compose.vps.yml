@@ -4,11 +4,13 @@ services:
   app:
     image: ${AFRAZ_IMAGE:?AFRAZ_IMAGE must be set}
     restart: unless-stopped
+
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://+:8080
-      ConnectionStrings__DefaultConnection: ${AFRAZ_DB_CONNECTION_STRING:?AFRAZ_DB_CONNECTION_STRING must be set}
+
     ports:
-      - "127.0.0.1:${AFRAZ_APP_PORT:-5080}:8080"
+      - "127.0.0.1:5080:8080"
+
     extra_hosts:
       - "host.docker.internal:host-gateway"
