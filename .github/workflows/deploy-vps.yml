@@ -73,7 +73,7 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-          echo "content=$(base64 < compose.vps.yml | tr -d '\n')" >> "$GITHUB_OUTPUT"
+          echo "content=$(base64 -w 0 compose.vps.yml)" >> "$GITHUB_OUTPUT"
 
       - name: Pull and deploy on VPS
         uses: appleboy/ssh-action@v1.2.2
@@ -91,31 +91,108 @@ jobs:
           script: |
             set -eu
 
-            : "${AFRAZ_IMAGE:?Missing image reference}"
-            : "${COMPOSE_FILE_BASE64:?Missing Compose configuration}"
-            : "${GHCR_USERNAME:?Missing GHCR username}"
-            : "${GHCR_TOKEN:?Missing GHCR token}"
+            fail() {
+              echo "ERROR: $1" >&2
+              exit 1
+            }
+
+            echo "== 1/9 Checking deployment variables =="
+            [ -n "${AFRAZ_IMAGE:-}" ] || fail "AFRAZ_IMAGE is missing"
+            [ -n "${COMPOSE_FILE_BASE64:-}" ] || fail "COMPOSE_FILE_BASE64 is missing"
+            [ -n "${GHCR_USERNAME:-}" ] || fail "GHCR_USERNAME is missing"
+            [ -n "${GHCR_TOKEN:-}" ] || fail "GHCR_TOKEN is missing"
+            echo "Image: ${AFRAZ_IMAGE}"
+            echo "Required variables are present"
 
             deploy_dir="${HOME}/afraz-vps"
             compose_file="${deploy_dir}/compose.vps.yml"
             env_file="${deploy_dir}/.env"
 
+            echo "== 2/9 Preparing deployment directory =="
             mkdir -p "$deploy_dir"
-            test -f "$env_file"
+            [ -f "$env_file" ] || fail "Missing VPS environment file: ${env_file}"
+            [ -s "$env_file" ] || fail "VPS environment file is empty: ${env_file}"
+            echo "VPS .env exists"
 
-            printf '%s' "$COMPOSE_FILE_BASE64" | base64 --decode > "${compose_file}.tmp"
-            mv "${compose_file}.tmp" "$compose_file"
+            echo "== 3/9 Checking Docker =="
+            command -v docker >/dev/null 2>&1 || fail "docker command is not installed or not in PATH"
+            docker --version
+            docker compose version || fail "Docker Compose plugin is unavailable"
+            docker info >/dev/null 2>&1 || fail "SSH user cannot access the Docker daemon"
+            echo "Docker access OK"
 
+            echo "== 4/9 Updating Compose configuration =="
+            compose_tmp="${compose_file}.tmp"
+            rm -f "$compose_tmp"
+            if ! printf '%s' "$COMPOSE_FILE_BASE64" | base64 --decode > "$compose_tmp"; then
+              rm -f "$compose_tmp"
+              fail "Could not decode COMPOSE_FILE_BASE64"
+            fi
+            [ -s "$compose_tmp" ] || {
+              rm -f "$compose_tmp"
+              fail "Decoded Compose file is empty"
+            }
+            mv "$compose_tmp" "$compose_file"
+            echo "Compose file updated"
+
+            echo "== 5/9 Logging in to GHCR =="
             trap 'docker logout ghcr.io >/dev/null 2>&1 || true' EXIT
-            printf '%s' "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USERNAME" --password-stdin
+            if ! printf '%s' "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USERNAME" --password-stdin; then
+              fail "GHCR login failed"
+            fi
+            echo "GHCR login successful"
 
             cd "$deploy_dir"
             export AFRAZ_IMAGE
 
-            docker compose --project-name afraz-vps --env-file "$env_file" --file "$compose_file" config --quiet
-            docker pull "$AFRAZ_IMAGE"
-            docker compose --project-name afraz-vps --env-file "$env_file" --file "$compose_file" up --detach --no-deps app
+            compose() {
+              docker compose \
+                --project-name afraz-vps \
+                --env-file "$env_file" \
+                --file "$compose_file" \
+                "$@"
+            }
 
-            container_id="$(docker compose --project-name afraz-vps --env-file "$env_file" --file "$compose_file" ps --quiet app)"
-            test -n "$container_id"
-            test "$(docker inspect --format '{{.State.Running}}' "$container_id")" = "true"
+            echo "== 6/9 Validating Compose configuration =="
+            if ! compose config --quiet; then
+              fail "Invalid Docker Compose configuration (check compose.vps.yml and required variables in ~/afraz-vps/.env)"
+            fi
+            echo "Compose configuration valid"
+
+            echo "== 7/9 Pulling application image =="
+            if ! compose pull app; then
+              fail "Failed to pull image for service 'app'"
+            fi
+            echo "Application image pulled"
+
+            echo "== 8/9 Starting application =="
+            if ! compose up --detach --no-deps app; then
+              echo "Current Compose status:" >&2
+              compose ps >&2 || true
+              fail "docker compose up failed"
+            fi
+
+            echo "== 9/9 Verifying application container =="
+            container_id="$(compose ps --quiet app)"
+            [ -n "$container_id" ] || {
+              compose ps >&2 || true
+              fail "No container was created for service 'app'"
+            }
+
+            # Give immediately-crashing applications a short window to fail so
+            # the deployment does not report success for a dead container.
+            sleep 5
+
+            running="$(docker inspect --format '{{.State.Running}}' "$container_id" 2>/dev/null || true)"
+            if [ "$running" != "true" ]; then
+              echo "Container state:" >&2
+              docker inspect \
+                --format='Status={{.State.Status}} ExitCode={{.State.ExitCode}} Error={{.State.Error}}' \
+                "$container_id" >&2 || true
+              echo "Last 100 application log lines:" >&2
+              docker logs --tail 100 "$container_id" >&2 || true
+              fail "Application container is not running"
+            fi
+
+            echo "Container ID: ${container_id}"
+            echo "== DEPLOY SUCCESS =="
