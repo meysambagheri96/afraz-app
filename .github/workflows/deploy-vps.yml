@@ -1,16 +1,206 @@
-name: afraz-vps
+name: Deploy to VPS
 
-services:
-  app:
-    image: ${AFRAZ_IMAGE:?AFRAZ_IMAGE must be set}
-    restart: unless-stopped
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
-    environment:
-      ASPNETCORE_ENVIRONMENT: Production
-      ASPNETCORE_URLS: http://+:8080
+permissions:
+  contents: read
 
-    ports:
-      - "127.0.0.1:5080:8080"
+concurrency:
+  group: afraz-vps-production
+  cancel-in-progress: false
 
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    env:
+      AFRAZ_IMAGE: afraz-app:${{ github.sha }}
+      IMAGE_ARCHIVE: afraz-app-image.tar.gz
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Compose file
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          AFRAZ_IMAGE="$AFRAZ_IMAGE" docker compose -f compose.vps.yml config --quiet
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          load: true
+          tags: ${{ env.AFRAZ_IMAGE }}
+
+      - name: Export Docker image
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          docker image inspect "$AFRAZ_IMAGE" >/dev/null
+          docker save "$AFRAZ_IMAGE" | gzip -1 > "$IMAGE_ARCHIVE"
+          test -s "$IMAGE_ARCHIVE"
+          ls -lh "$IMAGE_ARCHIVE"
+
+      - name: Prepare VPS transfer directory
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          command_timeout: 5m
+          script: |
+            set -eu
+            rm -rf /tmp/afraz-deploy
+            mkdir -p /tmp/afraz-deploy
+
+      - name: Copy Docker image and Compose file to VPS
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          source: "afraz-app-image.tar.gz,compose.vps.yml"
+          target: "/tmp/afraz-deploy"
+
+      - name: Deploy on VPS
+        uses: appleboy/ssh-action@v1.2.2
+        env:
+          AFRAZ_IMAGE: ${{ env.AFRAZ_IMAGE }}
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          command_timeout: 15m
+          envs: AFRAZ_IMAGE
+          script: |
+            set -eu
+
+            echo "== 1/7 Checking Docker =="
+
+            if ! command -v docker >/dev/null 2>&1; then
+              echo "ERROR: Docker is not installed"
+              exit 1
+            fi
+
+            docker --version
+            docker compose version
+
+            if ! docker info >/dev/null 2>&1; then
+              echo "ERROR: SSH user cannot access Docker daemon"
+              exit 1
+            fi
+
+            deploy_dir="${HOME}/afraz-vps"
+            transfer_dir="/tmp/afraz-deploy"
+            compose_file="${deploy_dir}/compose.vps.yml"
+            image_archive="${transfer_dir}/afraz-app-image.tar.gz"
+            transferred_compose="${transfer_dir}/compose.vps.yml"
+
+            echo "== 2/7 Checking transferred files =="
+
+            if [ ! -s "$image_archive" ]; then
+              echo "ERROR: Docker image archive is missing"
+              exit 1
+            fi
+
+            if [ ! -s "$transferred_compose" ]; then
+              echo "ERROR: compose.vps.yml is missing"
+              exit 1
+            fi
+
+            echo "== 3/7 Preparing deployment directory =="
+
+            mkdir -p "$deploy_dir"
+            cp "$transferred_compose" "$compose_file"
+
+            echo "== 4/7 Loading Docker image =="
+
+            if ! gzip -dc "$image_archive" | docker load; then
+              echo "ERROR: docker load failed"
+              exit 1
+            fi
+
+            if ! docker image inspect "$AFRAZ_IMAGE" >/dev/null 2>&1; then
+              echo "ERROR: Loaded image '$AFRAZ_IMAGE' was not found"
+              exit 1
+            fi
+
+            echo "Loaded image: $AFRAZ_IMAGE"
+
+            echo "== 5/7 Validating Compose configuration =="
+
+            cd "$deploy_dir"
+            export AFRAZ_IMAGE
+
+            if ! docker compose \
+              --project-name afraz-vps \
+              --file "$compose_file" \
+              config --quiet
+            then
+              echo "ERROR: Docker Compose configuration is invalid"
+              exit 1
+            fi
+
+            echo "== 6/7 Starting application =="
+
+            if ! docker compose \
+              --project-name afraz-vps \
+              --file "$compose_file" \
+              up --detach --no-deps --pull never app
+            then
+              echo "ERROR: docker compose up failed"
+              exit 1
+            fi
+
+            sleep 5
+
+            echo "== 7/7 Verifying application container =="
+
+            container_id="$(
+              docker compose \
+                --project-name afraz-vps \
+                --file "$compose_file" \
+                ps --quiet app
+            )"
+
+            if [ -z "$container_id" ]; then
+              echo "ERROR: app container was not created"
+              docker compose \
+                --project-name afraz-vps \
+                --file "$compose_file" \
+                ps || true
+              exit 1
+            fi
+
+            running="$(docker inspect --format '{{.State.Running}}' "$container_id")"
+
+            if [ "$running" != "true" ]; then
+              echo "ERROR: app container is not running"
+
+              docker inspect \
+                --format='Status={{.State.Status}} ExitCode={{.State.ExitCode}} Error={{.State.Error}}' \
+                "$container_id" || true
+
+              echo "== Last 100 application log lines =="
+              docker logs --tail 100 "$container_id" || true
+
+              exit 1
+            fi
+
+            echo "Container is running: $container_id"
+
+            rm -rf "$transfer_dir"
+
+            echo "== DEPLOY SUCCESS =="
