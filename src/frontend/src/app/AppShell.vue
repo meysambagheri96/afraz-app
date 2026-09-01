@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
 import BottomNavigation from '../components/shared/BottomNavigation.vue'
 import SiteFooter from '../components/shared/SiteFooter.vue'
+import AuthFullscreenModal from '../features/auth/components/AuthFullscreenModal.vue'
 
 const route = useRoute()
 const isFocusedFlow = computed(() => route.meta.focusedFlow === true)
@@ -10,7 +11,10 @@ const isFocusedFlow = computed(() => route.meta.focusedFlow === true)
 
 <template>
   <div class="application-shell">
-    <a class="application-shell__skip-link" href="#main-content">رفتن به محتوای اصلی</a>
+    <a
+      class="application-shell__skip-link"
+      href="#main-content"
+    >رفتن به محتوای اصلی</a>
     <main
       id="main-content"
       class="application-shell__content"
@@ -21,6 +25,7 @@ const isFocusedFlow = computed(() => route.meta.focusedFlow === true)
     </main>
     <SiteFooter v-if="!isFocusedFlow" />
     <BottomNavigation v-if="!isFocusedFlow" />
+    <AuthFullscreenModal />
   </div>
 </template>
 

@@ -153,4 +153,8 @@
     <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H19v16H6.5A2.5 2.5 0 0 1 4 17.5v-11Z" stroke="currentColor" stroke-linejoin="round"/>
     <path d="M15 10h6v5h-6a2.5 2.5 0 0 1 0-5Z" stroke="currentColor" stroke-linejoin="round"/>
   </symbol>
+  <symbol id="afraz-edit-outline" viewBox="0 0 24 24" fill="none">
+    <path d="m4 20 4.2-1 10.9-10.9a2.1 2.1 0 0 0-3-3L5.2 16 4 20Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="m13.8 7.4 3 3" stroke="currentColor" stroke-linecap="round"/>
+  </symbol>
 </svg>

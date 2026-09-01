@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useAuthModal } from '../../features/auth/composables/useAuthModal'
 import AppIcon from '../ui/AppIcon.vue'
 import { primaryNavigationItems, type NavigationItemId } from './navigation'
 
 const route = useRoute()
+const authModal = useAuthModal()
 const activeItem = computed<NavigationItemId>(() => {
   const navigationId = route.matched.at(-1)?.meta.navigation
   return primaryNavigationItems.find((item) => item.id === navigationId)?.id ?? 'home'
@@ -33,6 +35,12 @@ function cancelPreview() {
 function finishPreview() {
   window.setTimeout(cancelPreview, 120)
 }
+
+function handleNavigation(event: MouseEvent, itemId: NavigationItemId) {
+  if (itemId !== 'profile') return
+  event.preventDefault()
+  authModal.open()
+}
 </script>
 
 <template>
@@ -44,12 +52,15 @@ function finishPreview() {
       @pointerleave="cancelPreview"
       @pointercancel="cancelPreview"
     >
-      <span class="bottom-navigation__lens" aria-hidden="true" />
+      <span
+        class="bottom-navigation__lens"
+        aria-hidden="true"
+      />
       <div class="bottom-navigation__items">
         <RouterLink
           v-for="(item, index) in primaryNavigationItems"
           :key="item.id"
-          :to="{ name: item.routeName }"
+          :to="item.id === 'profile' ? route.fullPath : { name: item.routeName }"
           class="bottom-navigation__item"
           :class="{ 'bottom-navigation__item--active': activeItem === item.id }"
           :aria-current="activeItem === item.id ? 'page' : undefined"
@@ -57,10 +68,17 @@ function finishPreview() {
           @pointerdown="previewSelection(index)"
           @pointerup="finishPreview"
           @pointerenter="previewIndex === null ? undefined : previewSelection(index)"
+          @click="handleNavigation($event, item.id)"
           @dragstart.prevent
         >
-          <span class="bottom-navigation__icon" aria-hidden="true">
-            <AppIcon :name="item.id" :active="activeItem === item.id" />
+          <span
+            class="bottom-navigation__icon"
+            aria-hidden="true"
+          >
+            <AppIcon
+              :name="item.id"
+              :active="activeItem === item.id"
+            />
           </span>
           <span class="bottom-navigation__label">{{ item.label }}</span>
         </RouterLink>

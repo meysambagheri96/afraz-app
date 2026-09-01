@@ -14,6 +14,7 @@ const props = withDefaults(
     type?: 'text' | 'email' | 'tel' | 'password' | 'search' | 'url' | 'number'
     inputmode?: 'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url'
     autocomplete?: string
+    maxlength?: number
     ariaLabel?: string
     dir?: 'rtl' | 'ltr' | 'auto'
     size?: AppControlSize
@@ -22,7 +23,7 @@ const props = withDefaults(
     loading?: boolean
     readonly?: boolean
   }>(),
-  { type: 'text', ariaLabel: '', dir: 'rtl', size: 'md' },
+  { type: 'text', maxlength: undefined, ariaLabel: '', dir: 'rtl', size: 'md' },
 )
 
 const generatedId = useId()
@@ -50,6 +51,7 @@ const supportingId = computed(() =>
         :placeholder="placeholder"
         :inputmode="inputmode"
         :autocomplete="autocomplete"
+        :maxlength="maxlength"
         :aria-label="ariaLabel || label || placeholder"
         :dir="dir"
         :required="required"

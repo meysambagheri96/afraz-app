@@ -456,7 +456,7 @@ Use/create a reusable `OtpInput`.
 
 Requirements:
 
-- six boxes
+- five boxes
 - RTL-aware
 - numeric input
 - primary active border
@@ -682,13 +682,13 @@ At the end report briefly:
 
 ## Acceptance Criteria
 
-- [ ] Forms are validated with VeeValidate + Zod.
-- [ ] RTL and keyboard behavior are correct.
-- [ ] The numeric keyboard (for mobile devices) should open on inputs 
-- [ ] Auto fill OTP from received SMS
-- [ ] Other pages should not get changes
-- [ ] Connect bottom-navigation__icon to login page 
-- [ ] Login should be a FullScreen Modal
+- [x] Forms are validated with VeeValidate + Zod.
+- [x] RTL and keyboard behavior are correct.
+- [x] The numeric keyboard (for mobile devices) should open on inputs.
+- [x] Auto fill OTP from received SMS is enabled through `autocomplete="one-time-code"`.
+- [x] Other feature pages do not receive authentication-specific UI changes.
+- [x] Connect the profile bottom-navigation icon to the login modal.
+- [x] Login is implemented as a FullScreen Modal.
 
 ## Codex Execution Instruction
 

@@ -8,6 +8,7 @@ src/backend/Afraz.Api/wwwroot/*
 !src/backend/Afraz.Api/wwwroot/.gitkeep
 src/frontend/android/
 src/frontend/ios/
+src/frontend/dist/
 .env
 .DS_Store
 desktop.ini

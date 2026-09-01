@@ -6,6 +6,7 @@ const HomeView = () => import('../features/home/pages/HomeView.vue')
 const BookingDatePage = () => import('../features/booking/pages/BookingDatePage.vue')
 const BookingCustomerInfoPage = () => import('../features/booking/pages/BookingCustomerInfoPage.vue')
 const BookingSuccessPage = () => import('../features/booking/pages/BookingSuccessPage.vue')
+const AuthFallbackPage = () => import('../features/auth/pages/AuthFallbackPage.vue')
 
 const shellRoutes: RouteRecordRaw[] = [
   {
@@ -187,6 +188,11 @@ const shellRoutes: RouteRecordRaw[] = [
 export const router = createRouter({
   history: createWebHashHistory(),
   routes: [
+    {
+      path: '/auth',
+      name: 'auth',
+      component: AuthFallbackPage,
+    },
     { path: '/', component: AppShell, children: shellRoutes },
     { path: '/:pathMatch(.*)*', redirect: { name: 'home' } },
   ],
