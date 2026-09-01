@@ -120,7 +120,8 @@ useOverlay(model, panel, () => props.dismissible, close)
 .app-modal__panel--lg { max-width: 42rem; }
 .app-modal:has(.app-modal__panel--fullscreen) { padding: 0; }
 .app-modal__panel--fullscreen {
-  inline-size: min(100%, var(--mobile-canvas-max-width));
+  inline-size: 100%;
+  max-inline-size: none;
   block-size: 100dvh;
   max-block-size: none;
   border-radius: 0;
@@ -128,5 +129,15 @@ useOverlay(model, panel, () => props.dismissible, close)
 .app-modal__panel--fullscreen .app-overlay__body {
   block-size: 100%;
   padding: 0;
+}
+
+.app-overlay-enter-active .app-modal__panel--fullscreen,
+.app-overlay-leave-active .app-modal__panel--fullscreen {
+  transition: none;
+}
+
+.app-overlay-enter-from .app-modal__panel--fullscreen,
+.app-overlay-leave-to .app-modal__panel--fullscreen {
+  transform: none;
 }
 </style>

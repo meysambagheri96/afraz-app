@@ -13,6 +13,7 @@ const emit = defineEmits<{ back: []; success: [] }>()
 const remainingSeconds = ref(105)
 const resendAnnouncement = ref('')
 const otpResetKey = ref(0)
+const isCompleting = ref(false)
 
 const { errors, handleSubmit, resetForm, setFieldValue, submitCount } = useForm<{ otp: string }>({
   initialValues: { otp: '' },
@@ -52,6 +53,11 @@ function resendCode() {
 
 function updateOtp(value: string) {
   setFieldValue('otp', value, false)
+
+  if (!isCompleting.value && otpSchema.safeParse(value).success) {
+    isCompleting.value = true
+    emit('success')
+  }
 }
 
 onBeforeUnmount(() => window.clearInterval(timer))
@@ -153,7 +159,7 @@ onBeforeUnmount(() => window.clearInterval(timer))
           تأیید و ورود
           <template #trailing>
             <AppIcon
-              name="shield"
+              name="chevron-back"
               size="sm"
             />
           </template>
@@ -174,7 +180,9 @@ onBeforeUnmount(() => window.clearInterval(timer))
 .auth-otp-step {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
+  inline-size: min(100%, var(--mobile-canvas-max-width));
   min-block-size: 100dvh;
+  margin-inline: auto;
   padding:
     max(var(--space-4), var(--safe-area-top))
     var(--space-5)

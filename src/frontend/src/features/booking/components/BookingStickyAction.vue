@@ -24,4 +24,20 @@
   margin-inline: auto;
   pointer-events: auto;
 }
+
+.booking-sticky-action :deep(.app-button) {
+  border-radius: var(--radius-full);
+  box-shadow: 0 0.75rem 2rem rgb(7 93 105 / 18%);
+  font-size: var(--font-size-base);
+}
+
+.booking-sticky-action :deep(.app-button__label) {
+  flex: 1;
+  text-align: center;
+}
+
+.booking-sticky-action :deep(svg) {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+}
 </style>

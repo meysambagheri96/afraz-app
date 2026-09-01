@@ -157,7 +157,7 @@ function mockGoogleLogin() {
           دریافت کد ورود
           <template #trailing>
             <AppIcon
-              name="send"
+              name="chevron-back"
               size="sm"
             />
           </template>
@@ -179,7 +179,9 @@ function mockGoogleLogin() {
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr);
   gap: var(--space-3);
+  inline-size: min(100%, var(--mobile-canvas-max-width));
   min-block-size: 100dvh;
+  margin-inline: auto;
   padding:
     max(var(--space-4), var(--safe-area-top))
     var(--space-5)
@@ -214,7 +216,7 @@ function mockGoogleLogin() {
 
 .auth-login-step__form :deep(.app-field__input) {
   direction: ltr;
-  text-align: end;
+  text-align: left;
 }
 
 .auth-login-step__form :deep(.app-field__input::placeholder) {
@@ -226,7 +228,7 @@ function mockGoogleLogin() {
   padding-inline-start: var(--space-3);
   border-inline-start: 1px solid var(--color-border-subtle);
   color: var(--color-text-secondary);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base);
 }
 
 .auth-login-step__google {

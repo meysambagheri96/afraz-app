@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
 import BottomNavigation from '../components/shared/BottomNavigation.vue'
 import SiteFooter from '../components/shared/SiteFooter.vue'
 import AuthFullscreenModal from '../features/auth/components/AuthFullscreenModal.vue'
 
 const route = useRoute()
-const isFocusedFlow = computed(() => route.meta.focusedFlow === true)
+const isFocusedFlow = ref(route.meta.focusedFlow === true)
+
+function syncShellLayout() {
+  isFocusedFlow.value = route.meta.focusedFlow === true
+}
 </script>
 
 <template>
@@ -21,7 +25,18 @@ const isFocusedFlow = computed(() => route.meta.focusedFlow === true)
       :class="{ 'application-shell__content--focused': isFocusedFlow }"
       tabindex="-1"
     >
-      <RouterView />
+      <RouterView v-slot="{ Component, route: matchedRoute }">
+        <Transition
+          name="page-fade"
+          mode="out-in"
+          @before-enter="syncShellLayout"
+        >
+          <component
+            :is="Component"
+            :key="matchedRoute.fullPath"
+          />
+        </Transition>
+      </RouterView>
     </main>
     <SiteFooter v-if="!isFocusedFlow" />
     <BottomNavigation v-if="!isFocusedFlow" />
@@ -31,6 +46,8 @@ const isFocusedFlow = computed(() => route.meta.focusedFlow === true)
 
 <style scoped>
 .application-shell {
+  --page-transition-duration: 110ms;
+
   min-block-size: 100dvh;
   color: var(--color-text-primary);
   background: var(--color-background);
@@ -69,6 +86,16 @@ const isFocusedFlow = computed(() => route.meta.focusedFlow === true)
 
 .application-shell__skip-link:focus { transform: translateY(0); }
 
+.page-fade-enter-active,
+.page-fade-leave-active {
+  transition: opacity var(--page-transition-duration) var(--ease-standard);
+}
+
+.page-fade-enter-from,
+.page-fade-leave-to {
+  opacity: 0;
+}
+
 @media (min-width: 64rem) {
   .application-shell { background: var(--color-surface-muted); }
 
@@ -79,6 +106,10 @@ const isFocusedFlow = computed(() => route.meta.focusedFlow === true)
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .application-shell__skip-link { transition: none; }
+  .application-shell__skip-link,
+  .page-fade-enter-active,
+  .page-fade-leave-active {
+    transition: none;
+  }
 }
 </style>

@@ -40,19 +40,12 @@ function showOtp(value: string) {
 <style scoped>
 .auth-step-enter-active,
 .auth-step-leave-active {
-  transition:
-    opacity var(--motion-base) var(--ease-standard),
-    transform var(--motion-base) var(--ease-emphasized);
+  transition: opacity var(--motion-base) var(--ease-standard);
 }
 
-.auth-step-enter-from {
-  opacity: 0;
-  transform: translateX(-1rem);
-}
-
+.auth-step-enter-from,
 .auth-step-leave-to {
   opacity: 0;
-  transform: translateX(1rem);
 }
 
 @media (prefers-reduced-motion: reduce) {

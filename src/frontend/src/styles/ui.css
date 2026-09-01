@@ -30,6 +30,9 @@
 }
 
 .app-button {
+  --app-button-inline-padding: var(--space-4);
+
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -54,9 +57,31 @@
 }
 
 .app-button--lg {
+  --app-button-inline-padding: var(--space-6);
+
   min-block-size: var(--control-height-lg);
-  padding-inline: var(--space-6);
+  padding-inline: var(--app-button-inline-padding);
   font-size: var(--font-size-lg);
+}
+
+.app-button__label {
+  inline-size: 100%;
+  min-inline-size: 0;
+  text-align: center;
+}
+
+.app-button__icon {
+  position: absolute;
+  display: inline-grid;
+  place-items: center;
+}
+
+.app-button__icon--leading {
+  inset-inline-start: var(--app-button-inline-padding);
+}
+
+.app-button__icon--trailing {
+  inset-inline-end: var(--app-button-inline-padding);
 }
 
 .app-button--primary,

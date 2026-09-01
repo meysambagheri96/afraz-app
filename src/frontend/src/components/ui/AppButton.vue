@@ -31,12 +31,30 @@ defineEmits<{ click: [event: MouseEvent] }>()
     :aria-busy="loading || undefined"
     @click="$emit('click', $event)"
   >
-    <span v-if="loading" class="app-spinner" aria-hidden="true" />
-    <slot v-else name="leading" />
+    <span
+      v-if="loading || $slots.leading"
+      class="app-button__icon app-button__icon--leading"
+      aria-hidden="true"
+    >
+      <span
+        v-if="loading"
+        class="app-spinner"
+      />
+      <slot
+        v-else
+        name="leading"
+      />
+    </span>
     <span class="app-button__label">
       <span v-if="loading">{{ loadingLabel }}</span>
       <slot v-else />
     </span>
-    <slot v-if="!loading" name="trailing" />
+    <span
+      v-if="!loading && $slots.trailing"
+      class="app-button__icon app-button__icon--trailing"
+      aria-hidden="true"
+    >
+      <slot name="trailing" />
+    </span>
   </button>
 </template>
