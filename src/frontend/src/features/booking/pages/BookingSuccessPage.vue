@@ -7,6 +7,7 @@ import AppIcon from '../../../components/ui/AppIcon.vue'
 import type { AppIconName } from '../../../components/ui/icon.types'
 import BookingInformationCard from '../components/BookingInformationCard.vue'
 import BookingRequestCodeCard from '../components/BookingRequestCodeCard.vue'
+import BookingStickyAction from '../components/BookingStickyAction.vue'
 import BookingSuccessHero from '../components/BookingSuccessHero.vue'
 
 const route = useRoute()
@@ -95,20 +96,22 @@ const detailRows = computed(() => [
       </BookingInformationCard>
     </section>
 
-    <AppButton
-      class="booking-success-page__cta"
-      size="lg"
-      block
-      @click="router.push({ name: 'bookings' })"
-    >
-      مشاهده نوبت‌های من
-      <template #trailing>
-        <AppIcon
-          name="orders"
-          size="sm"
-        />
-      </template>
-    </AppButton>
+    <BookingStickyAction>
+      <AppButton
+        class="booking-success-page__cta"
+        size="lg"
+        block
+        @click="router.push({ name: 'bookings' })"
+      >
+        مشاهده نوبت‌های من
+        <template #trailing>
+          <AppIcon
+            name="orders"
+            size="sm"
+          />
+        </template>
+      </AppButton>
+    </BookingStickyAction>
   </article>
 </template>
 
@@ -118,7 +121,7 @@ const detailRows = computed(() => [
   gap: var(--space-3);
   inline-size: 100%;
   min-block-size: calc(100dvh - max(14px, var(--safe-area-top)));
-  padding-block-end: max(var(--space-6), var(--safe-area-bottom));
+  padding-block-end: calc(5.875rem + var(--safe-area-bottom));
 }
 
 .booking-success-page > :deep(.app-page-header) {
@@ -171,7 +174,6 @@ const detailRows = computed(() => [
 }
 
 .booking-success-page__cta {
-  margin-block-start: var(--space-1);
   border-radius: var(--radius-full);
   box-shadow: 0 0.75rem 2rem rgb(7 93 105 / 18%);
   font-size: var(--font-size-base);

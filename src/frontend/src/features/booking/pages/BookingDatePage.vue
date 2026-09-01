@@ -5,6 +5,7 @@ import AppPageHeader from '../../../components/shared/AppPageHeader.vue'
 import AppButton from '../../../components/ui/AppButton.vue'
 import AppIcon from '../../../components/ui/AppIcon.vue'
 import BookingInfoCard from '../components/BookingInfoCard.vue'
+import BookingStickyAction from '../components/BookingStickyAction.vue'
 import CalendarStatusLegend from '../components/CalendarStatusLegend.vue'
 import PersianCalendar from '../components/PersianCalendar.vue'
 
@@ -50,21 +51,23 @@ function continueBooking() {
     <CalendarStatusLegend class="booking-date-page__section" />
     <BookingInfoCard class="booking-date-page__section" />
 
-    <AppButton
-      class="booking-date-page__cta"
-      size="lg"
-      block
-      :disabled="!selectedDateKey"
-      @click="continueBooking"
-    >
-      مرحله بعد
-      <template #trailing>
-        <AppIcon
-          name="chevron-back"
-          size="sm"
-        />
-      </template>
-    </AppButton>
+    <BookingStickyAction>
+      <AppButton
+        class="booking-date-page__cta"
+        size="lg"
+        block
+        :disabled="!selectedDateKey"
+        @click="continueBooking"
+      >
+        مرحله بعد
+        <template #trailing>
+          <AppIcon
+            name="chevron-back"
+            size="sm"
+          />
+        </template>
+      </AppButton>
+    </BookingStickyAction>
   </article>
 </template>
 
@@ -72,7 +75,7 @@ function continueBooking() {
 .booking-date-page {
   inline-size: 100%;
   min-block-size: calc(100dvh - max(14px, var(--safe-area-top)));
-  padding-block-end: max(var(--space-6), var(--safe-area-bottom));
+  padding-block-end: calc(5.875rem + var(--safe-area-bottom));
 }
 
 .booking-date-page__section {
@@ -80,7 +83,6 @@ function continueBooking() {
 }
 
 .booking-date-page__cta {
-  margin-block-start: var(--space-8);
   border-radius: var(--radius-full);
   box-shadow: 0 0.75rem 2rem rgb(7 93 105 / 18%);
   font-size: var(--font-size-base);

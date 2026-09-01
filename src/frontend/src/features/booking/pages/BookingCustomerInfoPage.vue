@@ -7,6 +7,7 @@ import AppButton from '../../../components/ui/AppButton.vue'
 import AppIcon from '../../../components/ui/AppIcon.vue'
 import AppInput from '../../../components/ui/AppInput.vue'
 import BookingDetailsCard from '../components/BookingDetailsCard.vue'
+import BookingStickyAction from '../components/BookingStickyAction.vue'
 import SelectedBookingDateCard from '../components/SelectedBookingDateCard.vue'
 
 const route = useRoute()
@@ -157,21 +158,6 @@ function continueBooking() {
         :date-label="selectedDateLabel"
       />
 
-      <AppButton
-        class="booking-customer-page__cta"
-        type="submit"
-        size="lg"
-        block
-      >
-        پرداخت
-        <template #trailing>
-          <AppIcon
-            name="chevron-back"
-            size="sm"
-          />
-        </template>
-      </AppButton>
-
       <p class="booking-customer-page__security text-label">
         <AppIcon
           name="lock"
@@ -179,6 +165,23 @@ function continueBooking() {
         />
         اطلاعات شما محفوظ و امن است.
       </p>
+
+      <BookingStickyAction>
+        <AppButton
+          class="booking-customer-page__cta"
+          type="submit"
+          size="lg"
+          block
+        >
+          پرداخت
+          <template #trailing>
+            <AppIcon
+              name="chevron-back"
+              size="sm"
+            />
+          </template>
+        </AppButton>
+      </BookingStickyAction>
 
       <p
         class="visually-hidden"
@@ -194,7 +197,7 @@ function continueBooking() {
 .booking-customer-page {
   inline-size: 100%;
   min-block-size: calc(100dvh - max(14px, var(--safe-area-top)));
-  padding-block-end: max(var(--space-6), var(--safe-area-bottom));
+  padding-block-end: calc(5.875rem + var(--safe-area-bottom));
 }
 
 .booking-customer-page__form,
@@ -263,7 +266,6 @@ function continueBooking() {
 }
 
 .booking-customer-page__cta {
-  margin-block-start: var(--space-1);
   border-radius: var(--radius-full);
   box-shadow: 0 0.75rem 2rem rgb(7 93 105 / 18%);
   font-size: var(--font-size-base);
