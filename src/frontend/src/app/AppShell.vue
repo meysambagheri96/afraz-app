@@ -88,7 +88,10 @@ function syncShellLayout() {
 
 .page-fade-enter-active,
 .page-fade-leave-active {
-  transition: opacity var(--page-transition-duration) var(--ease-standard);
+  will-change: opacity;
+  transition-property: opacity;
+  transition-duration: var(--page-transition-duration);
+  transition-timing-function: var(--ease-standard);
 }
 
 .page-fade-enter-from,
@@ -106,10 +109,6 @@ function syncShellLayout() {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .application-shell__skip-link,
-  .page-fade-enter-active,
-  .page-fade-leave-active {
-    transition: none;
-  }
+  .application-shell__skip-link { transition: none; }
 }
 </style>
