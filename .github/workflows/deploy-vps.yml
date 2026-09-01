@@ -27,9 +27,11 @@ jobs:
       - name: Resolve immutable image reference
         id: image
         shell: bash
+        env:
+          IMAGE_TAG: ${{ github.sha }}
         run: |
           set -Eeuo pipefail
-          image="ghcr.io/${GITHUB_REPOSITORY,,}:${GITHUB_SHA}"
+          image="ghcr.io/${GITHUB_REPOSITORY,,}:${IMAGE_TAG}"
           echo "ref=${image}" >> "$GITHUB_OUTPUT"
 
       - name: Validate deployment Compose file
@@ -87,7 +89,7 @@ jobs:
           command_timeout: 15m
           envs: AFRAZ_IMAGE,COMPOSE_FILE_BASE64,GHCR_USERNAME,GHCR_TOKEN
           script: |
-            set -Eeuo pipefail
+            set -eu
 
             : "${AFRAZ_IMAGE:?Missing image reference}"
             : "${COMPOSE_FILE_BASE64:?Missing Compose configuration}"
