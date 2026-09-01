@@ -1,0 +1,119 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: deploy-vps-production
+  cancel-in-progress: false
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.image.outputs.ref }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Resolve immutable image reference
+        id: image
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          image="ghcr.io/${GITHUB_REPOSITORY,,}:${GITHUB_SHA}"
+          echo "ref=${image}" >> "$GITHUB_OUTPUT"
+
+      - name: Validate deployment Compose file
+        shell: bash
+        env:
+          AFRAZ_IMAGE: ${{ steps.image.outputs.ref }}
+          AFRAZ_DB_CONNECTION_STRING: Server=host.docker.internal,1433;Database=validation;User Id=validation;Password=validation
+        run: docker compose -f compose.vps.yml config --quiet
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push application image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ steps.image.outputs.ref }}
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Encode deployment Compose file
+        id: compose
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          echo "content=$(base64 < compose.vps.yml | tr -d '\n')" >> "$GITHUB_OUTPUT"
+
+      - name: Pull and deploy on VPS
+        uses: appleboy/ssh-action@v1.2.2
+        env:
+          AFRAZ_IMAGE: ${{ needs.build-and-push.outputs.image }}
+          COMPOSE_FILE_BASE64: ${{ steps.compose.outputs.content }}
+          GHCR_USERNAME: ${{ github.actor }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          command_timeout: 15m
+          envs: AFRAZ_IMAGE,COMPOSE_FILE_BASE64,GHCR_USERNAME,GHCR_TOKEN
+          script: |
+            set -Eeuo pipefail
+
+            : "${AFRAZ_IMAGE:?Missing image reference}"
+            : "${COMPOSE_FILE_BASE64:?Missing Compose configuration}"
+            : "${GHCR_USERNAME:?Missing GHCR username}"
+            : "${GHCR_TOKEN:?Missing GHCR token}"
+
+            deploy_dir="${HOME}/afraz-vps"
+            compose_file="${deploy_dir}/compose.vps.yml"
+            env_file="${deploy_dir}/.env"
+
+            mkdir -p "$deploy_dir"
+            test -f "$env_file"
+
+            printf '%s' "$COMPOSE_FILE_BASE64" | base64 --decode > "${compose_file}.tmp"
+            mv "${compose_file}.tmp" "$compose_file"
+
+            trap 'docker logout ghcr.io >/dev/null 2>&1 || true' EXIT
+            printf '%s' "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USERNAME" --password-stdin
+
+            cd "$deploy_dir"
+            export AFRAZ_IMAGE
+
+            docker compose --project-name afraz-vps --env-file "$env_file" --file "$compose_file" config --quiet
+            docker pull "$AFRAZ_IMAGE"
+            docker compose --project-name afraz-vps --env-file "$env_file" --file "$compose_file" up --detach --no-deps app
+
+            container_id="$(docker compose --project-name afraz-vps --env-file "$env_file" --file "$compose_file" ps --quiet app)"
+            test -n "$container_id"
+            test "$(docker inspect --format '{{.State.Running}}' "$container_id")" = "true"

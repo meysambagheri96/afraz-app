@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <SpaRoot>$(MSBuildProjectDirectory)\..\..\frontend\</SpaRoot>
+    <BuildFrontend Condition="'$(BuildFrontend)' == ''">true</BuildFrontend>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Afraz.Application\Afraz.Application.csproj" />
@@ -16,7 +17,7 @@
   <Target
     Name="BuildFrontend"
     BeforeTargets="PrepareForBuild"
-    Condition="'$(Configuration)' == 'Release' and '$(DesignTimeBuild)' != 'true'">
+    Condition="'$(Configuration)' == 'Release' and '$(DesignTimeBuild)' != 'true' and '$(BuildFrontend)' == 'true'">
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm ci" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
   </Target>
