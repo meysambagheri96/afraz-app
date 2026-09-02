@@ -29,7 +29,6 @@ public sealed class Program
                 webBuilder.ConfigureServices((context, services) =>
                 {
                     services.AddProblemDetailsInternal();
-                    services.AddExceptionHandler<GlobalExceptionHandler>();
                     services.AddControllersInternal();
                     services.AddHealthChecks();
                     services.AddSwaggerInternal();

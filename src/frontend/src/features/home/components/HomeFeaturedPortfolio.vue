@@ -10,14 +10,14 @@ defineProps<{ items: readonly PortfolioItem[] }>()
     <SectionHeader
       id="featured-portfolio-title"
       title="نمونه‌کارهای منتخب"
-      :to="{ name: 'portfolio' }"
+      :to="{ name: 'explore' }"
     />
     <div class="featured-portfolio" role="list">
       <RouterLink
         v-for="item in items"
         :key="item.id"
         class="featured-portfolio__item"
-        :to="{ name: 'portfolio-category', params: { category: item.id } }"
+        :to="{ name: 'explore-category', params: { category: item.id } }"
         role="listitem"
       >
         <img :src="item.imageUrl" :alt="item.alt" width="258" height="278" loading="lazy" />

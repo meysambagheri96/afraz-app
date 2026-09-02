@@ -1,14 +1,11 @@
-using Afraz.Application;
 using Afraz.Application.Features.Foundation.GetStatus;
 using Afraz.Infrastructure.Persistence;
 using Autofac;
 using FluentValidation;
-using Infra.Commands;
 using Infra.Common.Decorators;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
-using StackExchange.Redis;
 
 namespace Afraz.Api;
 
@@ -30,6 +27,8 @@ public static class ServiceExtensions
                 problemContext.ProblemDetails.Extensions["traceId"] = problemContext.HttpContext.TraceIdentifier;
             };
         });
+
+        services.AddExceptionHandler<GlobalExceptionHandler>();
 
         return services;
     }

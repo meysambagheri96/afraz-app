@@ -191,8 +191,8 @@
 }
 
 .app-field__control:focus-within {
-  border-color: var(--color-brand-primary);
-  box-shadow: var(--focus-ring);
+  border-color: var(--color-border-subtle);
+  box-shadow: none;
 }
 
 .app-field--error .app-field__control {

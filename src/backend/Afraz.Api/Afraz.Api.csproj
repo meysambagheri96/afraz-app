@@ -26,6 +26,23 @@
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
   </Target>
   <Target
+    Name="BuildFrontendForLocalRun"
+    BeforeTargets="PrepareForBuild"
+    Condition="'$(_IsPublishing)' != 'true' and '$(Configuration)' != 'Release' and '$(DesignTimeBuild)' != 'true' and '$(BuildFrontend)' == 'true'">
+    <Exec
+      WorkingDirectory="$(SpaRoot)"
+      Command="npm install --no-audit --no-fund"
+      Condition="!Exists('$(SpaRoot)node_modules\.bin\vue-tsc.cmd')" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+    <ItemGroup>
+      <LocalFrontendDistFiles Include="$(SpaRoot)dist\**\*" />
+    </ItemGroup>
+    <Copy
+      SourceFiles="@(LocalFrontendDistFiles)"
+      DestinationFiles="@(LocalFrontendDistFiles->'$(MSBuildProjectDirectory)\wwwroot\%(RecursiveDir)%(Filename)%(Extension)')"
+      SkipUnchangedFiles="true" />
+  </Target>
+  <Target
     Name="PublishFrontend"
     AfterTargets="ComputeFilesToPublish"
     Condition="'$(Configuration)' == 'Release' and '$(BuildFrontend)' == 'true'">

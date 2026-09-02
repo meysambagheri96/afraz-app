@@ -51,9 +51,27 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+:where(
+  input:not([type='checkbox']):not([type='radio']):not([type='range']),
+  textarea,
+  select
+) {
+  font-size: 16px;
+}
+
 :focus-visible {
   outline: none;
   box-shadow: var(--focus-ring);
+}
+
+input:focus,
+input:focus-visible,
+textarea:focus,
+textarea:focus-visible,
+select:focus,
+select:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 
 .foundation-card {

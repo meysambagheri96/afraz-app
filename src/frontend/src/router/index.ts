@@ -7,6 +7,7 @@ const BookingDatePage = () => import('../features/booking/pages/BookingDatePage.
 const BookingCustomerInfoPage = () => import('../features/booking/pages/BookingCustomerInfoPage.vue')
 const BookingSuccessPage = () => import('../features/booking/pages/BookingSuccessPage.vue')
 const AuthFallbackPage = () => import('../features/auth/pages/AuthFallbackPage.vue')
+const ExplorePage = () => import('../features/explore/pages/ExplorePage.vue')
 
 const shellRoutes: RouteRecordRaw[] = [
   {
@@ -36,24 +37,24 @@ const shellRoutes: RouteRecordRaw[] = [
     meta: { navigation: 'home' },
   },
   {
-    path: 'portfolio',
-    name: 'portfolio',
-    component: FoundationView,
-    props: {
-      title: 'نمونه‌کارها',
-      description: 'گالری عمومی عکس‌های منتخب آتلیه افراز.',
-    },
+    path: 'explore',
+    name: 'explore',
+    component: ExplorePage,
     meta: { navigation: 'home' },
   },
   {
-    path: 'portfolio/:category',
-    name: 'portfolio-category',
-    component: FoundationView,
-    props: {
-      title: 'دسته‌بندی نمونه‌کارها',
-      description: 'نمونه‌کارهای منتخب این دسته در این بخش نمایش داده می‌شوند.',
-    },
+    path: 'explore/:category',
+    name: 'explore-category',
+    component: ExplorePage,
     meta: { navigation: 'home' },
+  },
+  {
+    path: 'portfolio',
+    redirect: { name: 'explore' },
+  },
+  {
+    path: 'portfolio/:category',
+    redirect: (to) => ({ name: 'explore-category', params: { category: to.params.category } }),
   },
   {
     path: 'albums/create',

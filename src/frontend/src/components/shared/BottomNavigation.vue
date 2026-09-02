@@ -219,7 +219,7 @@ function handleNavigation(event: MouseEvent, itemId: NavigationItemId) {
   border-radius: var(--radius-full);
   color: #111820;
   text-decoration: none;
-  transition: color 180ms ease, transform 100ms ease;
+  transition: color 360ms ease, transform 200ms ease;
 }
 
 .bottom-navigation__item:active {

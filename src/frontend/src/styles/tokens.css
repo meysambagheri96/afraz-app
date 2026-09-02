@@ -122,11 +122,11 @@
   --icon-stroke-width: 1.9;
 
   /* Motion */
-  --motion-instant: 100ms;
-  --motion-page: 110ms;
-  --motion-fast: 150ms;
-  --motion-base: 220ms;
-  --motion-slow: 320ms;
+  --motion-instant: 200ms;
+  --motion-page: 220ms;
+  --motion-fast: 300ms;
+  --motion-base: 440ms;
+  --motion-slow: 640ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-emphasized: cubic-bezier(0.2, 0.8, 0.2, 1);
   --focus-ring: 0 0 0 0.2rem rgb(143 186 251 / 45%);

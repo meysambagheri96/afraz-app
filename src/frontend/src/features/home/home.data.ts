@@ -44,12 +44,12 @@ export const featuredPortfolio: readonly PortfolioItem[] = [
 ]
 
 export const photographyCategories: readonly PhotographyCategory[] = [
-  { id: 'outdoor', label: 'فضای باز', icon: 'outdoor', to: { name: 'portfolio-category', params: { category: 'outdoor' } } },
-  { id: 'family', label: 'خانوادگی', icon: 'family', to: { name: 'portfolio-category', params: { category: 'family' } } },
-  { id: 'pregnancy', label: 'بارداری', icon: 'pregnancy', to: { name: 'portfolio-category', params: { category: 'pregnancy' } } },
-  { id: 'birthday', label: 'تولد', icon: 'birthday', to: { name: 'portfolio-category', params: { category: 'birthday' } } },
-  { id: 'child', label: 'کودک', icon: 'child', to: { name: 'portfolio-category', params: { category: 'child' } } },
-  { id: 'newborn', label: 'نوزاد', icon: 'newborn', to: { name: 'portfolio-category', params: { category: 'newborn' } } },
+  { id: 'outdoor', label: 'فضای باز', icon: 'outdoor', to: { name: 'explore-category', params: { category: 'outdoor' } } },
+  { id: 'family', label: 'خانوادگی', icon: 'family', to: { name: 'explore-category', params: { category: 'family' } } },
+  { id: 'pregnancy', label: 'بارداری', icon: 'pregnancy', to: { name: 'explore-category', params: { category: 'pregnancy' } } },
+  { id: 'birthday', label: 'تولد', icon: 'birthday', to: { name: 'explore-category', params: { category: 'birthday' } } },
+  { id: 'child', label: 'کودک', icon: 'child', to: { name: 'explore-category', params: { category: 'child' } } },
+  { id: 'newborn', label: 'نوزاد', icon: 'newborn', to: { name: 'explore-category', params: { category: 'newborn' } } },
 ]
 
 export const latestOrder: LastOrder = {
