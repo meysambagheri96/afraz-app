@@ -154,8 +154,7 @@ watch(
   transform: scale(0.94);
 }
 
-.persian-calendar__day--available::after,
-.persian-calendar__day--selected::after {
+.persian-calendar__day--available::after {
   position: absolute;
   inset-block-end: -0.125rem;
   inline-size: 0.375rem;
@@ -169,12 +168,6 @@ watch(
   color: var(--color-surface);
   background: var(--color-brand-primary);
   box-shadow: 0 0.45rem 1rem rgb(7 93 105 / 20%);
-}
-
-.persian-calendar__day--selected::after {
-  inline-size: 0.625rem;
-  block-size: 0.125rem;
-  background: var(--color-brand-primary);
 }
 
 .persian-calendar__day--full {
