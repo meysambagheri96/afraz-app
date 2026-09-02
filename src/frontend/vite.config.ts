@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
-    base: '/afraz-app/',
+    base: '/',
     plugins: [
       vue(),
       tailwindcss(),

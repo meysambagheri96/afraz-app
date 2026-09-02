@@ -26,8 +26,8 @@ RUN dotnet publish src/backend/Afraz.Api/Afraz.Api.csproj \
     --no-restore \
     /p:BuildFrontend=false
 
-# Vite's public base is /afraz-app/, so keep the generated SPA at that path.
-COPY --from=frontend-build /src/frontend/dist/ /app/publish/wwwroot/afraz-app/
+# Serve the generated SPA from the same origin root as the API host.
+COPY --from=frontend-build /src/frontend/dist/ /app/publish/wwwroot/
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app

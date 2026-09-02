@@ -53,7 +53,7 @@ Configuration values can be overridden with standard ASP.NET Core environment va
 
 ```powershell
 dotnet restore
-dotnet build
+dotnet build AfrazStudio.sln --configuration Release
 dotnet test
 npm ci --prefix src/frontend
 npm run build --prefix src/frontend
@@ -61,15 +61,41 @@ npm run test --prefix src/frontend
 npm run test:e2e --prefix src/frontend
 ```
 
-The frontend build cleans and writes `src/backend/Afraz.Api/wwwroot`. Generated assets are ignored by Git.
+The frontend build cleans and writes `src/frontend/dist`. Generated assets are ignored by Git.
+
+## Frontend build and publish
+
+Build the frontend by itself:
+
+```powershell
+npm ci --prefix src/frontend
+npm run build --prefix src/frontend
+```
+
+The standalone frontend artifact is written to `src/frontend/dist`. The GitHub Pages workflow
+publishes this directory. To publish the frontend together with the API, use the production publish
+command below; the API project copies the frontend artifact into the published `wwwroot` directory.
 
 ## Production publish
 
+Build and publish the complete application from the repository root:
+
 ```powershell
-dotnet publish src/backend/Afraz.Api -c Release
+dotnet publish src/backend/Afraz.Api/Afraz.Api.csproj `
+  --configuration Release `
+  --output artifacts/afraz-publish
 ```
 
 The Release build target runs `npm ci` and `npm run build` before ASP.NET Core collects static assets. The publish directory is a single deployable application containing the Vue SPA under `wwwroot`.
+
+Run the published application:
+
+```powershell
+dotnet artifacts/afraz-publish/Afraz.Api.dll `
+  --urls https://localhost:7080
+```
+
+The application is then available at `https://localhost:7080/`.
 
 At runtime:
 
@@ -77,6 +103,38 @@ At runtime:
 - `/health` exposes the application health endpoint.
 - `/assets/*` serves Vite assets.
 - Frontend paths such as `/orders`, `/booking`, `/profile`, and `/store` fall back to `index.html`.
+
+## Database migrations
+
+The EF Core CLI major version should match the project (`10.x`). Install it once, or use `update`
+instead of `install` when an older global version already exists:
+
+```powershell
+dotnet tool install --global dotnet-ef --version 10.*
+```
+
+Add a migration from the repository root, replacing `<MigrationName>` with a descriptive name:
+
+```powershell
+dotnet ef migrations add <MigrationName> `
+  --project src/backend/Afraz.Infrastructure/Afraz.Infrastructure.csproj `
+  --startup-project src/backend/Afraz.Api/Afraz.Api.csproj `
+  --context AfrazDbContext `
+  --output-dir Persistence/Migrations
+```
+
+Apply pending migrations to the configured database:
+
+```powershell
+dotnet ef database update `
+  --project src/backend/Afraz.Infrastructure/Afraz.Infrastructure.csproj `
+  --startup-project src/backend/Afraz.Api/Afraz.Api.csproj `
+  --context AfrazDbContext
+```
+
+The commands use `ConnectionStrings__DefaultConnection` (or the corresponding value from the
+active ASP.NET Core configuration). Review generated migrations before applying them outside local
+development.
 
 ## Capacitor
 

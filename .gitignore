@@ -17,3 +17,4 @@ desktop.ini
 .vscode/
 playwright-report/
 test-results/
+/artifacts/afraz-publish

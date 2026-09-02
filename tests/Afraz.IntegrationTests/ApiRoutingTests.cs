@@ -51,6 +51,7 @@ public sealed class ApiRoutingTests : IClassFixture<WebApplicationFactory<Progra
     }
 
     [Theory]
+    [InlineData("/")]
     [InlineData("/orders")]
     [InlineData("/booking")]
     [InlineData("/profile")]
