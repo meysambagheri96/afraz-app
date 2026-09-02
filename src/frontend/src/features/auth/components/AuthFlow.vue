@@ -40,7 +40,7 @@ function showOtp(value: string) {
 <style scoped>
 .auth-step-enter-active,
 .auth-step-leave-active {
-  transition: opacity var(--motion-base) var(--ease-standard);
+  transition: opacity var(--motion-page) var(--ease-standard);
 }
 
 .auth-step-enter-from,

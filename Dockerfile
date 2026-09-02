@@ -34,6 +34,7 @@ WORKDIR /app
 
 ENV ASPNETCORE_URLS=http://+:8080 \
     ASPNETCORE_ENVIRONMENT=Production \
+    TZ=Asia/Tehran \
     DOTNET_EnableDiagnostics=0
 
 COPY --from=backend-build /app/publish/ ./

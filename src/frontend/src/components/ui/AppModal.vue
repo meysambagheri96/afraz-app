@@ -131,6 +131,12 @@ useOverlay(model, panel, () => props.dismissible, close)
   padding: 0;
 }
 
+.app-overlay-enter-active:has(.app-modal__panel--fullscreen),
+.app-overlay-leave-active:has(.app-modal__panel--fullscreen) {
+  transition-duration: var(--motion-page);
+  transition-timing-function: var(--ease-standard);
+}
+
 .app-overlay-enter-active .app-modal__panel--fullscreen,
 .app-overlay-leave-active .app-modal__panel--fullscreen {
   transition: none;

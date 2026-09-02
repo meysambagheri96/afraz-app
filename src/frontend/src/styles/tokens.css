@@ -123,6 +123,7 @@
 
   /* Motion */
   --motion-instant: 100ms;
+  --motion-page: 110ms;
   --motion-fast: 150ms;
   --motion-base: 220ms;
   --motion-slow: 320ms;

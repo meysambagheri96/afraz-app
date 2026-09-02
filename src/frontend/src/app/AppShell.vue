@@ -46,8 +46,6 @@ function syncShellLayout() {
 
 <style scoped>
 .application-shell {
-  --page-transition-duration: 110ms;
-
   min-block-size: 100dvh;
   color: var(--color-text-primary);
   background: var(--color-background);
@@ -90,7 +88,7 @@ function syncShellLayout() {
 .page-fade-leave-active {
   will-change: opacity;
   transition-property: opacity;
-  transition-duration: var(--page-transition-duration);
+  transition-duration: var(--motion-page);
   transition-timing-function: var(--ease-standard);
 }
 
