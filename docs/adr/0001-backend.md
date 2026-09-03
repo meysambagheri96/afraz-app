@@ -6,6 +6,17 @@ Afraz started with MediatR for request dispatching. The selected internal platfo
 the `Infra` packages for command/query processing and `DDDHelpers` for domain building blocks.
 Afraz remains a .NET 10 modular monolith and uses EF Core directly inside vertical slices.
 
+## IMPORTANT RULES:
+1- All commands should have ICommandValidator even empty.
+2- All Classes should move to a file match type name.
+3- All command and query classes should be public.
+4- All AggregateRoot and Entities should have EF Config (IEntityTypeConfiguration).
+5- All command and query classes should not be record.
+6- Dont generate Repository, Only use IUnitOfWork and IUnitOfWork.Repo<T> for commands , and DbContext instance for queries directly.
+7- Dont generate unit test or integration tests until i said explicitly.
+8- Read all values from appsettings using IOptions<T>.
+9- All AggregateRoot and Entities should have private ctor empty (for EF Core)
+
 ## Decision
 
 - Use `Infra` 2.0.35 contracts and processors for commands and queries.
@@ -14,8 +25,6 @@ Afraz remains a .NET 10 modular monolith and uses EF Core directly inside vertic
 - Use `Infra.EFCore` 2.0.35 as the Infra integration package while keeping EF Core 10 as the
   application persistence version.
 - Use `DDDHelpers` 1.0.16 in the Domain project.
-- Keep FluentValidation as the application validation library and adapt it to
-  `ICommandValidator<TCommand>` so command validation remains automatic.
 - Remove MediatR rather than running two CQRS dispatch mechanisms in parallel.
 
 Handlers are organized by vertical slice and implement `ICommandHandler<TCommand, TResult>` or
@@ -29,7 +38,7 @@ Handlers are organized by vertical slice and implement `ICommandHandler<TCommand
   registrations.
 - `Infra` packages currently target .NET 8-compatible assets. Their compatibility with the .NET 10
   application must remain covered by restore, build, and integration tests during upgrades.
-- The Infra command-validator contract does not expose a cancellation token; FluentValidation
+- The Infra command-validator contract does not expose a cancellation token;
   command validation therefore cannot propagate the request cancellation token through that API.
 
 ## Alternatives Considered
@@ -579,4 +588,66 @@ public class OrderCreated : DomainEvent
     // MustPropagate = true: Send an integration event (Broker event) and call all it's event handlers (in all microservices)
     public override bool MustPropagate { get; set; } = true;
 }
+```
+
+### Sample EF Config for AggregateRoot:
+```
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Myno.Business.Account.Data.Card;
+
+public sealed class CustomerConfig : IEntityTypeConfiguration<global::Myno.Business.Customer.Customer>
+{
+    public void Configure(EntityTypeBuilder<global::Myno.Business.Customer.Customer> builder)
+    {
+        builder.ToTable("Customers", "customer");
+
+        builder.HasKey(customer => customer.CustomerId);
+
+        builder.Property(customer => customer.CustomerId)
+            .UseIdentityColumn(seed: 10015000, increment: 1);
+
+        builder.Property(customer => customer.Id);
+
+        builder.Property(customer => customer.BirthDate)
+            .HasColumnType("date")
+            .IsRequired(false);
+
+        builder.Property(customer => customer.Status)
+            .HasConversion<int>();
+
+        builder.Property(customer => customer.Level)
+            .HasConversion<int>();
+
+        builder.Property(customer => customer.HasVerifiedSign)
+            .HasDefaultValue(false);
+
+        builder.HasMany(customer => customer.LoginHistories)
+            .WithOne(d => d.Customer)
+            .HasForeignKey(history => history.CustomerId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(customer => customer.StatusChanges)
+            .WithOne(d => d.Customer)
+            .HasForeignKey(change => change.CustomerId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(customer => customer.Contacts)
+            .WithOne(contact => contact.Customer)
+            .HasForeignKey(contact => contact.CustomerId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(customer => customer.Bills)
+            .WithOne(bill => bill.Customer)
+            .HasForeignKey(bill => bill.CustomerId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Ignore(customer => customer.UncommittedChanges);
+        builder.Ignore(customer => customer.Version);
+    }
+}
+
 ```

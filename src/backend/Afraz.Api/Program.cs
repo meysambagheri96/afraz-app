@@ -36,6 +36,7 @@ public sealed class Program
                     services.AddDistributedMemoryCache();
                     services.AddApplication();
                     services.AddDbContextInternal(context.Configuration);
+                    services.AddAuthenticationInternal(context.Configuration, context.HostingEnvironment);
                 });
                 webBuilder.Configure((context, app) =>
                 {
@@ -46,6 +47,9 @@ public sealed class Program
                     app.UseStaticFiles();
                     app.UseSwaggerInternal();
                     app.UseRouting();
+                    app.UseRateLimiter();
+                    app.UseAuthentication();
+                    app.UseAuthorization();
                     app.UseEndpointsInternal();
                 });
                 webBuilder.CaptureStartupErrors(true);

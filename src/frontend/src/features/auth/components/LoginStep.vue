@@ -7,6 +7,7 @@ import AppIcon from '../../../components/ui/AppIcon.vue'
 import AppIconButton from '../../../components/ui/AppIconButton.vue'
 import AppInput from '../../../components/ui/AppInput.vue'
 import BookingStickyAction from '../../booking/components/BookingStickyAction.vue'
+import { startGoogleOAuthRedirect } from '../google-oauth'
 import { mobileSchema, normalizeMobileDigits } from '../schemas/auth.schema'
 import AuthBrand from './AuthBrand.vue'
 
@@ -34,8 +35,12 @@ watch(
   { immediate: true },
 )
 
-function mockGoogleLogin() {
-  googleAnnouncement.value = 'ورود با گوگل در نسخه بعدی فعال خواهد شد.'
+function continueWithGoogle() {
+  try {
+    startGoogleOAuthRedirect()
+  } catch {
+    googleAnnouncement.value = 'تنظیمات ورود با گوگل کامل نیست. لطفاً دوباره تلاش کنید.'
+  }
 }
 </script>
 
@@ -102,8 +107,8 @@ function mockGoogleLogin() {
         <button
           type="button"
           class="auth-login-step__google"
-          aria-label="ورود با گوگل"
-          @click="mockGoogleLogin"
+          aria-label="ادامه با گوگل"
+          @click="continueWithGoogle"
         >
           <svg
             viewBox="0 0 24 24"
@@ -126,7 +131,7 @@ function mockGoogleLogin() {
               d="M12 6.1c1.5 0 2.8.5 3.9 1.5l2.9-2.9A9.8 9.8 0 0 0 3 7.5l3.4 2.8A6 6 0 0 1 12 6.1Z"
             />
           </svg>
-          <span class="visually-hidden">ورود با گوگل</span>
+          <span class="visually-hidden">ادامه با گوگل</span>
         </button>
       </div>
 

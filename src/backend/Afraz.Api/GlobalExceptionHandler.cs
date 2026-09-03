@@ -1,4 +1,5 @@
-using FluentValidation;
+using Afraz.Application.Features.Authentication;
+using Afraz.Application.Common.Validation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,19 +14,24 @@ internal sealed class GlobalExceptionHandler(
         Exception exception,
         CancellationToken cancellationToken)
     {
-        logger.LogError(exception, "Unhandled exception for trace {TraceId}", httpContext.TraceIdentifier);
+        if (exception is AuthenticationException or AuthenticationConflictException)
+            logger.LogWarning("Authentication request failed for trace {TraceId}", httpContext.TraceIdentifier);
+        else
+            logger.LogError(exception, "Unhandled exception for trace {TraceId}", httpContext.TraceIdentifier);
 
-        var isValidationError = exception is ValidationException;
-        var statusCode = isValidationError
-            ? StatusCodes.Status400BadRequest
-            : StatusCodes.Status500InternalServerError;
-        ProblemDetails problemDetails = exception is ValidationException validationException
+        var statusCode = exception switch
+        {
+            RequestValidationException => StatusCodes.Status400BadRequest,
+            AuthenticationException => StatusCodes.Status401Unauthorized,
+            AuthenticationConflictException => StatusCodes.Status409Conflict,
+            _ => StatusCodes.Status500InternalServerError,
+        };
+        ProblemDetails problemDetails = exception is RequestValidationException validationException
             ? new ValidationProblemDetails(
                 validationException.Errors
-                    .GroupBy(failure => failure.PropertyName)
                     .ToDictionary(
-                        group => group.Key,
-                        group => group.Select(failure => failure.ErrorMessage).ToArray()))
+                        pair => pair.Key,
+                        pair => pair.Value))
                 {
                     Status = statusCode,
                     Title = "Validation failed.",
@@ -33,7 +39,15 @@ internal sealed class GlobalExceptionHandler(
             : new ProblemDetails
             {
                 Status = statusCode,
-                Title = "An unexpected error occurred.",
+                Title = exception switch
+                {
+                    AuthenticationException => "Authentication failed.",
+                    AuthenticationConflictException => "Authentication conflict.",
+                    _ => "An unexpected error occurred.",
+                },
+                Detail = exception is AuthenticationException or AuthenticationConflictException
+                    ? exception.Message
+                    : null,
             };
 
         problemDetails.Instance = httpContext.Request.Path;

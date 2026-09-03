@@ -3,7 +3,6 @@
     <ProjectReference Include="..\Afraz.Domain\Afraz.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
     <PackageReference Include="Infra" Version="2.0.35" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import AppBrandLogo from '../../../components/shared/AppBrandLogo.vue'
 import AppIcon from '../../../components/ui/AppIcon.vue'
 import AppIconButton from '../../../components/ui/AppIconButton.vue'
 
@@ -9,10 +10,7 @@ const router = useRouter()
 <template>
   <header class="home-header">
     <div class="home-header__brand">
-      <div class="home-header__logo" role="img" aria-label="نشان آتلیه افراز">
-        <span class="home-header__logo-text">افراز</span>
-        <span class="home-header__logo-mark" aria-hidden="true">✦</span>
-      </div>
+      <AppBrandLogo />
       <div class="home-header__copy">
         <h1 class="home-header__title text-page-title">آتلیه افراز قم</h1>
         <AppIcon class="home-header__chevron" name="chevron-down" size="xs" />
@@ -59,34 +57,6 @@ const router = useRouter()
   min-inline-size: 0;
   align-items: center;
   gap: 10px;
-}
-
-.home-header__logo {
-  position: relative;
-  display: grid;
-  inline-size: 43px;
-  block-size: 43px;
-  flex: none;
-  place-items: center;
-  border: 2px solid #fff;
-  border-radius: 50%;
-  color: var(--color-accent-yellow);
-  background: radial-gradient(circle at 35% 30%, #1598a3, #02707a 68%, #00535e);
-  box-shadow: 0 4px 14px rgb(14 66 72 / 16%);
-}
-
-.home-header__logo-text {
-  font-size: 17px;
-  font-weight: 600;
-  line-height: 1;
-}
-
-.home-header__logo-mark {
-  position: absolute;
-  inset-block-start: 3px;
-  inset-inline-start: 9px;
-  color: #ffd22f;
-  font-size: 8px;
 }
 
 .home-header__copy { position: relative; min-inline-size: 0; }

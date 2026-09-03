@@ -1,10 +1,17 @@
+using System.Text;
+using System.Threading.RateLimiting;
+using Afraz.Api.Authentication;
+using Afraz.Application.Features.Authentication;
 using Afraz.Application.Features.Foundation.GetStatus;
+using Afraz.Infrastructure.Authentication;
 using Afraz.Infrastructure.Persistence;
 using Autofac;
-using FluentValidation;
 using Infra.Common.Decorators;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 
 namespace Afraz.Api;
@@ -13,8 +20,6 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddValidatorsFromAssembly(typeof(GetStatusQuery).Assembly);
-
         return services;
     }
 
@@ -80,6 +85,63 @@ public static class ServiceExtensions
             connectionString,
             sql => sql.MigrationsAssembly(typeof(AfrazDbContext).Assembly.FullName)));
 
+        return services;
+    }
+
+    public static IServiceCollection AddAuthenticationInternal(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        IHostEnvironment environment)
+    {
+        var jwt = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>() ?? new JwtOptions();
+        if (string.IsNullOrWhiteSpace(jwt.SigningKey))
+        {
+            if (!environment.IsDevelopment())
+                throw new InvalidOperationException("Jwt:SigningKey must be configured outside Development.");
+            jwt = new JwtOptions
+            {
+                Issuer = jwt.Issuer,
+                Audience = jwt.Audience,
+                AccessTokenMinutes = jwt.AccessTokenMinutes,
+                RefreshTokenDays = jwt.RefreshTokenDays,
+                SigningKey = Convert.ToBase64String(System.Security.Cryptography.RandomNumberGenerator.GetBytes(48)),
+            };
+        }
+
+        services.AddSingleton(Microsoft.Extensions.Options.Options.Create(jwt));
+        services.Configure<GoogleOptions>(configuration.GetSection(GoogleOptions.SectionName));
+        services.AddHttpContextAccessor();
+        services.AddScoped<ICurrentUser, HttpCurrentUser>();
+        services.AddScoped<IAuthRepository, AuthRepository>();
+        services.AddSingleton<ISecretHasher, SecretHasher>();
+        services.AddScoped<ITokenService, JwtTokenService>();
+        services.AddSingleton<IOtpSender, NoOpOtpSender>();
+        services.AddHttpClient<IGoogleIdentityService, GoogleIdentityService>();
+
+        var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.SigningKey));
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = jwt.Issuer,
+                ValidateAudience = true,
+                ValidAudience = jwt.Audience,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.FromSeconds(30),
+            });
+        services.AddAuthorization();
+        services.AddRateLimiter(options => options.AddPolicy("auth", httpContext =>
+            RateLimitPartition.GetFixedWindowLimiter(
+                httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+                _ => new FixedWindowRateLimiterOptions
+                {
+                    PermitLimit = 10,
+                    Window = TimeSpan.FromMinutes(1),
+                    QueueLimit = 0,
+                    AutoReplenishment = true,
+                })));
         return services;
     }
 

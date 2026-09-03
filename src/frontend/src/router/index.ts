@@ -7,7 +7,9 @@ const BookingDatePage = () => import('../features/booking/pages/BookingDatePage.
 const BookingCustomerInfoPage = () => import('../features/booking/pages/BookingCustomerInfoPage.vue')
 const BookingSuccessPage = () => import('../features/booking/pages/BookingSuccessPage.vue')
 const AuthFallbackPage = () => import('../features/auth/pages/AuthFallbackPage.vue')
+const GoogleOAuthCallbackPage = () => import('../features/auth/pages/GoogleOAuthCallbackPage.vue')
 const ExplorePage = () => import('../features/explore/pages/ExplorePage.vue')
+const ProductListPage = () => import('../features/store/pages/ProductListPage.vue')
 
 const shellRoutes: RouteRecordRaw[] = [
   {
@@ -167,11 +169,7 @@ const shellRoutes: RouteRecordRaw[] = [
   {
     path: 'store',
     name: 'store',
-    component: FoundationView,
-    props: {
-      title: 'فروشگاه',
-      description: 'محصولات چاپی، قاب‌ها و آلبوم‌های افراز از این بخش در دسترس خواهند بود.',
-    },
+    component: ProductListPage,
     meta: { navigation: 'store' },
   },
   {
@@ -193,6 +191,11 @@ export const router = createRouter({
       path: '/auth',
       name: 'auth',
       component: AuthFallbackPage,
+    },
+    {
+      path: '/signin-google',
+      name: 'google-oauth-callback',
+      component: GoogleOAuthCallbackPage,
     },
     { path: '/', component: AppShell, children: shellRoutes },
     { path: '/:pathMatch(.*)*', redirect: { name: 'home' } },
