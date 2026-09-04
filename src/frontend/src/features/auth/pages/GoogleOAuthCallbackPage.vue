@@ -7,10 +7,12 @@ import { exchangeGoogleAuthorizationCode } from '../api/google-auth.api'
 import AuthBrand from '../components/AuthBrand.vue'
 import { useAuthModal } from '../composables/useAuthModal'
 import { consumeGoogleOAuthState } from '../google-oauth'
+import { useAuthStore } from '../stores/auth.store'
 
 const route = useRoute()
 const router = useRouter()
 const authModal = useAuthModal()
+const authStore = useAuthStore()
 const isProcessing = ref(false)
 const completionError = ref('')
 
@@ -35,7 +37,7 @@ onMounted(async () => {
 
   isProcessing.value = true
   try {
-    await exchangeGoogleAuthorizationCode(code.value)
+    authStore.setSession(await exchangeGoogleAuthorizationCode(code.value))
     authModal.complete()
     await returnToAfraz()
   } catch {
@@ -53,7 +55,10 @@ onMounted(async () => {
 
       <div
         class="google-callback-page__status"
-        :class="{ 'google-callback-page__status--error': error || !hasResult || stateIsValid !== true || completionError }"
+        :class="{
+          'google-callback-page__status--error':
+            error || !hasResult || stateIsValid !== true || completionError,
+        }"
         aria-hidden="true"
       >
         <AppIcon :name="code ? 'check' : 'info'" size="lg" />
@@ -62,7 +67,9 @@ onMounted(async () => {
       <div class="google-callback-page__heading">
         <h1 id="google-callback-title">نتیجه بازگشت از گوگل</h1>
         <p v-if="isProcessing">در حال تکمیل ورود امن با گوگل…</p>
-        <p v-else-if="code && stateIsValid === true && !completionError">ورود با گوگل انجام شد؛ در حال بازگشت به افراز…</p>
+        <p v-else-if="code && stateIsValid === true && !completionError">
+          ورود با گوگل انجام شد؛ در حال بازگشت به افراز…
+        </p>
         <p v-else-if="error">گوگل نتیجه ناموفق برگرداند.</p>
         <p v-else>هیچ نتیجه OAuth در آدرس بازگشت وجود ندارد.</p>
       </div>
@@ -70,7 +77,9 @@ onMounted(async () => {
       <dl v-if="error" class="google-callback-page__result">
         <div v-if="error">
           <dt>Error</dt>
-          <dd><code dir="ltr">{{ error }}</code></dd>
+          <dd>
+            <code dir="ltr">{{ error }}</code>
+          </dd>
         </div>
         <div v-if="errorDescription">
           <dt>توضیحات خطا</dt>
@@ -87,12 +96,10 @@ onMounted(async () => {
       </p>
 
       <p class="google-callback-page__note">
-        کد OAuth و توکن‌های ورود در مرورگر نمایش یا ذخیره نمی‌شوند.
+        کد OAuth و توکن‌های ورود در این صفحه نمایش داده نمی‌شوند.
       </p>
 
-      <AppButton size="lg" block @click="returnToAfraz">
-        بازگشت به افراز
-      </AppButton>
+      <AppButton size="lg" block @click="returnToAfraz"> بازگشت به افراز </AppButton>
     </section>
   </main>
 </template>
@@ -101,10 +108,8 @@ onMounted(async () => {
 .google-callback-page {
   display: grid;
   min-block-size: 100dvh;
-  padding:
-    max(var(--space-6), var(--safe-area-top))
-    calc(var(--space-4) + var(--safe-area-inline-end))
-    max(var(--space-6), var(--safe-area-bottom))
+  padding: max(var(--space-6), var(--safe-area-top))
+    calc(var(--space-4) + var(--safe-area-inline-end)) max(var(--space-6), var(--safe-area-bottom))
     calc(var(--space-4) + var(--safe-area-inline-start));
   place-items: center;
   background: var(--color-background);

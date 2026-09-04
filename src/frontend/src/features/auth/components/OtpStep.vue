@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useForm } from 'vee-validate'
 import AppButton from '../../../components/ui/AppButton.vue'
 import AppIcon from '../../../components/ui/AppIcon.vue'
@@ -8,8 +8,11 @@ import BookingStickyAction from '../../booking/components/BookingStickyAction.vu
 import { otpSchema } from '../schemas/auth.schema'
 import OtpInput from './OtpInput.vue'
 
-const props = defineProps<{ mobile: string }>()
-const emit = defineEmits<{ back: []; success: [] }>()
+const props = withDefaults(
+  defineProps<{ mobile: string; loading?: boolean; serverError?: string }>(),
+  { loading: false, serverError: '' },
+)
+const emit = defineEmits<{ back: []; verify: [code: string]; resend: [] }>()
 const remainingSeconds = ref(105)
 const resendAnnouncement = ref('')
 const otpResetKey = ref(0)
@@ -24,8 +27,11 @@ const { errors, handleSubmit, resetForm, setFieldValue, submitCount } = useForm<
     },
   },
 })
-const submit = handleSubmit(() => emit('success'))
-const showOtpError = computed(() => submitCount.value > 0 && Boolean(errors.value.otp))
+const submit = handleSubmit((values) => emit('verify', values.otp))
+const displayedError = computed(
+  () => (submitCount.value > 0 ? errors.value.otp : '') || props.serverError,
+)
+const showOtpError = computed(() => Boolean(displayedError.value))
 
 const persianMobile = computed(() => {
   const normalized = props.mobile.replace(/[۰-۹]/g, (digit) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
@@ -36,8 +42,10 @@ const persianMobile = computed(() => {
 const timerLabel = computed(() => {
   const minutes = Math.floor(remainingSeconds.value / 60)
   const seconds = remainingSeconds.value % 60
-  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
-    .replace(/\d/g, (digit) => '۰۱۲۳۴۵۶۷۸۹'[Number(digit)] ?? digit)
+  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`.replace(
+    /\d/g,
+    (digit) => '۰۱۲۳۴۵۶۷۸۹'[Number(digit)] ?? digit,
+  )
 })
 
 const timer = window.setInterval(() => {
@@ -49,50 +57,39 @@ function resendCode() {
   resendAnnouncement.value = 'کد تأیید جدید به‌صورت آزمایشی ارسال شد.'
   resetForm({ values: { otp: '' } })
   otpResetKey.value += 1
+  emit('resend')
 }
 
 function updateOtp(value: string) {
   setFieldValue('otp', value, false)
 
-  if (!isCompleting.value && otpSchema.safeParse(value).success) {
+  if (!isCompleting.value && !props.loading && otpSchema.safeParse(value).success) {
     isCompleting.value = true
-    emit('success')
+    emit('verify', value)
   }
 }
+
+watch(
+  () => props.loading,
+  (loading, wasLoading) => {
+    if (!loading && wasLoading && props.serverError) isCompleting.value = false
+  },
+)
 
 onBeforeUnmount(() => window.clearInterval(timer))
 </script>
 
 <template>
-  <section
-    class="auth-otp-step"
-    aria-labelledby="auth-otp-title"
-  >
+  <section class="auth-otp-step" aria-labelledby="auth-otp-title">
     <header class="auth-otp-step__header">
-      <AppIconButton
-        label="بازگشت به ورود"
-        variant="ghost"
-        @click="$emit('back')"
-      >
-        <AppIcon
-          name="arrow-forward"
-          size="lg"
-        />
+      <AppIconButton label="بازگشت به ورود" variant="ghost" @click="$emit('back')">
+        <AppIcon name="arrow-forward" size="lg" />
       </AppIconButton>
     </header>
 
-    <form
-      class="auth-otp-step__form"
-      novalidate
-      @submit.prevent="submit"
-    >
+    <form class="auth-otp-step__form" novalidate @submit.prevent="submit">
       <div class="auth-otp-step__heading">
-        <h1
-          id="auth-otp-title"
-          class="text-page-title"
-        >
-          تأیید شماره موبایل
-        </h1>
+        <h1 id="auth-otp-title" class="text-page-title">تأیید شماره موبایل</h1>
         <p>کد تأیید ۵ رقمی به شماره موبایل شما ارسال شد.</p>
       </div>
 
@@ -104,72 +101,42 @@ onBeforeUnmount(() => window.clearInterval(timer))
           size="sm"
           @click="$emit('back')"
         >
-          <AppIcon
-            name="edit"
-            size="sm"
-          />
+          <AppIcon name="edit" size="sm" />
         </AppIconButton>
       </div>
 
       <div class="auth-otp-step__code">
-        <OtpInput
-          :key="otpResetKey"
-          :invalid="showOtpError"
-          @update:model-value="updateOtp"
-        />
-        <p
-          v-if="showOtpError"
-          role="alert"
-        >
-          {{ errors.otp }}
+        <OtpInput :key="otpResetKey" :invalid="showOtpError" @update:model-value="updateOtp" />
+        <p v-if="showOtpError" role="alert">
+          {{ displayedError }}
         </p>
       </div>
 
       <div class="auth-otp-step__resend">
         <span>کد را دریافت نکردید؟</span>
-        <button
-          type="button"
-          :disabled="remainingSeconds > 0"
-          @click="resendCode"
-        >
+        <button type="button" :disabled="remainingSeconds > 0" @click="resendCode">
           ارسال مجدد
         </button>
-        <bdi
-          v-if="remainingSeconds > 0"
-          dir="ltr"
-        >{{ timerLabel }}</bdi>
+        <bdi v-if="remainingSeconds > 0" dir="ltr">{{ timerLabel }}</bdi>
       </div>
 
       <div class="auth-otp-step__footer">
         <p class="auth-otp-step__security text-label">
-          <AppIcon
-            name="lock"
-            size="xs"
-          />
+          <AppIcon name="lock" size="xs" />
           اطلاعات شما محفوظ و امن است.
         </p>
       </div>
 
       <BookingStickyAction>
-        <AppButton
-          type="submit"
-          size="lg"
-          block
-        >
+        <AppButton type="submit" size="lg" block :loading="loading" loading-label="در حال بررسی کد">
           تأیید و ورود
           <template #trailing>
-            <AppIcon
-              name="chevron-back"
-              size="sm"
-            />
+            <AppIcon name="chevron-back" size="sm" />
           </template>
         </AppButton>
       </BookingStickyAction>
 
-      <p
-        class="visually-hidden"
-        aria-live="polite"
-      >
+      <p class="visually-hidden" aria-live="polite">
         {{ resendAnnouncement }}
       </p>
     </form>
@@ -183,9 +150,7 @@ onBeforeUnmount(() => window.clearInterval(timer))
   inline-size: min(100%, var(--mobile-canvas-max-width));
   min-block-size: 100dvh;
   margin-inline: auto;
-  padding:
-    max(var(--space-4), var(--safe-area-top))
-    var(--space-5)
+  padding: max(var(--space-4), var(--safe-area-top)) var(--space-5)
     calc(5.875rem + var(--safe-area-bottom));
   background: var(--color-background);
 }

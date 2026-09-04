@@ -4,14 +4,17 @@ using Infra.Commands;
 
 namespace Afraz.Application.Features.Authentication.Otp;
 
-public sealed record VerifyOtpCommand(string Phone, string Code, string DialingCode = "+98") : ICommand;
+public sealed record VerifyOtpCommand(string Phone, string Code, string DialingCode = "+98") : ICommand
+{
+    public override string ToString() => nameof(VerifyOtpCommand);
+}
 
 internal sealed class VerifyOtpValidator : ICommandValidator<VerifyOtpCommand>
 {
     public ValueTask ValidateAsync(VerifyOtpCommand command)
     {
         ValidationFailure.ThrowIf(string.IsNullOrWhiteSpace(command.Phone), nameof(command.Phone), "Phone is required.");
-        ValidationFailure.ThrowIf(!Regex.IsMatch(command.Code ?? string.Empty, "^\\d{6}$"), nameof(command.Code), "Verification code must contain six digits.");
+        ValidationFailure.ThrowIf(!Regex.IsMatch(command.Code ?? string.Empty, "^\\d{5}$"), nameof(command.Code), "Verification code must contain five digits.");
         return ValueTask.CompletedTask;
     }
 }

@@ -3,7 +3,10 @@ using Infra.Commands;
 
 namespace Afraz.Application.Features.Authentication.Logout;
 
-public sealed record LogoutCommand(string RefreshToken) : ICommand;
+public sealed record LogoutCommand(string RefreshToken) : ICommand
+{
+    public override string ToString() => nameof(LogoutCommand);
+}
 public sealed record LogoutResponse(bool Revoked);
 
 internal sealed class LogoutValidator : ICommandValidator<LogoutCommand>

@@ -2,11 +2,13 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthModal } from '../../features/auth/composables/useAuthModal'
+import { useAuthStore } from '../../features/auth/stores/auth.store'
 import AppIcon from '../ui/AppIcon.vue'
 import { primaryNavigationItems, type NavigationItemId } from './navigation'
 
 const route = useRoute()
 const authModal = useAuthModal()
+const authStore = useAuthStore()
 const activeItem = computed<NavigationItemId>(() => {
   const navigationId = route.matched.at(-1)?.meta.navigation
   return primaryNavigationItems.find((item) => item.id === navigationId)?.id ?? 'home'
@@ -37,7 +39,7 @@ function finishPreview() {
 }
 
 function handleNavigation(event: MouseEvent, itemId: NavigationItemId) {
-  if (itemId !== 'profile') return
+  if (itemId !== 'profile' || authStore.isAuthenticated) return
   event.preventDefault()
   authModal.open({ name: 'profile' })
 }
@@ -52,15 +54,16 @@ function handleNavigation(event: MouseEvent, itemId: NavigationItemId) {
       @pointerleave="cancelPreview"
       @pointercancel="cancelPreview"
     >
-      <span
-        class="bottom-navigation__lens"
-        aria-hidden="true"
-      />
+      <span class="bottom-navigation__lens" aria-hidden="true" />
       <div class="bottom-navigation__items">
         <RouterLink
           v-for="(item, index) in primaryNavigationItems"
           :key="item.id"
-          :to="item.id === 'profile' ? route.fullPath : { name: item.routeName }"
+          :to="
+            item.id === 'profile' && !authStore.isAuthenticated
+              ? route.fullPath
+              : { name: item.routeName }
+          "
           class="bottom-navigation__item"
           :class="{ 'bottom-navigation__item--active': activeItem === item.id }"
           :aria-current="activeItem === item.id ? 'page' : undefined"
@@ -71,14 +74,8 @@ function handleNavigation(event: MouseEvent, itemId: NavigationItemId) {
           @click="handleNavigation($event, item.id)"
           @dragstart.prevent
         >
-          <span
-            class="bottom-navigation__icon"
-            aria-hidden="true"
-          >
-            <AppIcon
-              :name="item.id"
-              :active="activeItem === item.id"
-            />
+          <span class="bottom-navigation__icon" aria-hidden="true">
+            <AppIcon :name="item.id" :active="activeItem === item.id" />
           </span>
           <span class="bottom-navigation__label">{{ item.label }}</span>
         </RouterLink>
@@ -114,7 +111,12 @@ function handleNavigation(event: MouseEvent, itemId: NavigationItemId) {
   color: #101820;
   background:
     radial-gradient(circle at 12% -25%, rgb(255 255 255 / 34%), transparent 38%),
-    linear-gradient(180deg, rgb(255 255 255 / 22%) 0%, rgb(238 241 243 / 6%) 48%, rgb(255 255 255 / 13%) 100%);
+    linear-gradient(
+      180deg,
+      rgb(255 255 255 / 22%) 0%,
+      rgb(238 241 243 / 6%) 48%,
+      rgb(255 255 255 / 13%) 100%
+    );
   box-shadow:
     0 14px 34px rgb(15 23 42 / 8%),
     0 2px 8px rgb(15 23 42 / 3%),
@@ -147,7 +149,14 @@ function handleNavigation(event: MouseEvent, itemId: NavigationItemId) {
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(115deg, rgb(255 255 255 / 28%) 0%, transparent 28%, rgb(255 255 255 / 9%) 52%, transparent 72%, rgb(255 255 255 / 18%) 100%),
+    linear-gradient(
+      115deg,
+      rgb(255 255 255 / 28%) 0%,
+      transparent 28%,
+      rgb(255 255 255 / 9%) 52%,
+      transparent 72%,
+      rgb(255 255 255 / 18%) 100%
+    ),
     linear-gradient(180deg, rgb(255 255 255 / 18%) 0%, rgb(255 255 255 / 4%) 34%, transparent 62%),
     radial-gradient(ellipse at 50% 115%, rgb(255 255 255 / 12%), transparent 58%);
   mix-blend-mode: screen;
@@ -174,7 +183,7 @@ function handleNavigation(event: MouseEvent, itemId: NavigationItemId) {
   transform: translateX(calc(var(--active-index) * -100%));
   transform-origin: center;
   transition:
-    transform 320ms cubic-bezier(.2, .8, .2, 1),
+    transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
     background 220ms ease,
     box-shadow 220ms ease;
   pointer-events: none;
@@ -190,7 +199,12 @@ function handleNavigation(event: MouseEvent, itemId: NavigationItemId) {
 
 .bottom-navigation__lens::before {
   inset: 0;
-  background: radial-gradient(circle at 50% 0%, rgb(255 255 255 / 48%), rgb(255 255 255 / 8%) 43%, transparent 72%);
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgb(255 255 255 / 48%),
+    rgb(255 255 255 / 8%) 43%,
+    transparent 72%
+  );
 }
 
 .bottom-navigation__lens::after {
@@ -219,11 +233,13 @@ function handleNavigation(event: MouseEvent, itemId: NavigationItemId) {
   border-radius: var(--radius-full);
   color: #111820;
   text-decoration: none;
-  transition: color 360ms ease, transform 200ms ease;
+  transition:
+    color 360ms ease,
+    transform 200ms ease;
 }
 
 .bottom-navigation__item:active {
-  transform: scale(.96);
+  transform: scale(0.96);
 }
 
 .bottom-navigation__item--active {
@@ -231,7 +247,15 @@ function handleNavigation(event: MouseEvent, itemId: NavigationItemId) {
   background: transparent;
 }
 
-.bottom-navigation__item--active::after { position: absolute; inset-block-end: 0; inline-size: 4px; block-size: 4px; border-radius: 50%; background: #ff3048; content: ''; }
+.bottom-navigation__item--active::after {
+  position: absolute;
+  inset-block-end: 0;
+  inline-size: 4px;
+  block-size: 4px;
+  border-radius: 50%;
+  background: #ff3048;
+  content: '';
+}
 
 .bottom-navigation__icon {
   display: grid;
@@ -253,7 +277,10 @@ function handleNavigation(event: MouseEvent, itemId: NavigationItemId) {
   font-weight: 600;
 }
 
-.bottom-navigation__icon :deep(svg) { inline-size: 24px; block-size: 24px; }
+.bottom-navigation__icon :deep(svg) {
+  inline-size: 24px;
+  block-size: 24px;
+}
 
 .bottom-navigation:has(.bottom-navigation__item:active) .bottom-navigation__lens {
   filter: brightness(1.025);
@@ -271,6 +298,8 @@ function handleNavigation(event: MouseEvent, itemId: NavigationItemId) {
 
 @media (prefers-reduced-motion: reduce) {
   .bottom-navigation__item,
-  .bottom-navigation__lens { transition: none; }
+  .bottom-navigation__lens {
+    transition: none;
+  }
 }
 </style>

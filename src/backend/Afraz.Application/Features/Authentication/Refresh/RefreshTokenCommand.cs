@@ -3,7 +3,10 @@ using Infra.Commands;
 
 namespace Afraz.Application.Features.Authentication.Refresh;
 
-public sealed record RefreshTokenCommand(string RefreshToken) : ICommand;
+public sealed record RefreshTokenCommand(string RefreshToken) : ICommand
+{
+    public override string ToString() => nameof(RefreshTokenCommand);
+}
 
 internal sealed class RefreshTokenValidator : ICommandValidator<RefreshTokenCommand>
 {

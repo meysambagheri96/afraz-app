@@ -90,7 +90,8 @@ public static class ServiceExtensions
 
     public static IServiceCollection AddAuthenticationInternal(
         this IServiceCollection services,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        IHostEnvironment environment)
     {
         var jwt = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>() ?? new JwtOptions();
         if (string.IsNullOrWhiteSpace(jwt.SigningKey))
@@ -107,6 +108,9 @@ public static class ServiceExtensions
         services.AddScoped<ICurrentUser, HttpCurrentUser>();
         services.AddScoped<IAuthRepository, AuthRepository>();
         services.AddSingleton<ISecretHasher, SecretHasher>();
+        services.AddSingleton<IOtpCodeGenerator>(environment.IsDevelopment()
+            ? new DevelopmentOtpCodeGenerator()
+            : new SecureOtpCodeGenerator());
         services.AddScoped<ITokenService, JwtTokenService>();
         services.AddSingleton<IOtpSender, NoOpOtpSender>();
         services.AddHttpClient<IGoogleIdentityService, GoogleIdentityService>();

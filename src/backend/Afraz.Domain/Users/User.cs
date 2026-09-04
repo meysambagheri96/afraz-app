@@ -17,6 +17,7 @@ public sealed class User : AggregateRoot
         if (string.IsNullOrWhiteSpace(phone)) throw new ArgumentException("Phone is required.", nameof(phone));
         if (string.IsNullOrWhiteSpace(dialingCode)) throw new ArgumentException("Dialing code is required.", nameof(dialingCode));
 
+        Id = Guid.NewGuid();
         Phone = phone;
         DialingCode = dialingCode;
         PasswordHash = passwordHash;

@@ -9,7 +9,10 @@ public sealed record RegisterCommand(
     string Password,
     string FirstName,
     string LastName,
-    string DialingCode = "+98") : ICommand;
+    string DialingCode = "+98") : ICommand
+{
+    public override string ToString() => nameof(RegisterCommand);
+}
 
 internal sealed class RegisterValidator : ICommandValidator<RegisterCommand>
 {

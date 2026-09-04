@@ -1,11 +1,13 @@
-using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using Afraz.Application.Common.Validation;
 using Infra.Commands;
 
 namespace Afraz.Application.Features.Authentication.Otp;
 
-public sealed record RequestOtpCommand(string Phone, string DialingCode = "+98") : ICommand;
+public sealed record RequestOtpCommand(string Phone, string DialingCode = "+98") : ICommand
+{
+    public override string ToString() => nameof(RequestOtpCommand);
+}
 public sealed record RequestOtpResponse(DateTime ExpiresAt);
 
 internal sealed class RequestOtpValidator : ICommandValidator<RequestOtpCommand>
@@ -20,6 +22,7 @@ internal sealed class RequestOtpValidator : ICommandValidator<RequestOtpCommand>
 internal sealed class RequestOtpHandler(
     IAuthRepository repository,
     ISecretHasher hasher,
+    IOtpCodeGenerator codeGenerator,
     IOtpSender sender) : ICommandHandler<RequestOtpCommand, RequestOtpResponse>
 {
     public async Task<RequestOtpResponse> HandleAsync(RequestOtpCommand command, CancellationToken cancellationToken)
@@ -33,7 +36,7 @@ internal sealed class RequestOtpHandler(
             await repository.AddAsync(user, cancellationToken);
         }
 
-        var code = RandomNumberGenerator.GetInt32(100000, 1000000).ToString(System.Globalization.CultureInfo.InvariantCulture);
+        var code = codeGenerator.Generate();
         var expiresAt = now.AddMinutes(2);
         user.IssueOtp(hasher.Hash(code), expiresAt);
         await repository.SaveChangesAsync(cancellationToken);

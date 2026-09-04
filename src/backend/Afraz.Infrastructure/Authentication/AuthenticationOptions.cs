@@ -6,7 +6,7 @@ public sealed class JwtOptions
     public string Issuer { get; init; } = "Afraz.Api";
     public string Audience { get; init; } = "Afraz.App";
     public string SigningKey { get; init; } = string.Empty;
-    public int AccessTokenMinutes { get; init; } = 15;
+    public int AccessTokenDays { get; init; } = 30;
     public int RefreshTokenDays { get; init; } = 30;
 }
 

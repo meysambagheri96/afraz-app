@@ -3,7 +3,10 @@ using Infra.Commands;
 
 namespace Afraz.Application.Features.Authentication.Google;
 
-public sealed record GoogleLoginCommand(string AuthorizationCode) : ICommand;
+public sealed record GoogleLoginCommand(string AuthorizationCode) : ICommand
+{
+    public override string ToString() => nameof(GoogleLoginCommand);
+}
 
 internal sealed class GoogleLoginValidator : ICommandValidator<GoogleLoginCommand>
 {

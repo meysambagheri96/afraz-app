@@ -11,7 +11,10 @@ import { startGoogleOAuthRedirect } from '../google-oauth'
 import { mobileSchema, normalizeMobileDigits } from '../schemas/auth.schema'
 import AuthBrand from './AuthBrand.vue'
 
-const props = withDefaults(defineProps<{ initialMobile?: string }>(), { initialMobile: '' })
+const props = withDefaults(
+  defineProps<{ initialMobile?: string; loading?: boolean; serverError?: string }>(),
+  { initialMobile: '', loading: false, serverError: '' },
+)
 const emit = defineEmits<{ close: []; submit: [mobile: string] }>()
 const googleAnnouncement = ref('')
 
@@ -45,36 +48,17 @@ function continueWithGoogle() {
 </script>
 
 <template>
-  <section
-    class="auth-login-step"
-    aria-labelledby="auth-login-title"
-  >
+  <section class="auth-login-step" aria-labelledby="auth-login-title">
     <header class="auth-login-step__header">
-      <AppIconButton
-        label="بستن ورود"
-        variant="ghost"
-        @click="$emit('close')"
-      >
-        <AppIcon
-          name="arrow-forward"
-          size="lg"
-        />
+      <AppIconButton label="بستن ورود" variant="ghost" @click="$emit('close')">
+        <AppIcon name="arrow-forward" size="lg" />
       </AppIconButton>
     </header>
 
     <AuthBrand />
 
-    <form
-      class="auth-login-step__form"
-      novalidate
-      @submit.prevent="submit"
-    >
-      <h2
-        id="auth-login-title"
-        class="visually-hidden"
-      >
-        ورود به آتلیه افراز
-      </h2>
+    <form class="auth-login-step__form" novalidate @submit.prevent="submit">
+      <h2 id="auth-login-title" class="visually-hidden">ورود به آتلیه افراز</h2>
       <div class="auth-login-step__content">
         <AppInput
           v-model="mobile"
@@ -86,19 +70,14 @@ function continueWithGoogle() {
           size="lg"
           :maxlength="10"
           placeholder="شماره موبایل ۱۰ رقمی"
-          :error="errors.mobile"
+          :error="errors.mobile || serverError"
+          :loading="loading"
         >
           <template #leading>
-            <AppIcon
-              name="phone"
-              size="md"
-            />
+            <AppIcon name="phone" size="md" />
           </template>
           <template #trailing>
-            <bdi
-              class="auth-login-step__prefix"
-              dir="ltr"
-            >+98</bdi>
+            <bdi class="auth-login-step__prefix" dir="ltr">+98</bdi>
           </template>
         </AppInput>
 
@@ -110,10 +89,7 @@ function continueWithGoogle() {
           aria-label="ادامه با گوگل"
           @click="continueWithGoogle"
         >
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
             <path
               fill="#4285F4"
               d="M21.6 12.2c0-.7-.1-1.5-.2-2.2H12v4.1h5.4a4.6 4.6 0 0 1-2 3v2.7h3.3c1.9-1.8 2.9-4.4 2.9-7.6Z"
@@ -137,42 +113,25 @@ function continueWithGoogle() {
 
       <div class="auth-login-step__footer">
         <p class="auth-login-step__terms">
-          <AppIcon
-            name="shield"
-            size="xs"
-          />
+          <AppIcon name="shield" size="xs" />
           ورود به معنای پذیرش
-          <RouterLink :to="{ name: 'terms' }">
-            قوانین
-          </RouterLink>
+          <RouterLink :to="{ name: 'terms' }"> قوانین </RouterLink>
           و
-          <RouterLink :to="{ name: 'privacy' }">
-            حریم خصوصی
-          </RouterLink>
+          <RouterLink :to="{ name: 'privacy' }"> حریم خصوصی </RouterLink>
           است.
         </p>
       </div>
 
       <BookingStickyAction>
-        <AppButton
-          type="submit"
-          size="lg"
-          block
-        >
+        <AppButton type="submit" size="lg" block :loading="loading" loading-label="در حال ارسال کد">
           دریافت کد ورود
           <template #trailing>
-            <AppIcon
-              name="chevron-back"
-              size="sm"
-            />
+            <AppIcon name="chevron-back" size="sm" />
           </template>
         </AppButton>
       </BookingStickyAction>
 
-      <p
-        class="visually-hidden"
-        aria-live="polite"
-      >
+      <p class="visually-hidden" aria-live="polite">
         {{ googleAnnouncement }}
       </p>
     </form>
@@ -187,9 +146,7 @@ function continueWithGoogle() {
   inline-size: min(100%, var(--mobile-canvas-max-width));
   min-block-size: 100dvh;
   margin-inline: auto;
-  padding:
-    max(var(--space-4), var(--safe-area-top))
-    var(--space-5)
+  padding: max(var(--space-4), var(--safe-area-top)) var(--space-5)
     calc(5.875rem + var(--safe-area-bottom));
   background: var(--color-background);
 }
@@ -288,5 +245,4 @@ function continueWithGoogle() {
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
 }
-
 </style>

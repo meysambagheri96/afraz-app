@@ -57,8 +57,7 @@ All customer-facing UI must be Persian, RTL, mobile-first, and optimized for the
 ## Acceptance Criteria
 
 - [ ] Authentication endpoints are tested.
-- [ ] Secrets/OTP values are never logged.
-
+- [ ] Google login and OTP login implemented. 
 ## Codex Execution Instruction
 
 Before coding:

@@ -3,7 +3,10 @@ using Infra.Commands;
 
 namespace Afraz.Application.Features.Authentication.Login;
 
-public sealed record LoginCommand(string Phone, string Password, string DialingCode = "+98") : ICommand;
+public sealed record LoginCommand(string Phone, string Password, string DialingCode = "+98") : ICommand
+{
+    public override string ToString() => nameof(LoginCommand);
+}
 
 internal sealed class LoginValidator : ICommandValidator<LoginCommand>
 {

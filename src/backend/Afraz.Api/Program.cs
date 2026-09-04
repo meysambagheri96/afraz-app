@@ -36,7 +36,7 @@ public sealed class Program
                     services.AddDistributedMemoryCache();
                     services.AddApplication();
                     services.AddDbContextInternal(context.Configuration);
-                    services.AddAuthenticationInternal(context.Configuration);
+                    services.AddAuthenticationInternal(context.Configuration, context.HostingEnvironment);
                 });
                 webBuilder.Configure((context, app) =>
                 {

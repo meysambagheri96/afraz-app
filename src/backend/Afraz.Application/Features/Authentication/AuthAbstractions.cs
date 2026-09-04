@@ -30,6 +30,11 @@ public interface IOtpSender
     Task SendAsync(string dialingCode, string phone, string code, CancellationToken cancellationToken);
 }
 
+public interface IOtpCodeGenerator
+{
+    string Generate();
+}
+
 public interface IGoogleIdentityService
 {
     Task<GoogleIdentity> GetIdentityAsync(string authorizationCode, CancellationToken cancellationToken);

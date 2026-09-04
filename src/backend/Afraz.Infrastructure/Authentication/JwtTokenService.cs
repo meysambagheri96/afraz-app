@@ -15,7 +15,7 @@ public sealed class JwtTokenService(IOptions<JwtOptions> options) : ITokenServic
 
     public (string Value, DateTime ExpiresAt) CreateAccessToken(User user, DateTime now)
     {
-        var expiresAt = now.AddMinutes(_options.AccessTokenMinutes);
+        var expiresAt = now.AddDays(_options.AccessTokenDays);
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, user.UserId.ToString(System.Globalization.CultureInfo.InvariantCulture)),

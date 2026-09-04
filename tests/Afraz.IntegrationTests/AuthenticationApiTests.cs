@@ -6,6 +6,7 @@ using Afraz.Api.Contracts;
 using Afraz.Application.Features.Authentication;
 using Afraz.Application.Features.Authentication.Logout;
 using Afraz.Application.Features.Authentication.Otp;
+using Afraz.Infrastructure.Authentication;
 using Afraz.Infrastructure.Persistence;
 using FluentAssertions;
 using Microsoft.AspNetCore.Hosting;
@@ -96,7 +97,7 @@ public sealed class AuthenticationApiTests : IClassFixture<AuthenticationApiFact
             TestContext.Current.CancellationToken);
         request.StatusCode.Should().Be(HttpStatusCode.OK,
             await request.Content.ReadAsStringAsync(TestContext.Current.CancellationToken));
-        _otpSender.LastCode.Should().MatchRegex("^\\d{6}$");
+        _otpSender.LastCode.Should().Be(DevelopmentOtpCodeGenerator.TestCode);
         using (var scope = _factory.Services.CreateScope())
         {
             var db = scope.ServiceProvider.GetRequiredService<AfrazDbContext>();
@@ -119,6 +120,9 @@ public sealed class AuthenticationApiTests : IClassFixture<AuthenticationApiFact
         var verified = await verify.Content.ReadFromJsonAsync<Envelop<AuthTokensResponse>>(
             TestContext.Current.CancellationToken);
         verified!.Data!.User.IsActive.Should().BeTrue();
+        (verified.Data.AccessTokenExpiresAt - DateTime.UtcNow).Should().BeCloseTo(
+            TimeSpan.FromDays(30),
+            TimeSpan.FromMinutes(1));
     }
 
     [Fact]

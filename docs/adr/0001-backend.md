@@ -3,25 +3,25 @@
 ## Context
 
 Afraz started with MediatR for request dispatching. The selected internal platform template uses
-the `Infra` packages for command/query processing and `DDDHelpers` for domain building blocks.
+the `Infra` packages for Command/Query processing and `DDDHelpers` for domain building blocks.
 Afraz remains a .NET 10 modular monolith and uses EF Core directly inside vertical slices.
 
 ## IMPORTANT RULES:
-1- All commands should have ICommandValidator even empty.
-2- All Classes should move to a file match type name.
-3- All command and query classes should be public.
+1- All Command should have ICommandValidator even empty.
+2- All Command and Query should move to a file match type name.
+3- All Command and Query classes should be public.
 4- All AggregateRoot and Entities should have EF Config (IEntityTypeConfiguration).
-5- All command and query classes should not be record.
-6- Dont generate Repository, Only use IUnitOfWork and IUnitOfWork.Repo<T> for commands , and DbContext instance for queries directly.
+5- All Command and Query classes should not be record.
+6- Dont generate Repository, Only use IUnitOfWork and IUnitOfWork.Repo<T> for Command , and DbContext instance for Query directly.
 7- Dont generate unit test or integration tests until i said explicitly.
 8- Read all values from appsettings using IOptions<T>.
 9- All AggregateRoot and Entities should have private ctor empty (for EF Core)
 
 ## Decision
 
-- Use `Infra` 2.0.35 contracts and processors for commands and queries.
+- Use `Infra` 2.0.35 contracts and processors for Command and Query.
 - Use `Infra.Common.Decorators` 2.0.35 with Autofac as the composition root for handler discovery,
-  logging, command validation, and query decorators.
+  logging, Command validation, and Query decorators.
 - Use `Infra.EFCore` 2.0.35 as the Infra integration package while keeping EF Core 10 as the
   application persistence version.
 - Use `DDDHelpers` 1.0.16 in the Domain project.
@@ -38,8 +38,8 @@ Handlers are organized by vertical slice and implement `ICommandHandler<TCommand
   registrations.
 - `Infra` packages currently target .NET 8-compatible assets. Their compatibility with the .NET 10
   application must remain covered by restore, build, and integration tests during upgrades.
-- The Infra command-validator contract does not expose a cancellation token;
-  command validation therefore cannot propagate the request cancellation token through that API.
+- The Infra Command-validator contract does not expose a cancellation token;
+  Command validation therefore cannot propagate the request cancellation token through that API.
 
 ## Alternatives Considered
 
@@ -133,7 +133,7 @@ public static class Program
 }
 ```
 
-### **Command Queries + Event Bus**:
+### **Command Query + Event Bus**:
 ```c#
 public static ContainerBuilder AddCommandQuery(this ContainerBuilder builder)
 {
@@ -242,8 +242,8 @@ public class OrderController : BaseController
 
 ## CQRS 
 
-### Commands
-Commands are used for Add or Update any entity. a Command contains these four classes:
+### Command
+Command are used for Add or Update any entity. a Command contains these four classes:
 
 #### 1- Command
 The Command class if will call from EndPoint should have Attribute validations, else if will use as internal Command it should has explicit constructor.
@@ -272,13 +272,13 @@ public class CreateOrderNoteCommandHandler : ICommandHandler<CreateOrderNoteComm
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<CreateOrderNoteCommandResult> HandleAsync(CreateOrderNoteCommand command)
+    public async Task<CreateOrderNoteCommandResult> HandleAsync(CreateOrderNoteCommand Command)
     {
         var order = await _unitOfWork.Repo<Domain.Order>()
             .Include(x => x.Notes)
-            .FirstAsync(x => x.OrderId == command.OrderId);
+            .FirstAsync(x => x.OrderId == Command.OrderId);
 
-        order.AddNote(command.Text, command.CreatorId);
+        order.AddNote(Command.Text, Command.CreatorId);
 
         await _unitOfWork.Save(order);
         
@@ -299,9 +299,9 @@ public class CreateOrderNoteCommandValidator : ICommandValidator<CreateOrderNote
         _db = db;
     }
 
-    public async ValueTask ValidateAsync(CreateOrderNoteCommand command)
+    public async ValueTask ValidateAsync(CreateOrderNoteCommand Command)
     {
-        if (!await _db.Orders.AnyAsync(x => x.OrderId == command.OrderId))
+        if (!await _db.Orders.AnyAsync(x => x.OrderId == Command.OrderId))
             throw new DomainValidationException();
     }
 }
@@ -316,8 +316,8 @@ public class CreateOrderNoteCommandResult
 }
 ```
 
-### Queries
-Queries are used for fetching data and entities. a Query contains these three classes:
+### Query
+Query are used for fetching data and entities. a Query contains these three classes:
 
 #### 1- Query
 ```c#
@@ -331,7 +331,7 @@ public class GetOrderByIdQuery : IQueryResult<GetOrderByIdResponse>
 #### 2- QueryHandler
 - The Query handlers can use any storage that is sync with main storage (like ElasticSearch, MongoDb, etc ...), but you need Consistent data between Read storage and Main storage (for example using Eventual Consistency that we provide here)
 - You can use any ORM to fetching data from DB like EF, Dapper, ADO.NET, etc ... .
-- For querying using **EF**, Query handlers should use **DbContext** (Not IUnitOfWork) as source and **AsNoTracking()** in querying, for not tracking changes.
+- For Querying using **EF**, Query handlers should use **DbContext** (Not IUnitOfWork) as source and **AsNoTracking()** in Querying, for not tracking changes.
 ```c#
 public class GetOrderByIdQueryHandler : IQueryHandler<GetOrderByIdQuery, GetOrderByIdQueryResult>
 {
@@ -447,7 +447,7 @@ public class OrderNote : Entity
     public string Text { get; private set; }
     public int CreatorId { get; set; }
 
-    //Relation properties will useful for querying data (These also should be private setter)
+    //Relation properties will useful for Querying data (These also should be private setter)
     public Order Order { get; private set; }
     public long OrderId { get; private set; }
 }
@@ -559,13 +559,13 @@ public class ChangeOrderItemStateCommandHandler : ICommandHandler<ChangeOrderIte
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<ChangeOrderItemStateCommandResult> HandleAsync(ChangeOrderItemStateCommand command)
+    public async Task<ChangeOrderItemStateCommandResult> HandleAsync(ChangeOrderItemStateCommand Command)
     {
         var orderItem = await _unitOfWork
             .Repo<OrderItem>()
-            .FirstOrDefaultAsync(o => o.OrderItemId == command.OrderItemId);
+            .FirstOrDefaultAsync(o => o.OrderItemId == Command.OrderItemId);
 
-        orderItem.ChangeState(command.Status, command.Description);
+        orderItem.ChangeState(Command.Status, Command.Description);
 
         var result = await _unitOfWork.Save(orderItem);
 
