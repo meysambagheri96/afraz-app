@@ -39,7 +39,7 @@ function finishPreview() {
 function handleNavigation(event: MouseEvent, itemId: NavigationItemId) {
   if (itemId !== 'profile') return
   event.preventDefault()
-  authModal.open()
+  authModal.open({ name: 'profile' })
 }
 </script>
 

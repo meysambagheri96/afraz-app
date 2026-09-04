@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
 import BottomNavigation from '../components/shared/BottomNavigation.vue'
 import SiteFooter from '../components/shared/SiteFooter.vue'
@@ -7,6 +7,7 @@ import AuthFullscreenModal from '../features/auth/components/AuthFullscreenModal
 
 const route = useRoute()
 const isFocusedFlow = ref(route.meta.focusedFlow === true)
+const hideSiteFooter = computed(() => route.meta.hideFooter === true)
 
 function syncShellLayout() {
   isFocusedFlow.value = route.meta.focusedFlow === true
@@ -38,7 +39,7 @@ function syncShellLayout() {
         </Transition>
       </RouterView>
     </main>
-    <SiteFooter v-if="!isFocusedFlow" />
+    <SiteFooter v-if="!isFocusedFlow && !hideSiteFooter" />
     <BottomNavigation v-if="!isFocusedFlow" />
     <AuthFullscreenModal />
   </div>

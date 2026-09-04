@@ -10,6 +10,7 @@ const AuthFallbackPage = () => import('../features/auth/pages/AuthFallbackPage.v
 const GoogleOAuthCallbackPage = () => import('../features/auth/pages/GoogleOAuthCallbackPage.vue')
 const ExplorePage = () => import('../features/explore/pages/ExplorePage.vue')
 const ProductListPage = () => import('../features/store/pages/ProductListPage.vue')
+const ProfilePage = () => import('../features/profile/pages/ProfilePage.vue')
 
 const shellRoutes: RouteRecordRaw[] = [
   {
@@ -175,12 +176,8 @@ const shellRoutes: RouteRecordRaw[] = [
   {
     path: 'profile',
     name: 'profile',
-    component: FoundationView,
-    props: {
-      title: 'پروفایل',
-      description: 'اطلاعات حساب، آدرس‌ها و فعالیت‌های شما در این بخش مدیریت می‌شود.',
-    },
-    meta: { navigation: 'profile' },
+    component: ProfilePage,
+    meta: { navigation: 'profile', hideFooter: true },
   },
 ]
 
