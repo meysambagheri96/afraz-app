@@ -12,6 +12,11 @@ import SelectedBookingDateCard from '../components/SelectedBookingDateCard.vue'
 
 const route = useRoute()
 const router = useRouter()
+const breadcrumbs = [
+  { label: 'خانه', to: { name: 'home' } },
+  { label: 'رزرو نوبت', to: { name: 'booking' } },
+  { label: 'اطلاعات مشتری' },
+] as const
 
 const form = reactive({
   firstName: '',
@@ -70,6 +75,7 @@ function continueBooking() {
       title="رزرو نوبت"
       subtitle="مشخصات خود را وارد کنید"
       :back-to="{ name: 'booking' }"
+      :breadcrumbs="breadcrumbs"
     />
 
     <SelectedBookingDateCard

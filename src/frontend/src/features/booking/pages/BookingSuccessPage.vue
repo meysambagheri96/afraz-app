@@ -12,6 +12,11 @@ import BookingSuccessHero from '../components/BookingSuccessHero.vue'
 
 const route = useRoute()
 const router = useRouter()
+const breadcrumbs = [
+  { label: 'خانه', to: { name: 'home' } },
+  { label: 'رزرو نوبت', to: { name: 'booking' } },
+  { label: 'جزئیات نوبت' },
+] as const
 
 const dateLabel = computed(() => {
   const value = route.query.dateLabel
@@ -44,6 +49,7 @@ const detailRows = computed(() => [
       title="جزئیات نوبت"
       subtitle="اطلاعات رزرو و جزئیات درخواست شما"
       :back-to="{ name: 'home' }"
+      :breadcrumbs="breadcrumbs"
     />
 
     <BookingSuccessHero />
@@ -122,10 +128,6 @@ const detailRows = computed(() => [
   inline-size: 100%;
   min-block-size: calc(100dvh - max(14px, var(--safe-area-top)));
   padding-block-end: calc(5.875rem + var(--safe-area-bottom));
-}
-
-.booking-success-page > :deep(.app-page-header) {
-  margin-block-end: calc(var(--space-5) * -1);
 }
 
 .booking-success-page__section {

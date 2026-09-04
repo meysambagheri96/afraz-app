@@ -104,7 +104,10 @@ const router = useRouter()
   background: transparent;
 }
 
-.home-header__action :deep(svg) { inline-size: 27px; block-size: 27px; }
+.home-header__action :deep(svg) {
+  inline-size: var(--icon-size-header-action);
+  block-size: var(--icon-size-header-action);
+}
 
 .home-header__notification-dot {
   position: absolute;

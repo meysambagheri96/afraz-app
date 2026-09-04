@@ -56,7 +56,13 @@ onBeforeUnmount(() => { if (timer) window.clearTimeout(timer); sectionObserver?.
 
 <template>
   <div class="product-details-page">
-    <ProductDetailsHeader :cart-count="added ? 1 : 0" @share="share" />
+    <ProductDetailsHeader
+      :cart-count="added ? 1 : 0"
+      :category="mockProductDetails.categoryLabel"
+      :category-id="mockProductDetails.product.category"
+      :title="mockProductDetails.product.title"
+      @share="share"
+    />
     <template v-if="isLoading"><AppSkeleton height="19rem" /><AppSkeleton shape="text" width="55%" /><AppSkeleton shape="text" /></template>
     <template v-else>
       <ProductGallery :images="mockProductDetails.gallery" />

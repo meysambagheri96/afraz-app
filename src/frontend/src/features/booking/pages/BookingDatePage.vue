@@ -12,6 +12,10 @@ import PersianCalendar from '../components/PersianCalendar.vue'
 const selectedDateKey = ref<string | null>(null)
 const selectedDateLabel = ref<string | null>(null)
 const router = useRouter()
+const breadcrumbs = [
+  { label: 'خانه', to: { name: 'home' } },
+  { label: 'رزرو نوبت' },
+] as const
 
 function handleDateSelection(dateKey: string | null, label: string | null) {
   selectedDateKey.value = dateKey
@@ -43,6 +47,7 @@ function continueBooking() {
       title="رزرو نوبت"
       subtitle="روز مورد نظر خود را انتخاب کنید"
       :back-to="{ name: 'home' }"
+      :breadcrumbs="breadcrumbs"
       show-help
       @help="showHelp"
     />

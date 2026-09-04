@@ -3,6 +3,7 @@ import type { RouteLocationRaw } from 'vue-router'
 import AppIcon from '../ui/AppIcon.vue'
 import AppIconButton from '../ui/AppIconButton.vue'
 import AppBackButton from './AppBackButton.vue'
+import AppBreadcrumb from './AppBreadcrumb.vue'
 
 withDefaults(
   defineProps<{
@@ -11,6 +12,7 @@ withDefaults(
     backTo?: RouteLocationRaw
     showHelp?: boolean
     helpLabel?: string
+    breadcrumbs?: readonly { label: string; to?: RouteLocationRaw }[]
   }>(),
   { showHelp: false, helpLabel: 'راهنما' },
 )
@@ -20,31 +22,40 @@ defineEmits<{ help: [] }>()
 
 <template>
   <header class="app-page-header">
-    <AppBackButton :to="backTo" />
-    <div class="app-page-header__copy">
-      <h1 class="app-page-header__title text-page-title">{{ title }}</h1>
-      <p v-if="subtitle" class="app-page-header__subtitle text-label">{{ subtitle }}</p>
+    <div class="app-page-header__main">
+      <AppBackButton :to="backTo" />
+      <div class="app-page-header__copy">
+        <h1 class="app-page-header__title text-page-title">{{ title }}</h1>
+        <p v-if="subtitle" class="app-page-header__subtitle text-label">{{ subtitle }}</p>
+      </div>
+      <AppIconButton
+        v-if="showHelp"
+        class="app-page-header__help"
+        :label="helpLabel"
+        variant="ghost"
+        @click="$emit('help')"
+      >
+        <AppIcon name="help" size="lg" />
+      </AppIconButton>
+      <span v-else aria-hidden="true" />
     </div>
-    <AppIconButton
-      v-if="showHelp"
-      class="app-page-header__help"
-      :label="helpLabel"
-      variant="ghost"
-      @click="$emit('help')"
-    >
-      <AppIcon name="help" size="lg" />
-    </AppIconButton>
-    <span v-else aria-hidden="true" />
+    <AppBreadcrumb v-if="breadcrumbs?.length" :items="breadcrumbs" />
   </header>
 </template>
 
 <style scoped>
 .app-page-header {
   display: grid;
+  gap: var(--space-1);
+  padding-block-end: var(--space-3);
+}
+
+.app-page-header__main {
+  display: grid;
   grid-template-columns: var(--touch-target) minmax(0, 1fr) var(--touch-target);
   align-items: center;
   gap: var(--space-2);
-  min-block-size: 5.5rem;
+  min-block-size: 4.5rem;
 }
 
 .app-page-header__copy {

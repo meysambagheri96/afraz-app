@@ -18,6 +18,11 @@ const formatter = new Intl.NumberFormat('fa-IR')
 </template>
 
 <style scoped>
+.product-purchase-action {
+  border-block-start: 1px solid var(--color-border-subtle);
+  background: var(--color-surface);
+}
+
 .product-purchase-action__inner {
   display: grid;
   inline-size: 100%;
