@@ -10,6 +10,7 @@ src/frontend/android/
 src/frontend/ios/
 src/frontend/dist/
 .env
+src/backend/Afraz.Api/appsettings.Development.json
 .DS_Store
 desktop.ini
 .idea/

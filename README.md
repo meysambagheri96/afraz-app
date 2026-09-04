@@ -132,6 +132,13 @@ dotnet ef database update `
   --context AfrazDbContext
 ```
 
+`Update-Database` is the equivalent command only inside Visual Studio's **Package Manager Console**.
+It is not a PowerShell command. In Package Manager Console, use:
+
+```powershell
+Update-Database -Project Afraz.Infrastructure -StartupProject Afraz.Api -Context AfrazDbContext
+```
+
 The commands use `ConnectionStrings__DefaultConnection` (or the corresponding value from the
 active ASP.NET Core configuration). Review generated migrations before applying them outside local
 development.

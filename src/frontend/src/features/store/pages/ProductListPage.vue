@@ -136,6 +136,7 @@ onBeforeUnmount(() => {
       v-model="isFilterOpen"
       title="فیلتر محصولات"
       description="نتایج نمایش‌داده‌شده را محدود کنید."
+      flush-bottom
     >
       <AppSwitch
         v-model="availableOnly"

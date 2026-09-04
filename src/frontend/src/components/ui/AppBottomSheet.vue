@@ -11,8 +11,9 @@ const props = withDefaults(
     dismissible?: boolean
     closeLabel?: string
     showHandle?: boolean
+    flushBottom?: boolean
   }>(),
-  { dismissible: true, closeLabel: 'بستن', showHandle: true },
+  { dismissible: true, closeLabel: 'بستن', showHandle: true, flushBottom: false },
 )
 const emit = defineEmits<{ close: [] }>()
 const panel = ref<HTMLElement | null>(null)
@@ -32,7 +33,12 @@ useOverlay(model, panel, () => props.dismissible, close)
 <template>
   <Teleport to="body">
     <Transition name="app-sheet">
-      <div v-if="model" class="app-overlay app-bottom-sheet" @mousedown.self="close">
+      <div
+        v-if="model"
+        class="app-overlay app-bottom-sheet"
+        :class="{ 'app-bottom-sheet--flush-bottom': flushBottom }"
+        @mousedown.self="close"
+      >
         <section
           ref="panel"
           class="app-overlay__panel app-bottom-sheet__panel"
@@ -66,6 +72,7 @@ useOverlay(model, panel, () => props.dismissible, close)
 
 <style scoped>
 .app-bottom-sheet { display: flex; align-items: flex-end; justify-content: center; }
+.app-bottom-sheet--flush-bottom { padding-block-end: 0; }
 .app-bottom-sheet__panel { max-width: 40rem; max-height: min(90dvh, 52rem); padding-block-end: env(safe-area-inset-bottom); border-radius: var(--radius-xl) var(--radius-xl) 0 0; }
 .app-bottom-sheet__handle { width: 2.5rem; height: 0.3rem; margin: var(--space-2) auto 0; border-radius: var(--radius-full); background: var(--color-border); }
 </style>

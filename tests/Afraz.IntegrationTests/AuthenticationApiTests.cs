@@ -180,6 +180,12 @@ public sealed class AuthenticationApiTests : IClassFixture<AuthenticationApiFact
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         auth!.Data!.AccessToken.Should().NotBeNullOrWhiteSpace();
         auth.Data.User.Email.Should().Be("customer@example.com");
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AfrazDbContext>();
+        var user = await db.Users.SingleAsync(
+            user => user.GoogleSubject == "google-subject-123",
+            TestContext.Current.CancellationToken);
+        user.Email.Should().Be("customer@example.com");
     }
 }
 

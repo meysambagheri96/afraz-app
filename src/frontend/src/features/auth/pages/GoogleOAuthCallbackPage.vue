@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AppButton from '../../../components/ui/AppButton.vue'
 import AppIcon from '../../../components/ui/AppIcon.vue'
+import { exchangeGoogleAuthorizationCode } from '../api/google-auth.api'
 import AuthBrand from '../components/AuthBrand.vue'
+import { useAuthModal } from '../composables/useAuthModal'
 import { consumeGoogleOAuthState } from '../google-oauth'
 
 const route = useRoute()
 const router = useRouter()
+const authModal = useAuthModal()
+const isProcessing = ref(false)
+const completionError = ref('')
 
 function queryValue(value: unknown) {
   if (Array.isArray(value)) return String(value[0] ?? '')
@@ -18,8 +23,27 @@ const code = computed(() => queryValue(route.query.code))
 const error = computed(() => queryValue(route.query.error))
 const errorDescription = computed(() => queryValue(route.query.error_description))
 const returnedState = computed(() => queryValue(route.query.state))
-const stateIsValid = consumeGoogleOAuthState(returnedState.value || null)
+const { isValid: stateIsValid, returnPath } = consumeGoogleOAuthState(returnedState.value || null)
 const hasResult = computed(() => Boolean(code.value || error.value))
+
+async function returnToAfraz() {
+  await router.replace(returnPath)
+}
+
+onMounted(async () => {
+  if (!code.value || stateIsValid !== true) return
+
+  isProcessing.value = true
+  try {
+    await exchangeGoogleAuthorizationCode(code.value)
+    authModal.complete()
+    await returnToAfraz()
+  } catch {
+    completionError.value = 'ورود با گوگل کامل نشد. لطفاً دوباره تلاش کنید.'
+  } finally {
+    isProcessing.value = false
+  }
+})
 </script>
 
 <template>
@@ -29,7 +53,7 @@ const hasResult = computed(() => Boolean(code.value || error.value))
 
       <div
         class="google-callback-page__status"
-        :class="{ 'google-callback-page__status--error': error || !hasResult }"
+        :class="{ 'google-callback-page__status--error': error || !hasResult || stateIsValid !== true || completionError }"
         aria-hidden="true"
       >
         <AppIcon :name="code ? 'check' : 'info'" size="lg" />
@@ -37,16 +61,13 @@ const hasResult = computed(() => Boolean(code.value || error.value))
 
       <div class="google-callback-page__heading">
         <h1 id="google-callback-title">نتیجه بازگشت از گوگل</h1>
-        <p v-if="code">کد OAuth از گوگل دریافت شد.</p>
+        <p v-if="isProcessing">در حال تکمیل ورود امن با گوگل…</p>
+        <p v-else-if="code && stateIsValid === true && !completionError">ورود با گوگل انجام شد؛ در حال بازگشت به افراز…</p>
         <p v-else-if="error">گوگل نتیجه ناموفق برگرداند.</p>
         <p v-else>هیچ نتیجه OAuth در آدرس بازگشت وجود ندارد.</p>
       </div>
 
-      <dl v-if="hasResult" class="google-callback-page__result">
-        <div v-if="code">
-          <dt>Authorization code</dt>
-          <dd><code dir="ltr">{{ code }}</code></dd>
-        </div>
+      <dl v-if="error" class="google-callback-page__result">
         <div v-if="error">
           <dt>Error</dt>
           <dd><code dir="ltr">{{ error }}</code></dd>
@@ -55,21 +76,21 @@ const hasResult = computed(() => Boolean(code.value || error.value))
           <dt>توضیحات خطا</dt>
           <dd>{{ errorDescription }}</dd>
         </div>
-        <div v-if="returnedState">
-          <dt>State</dt>
-          <dd><code dir="ltr">{{ returnedState }}</code></dd>
-        </div>
       </dl>
 
-      <p v-if="stateIsValid === false" class="google-callback-page__warning" role="alert">
-        مقدار state با درخواست اولیه مطابقت ندارد.
+      <p v-if="stateIsValid !== true" class="google-callback-page__warning" role="alert">
+        اعتبار درخواست ورود با گوگل تأیید نشد. لطفاً دوباره تلاش کنید.
+      </p>
+
+      <p v-if="completionError" class="google-callback-page__warning" role="alert">
+        {{ completionError }}
       </p>
 
       <p class="google-callback-page__note">
-        این صفحه فقط برای بررسی نتیجه است؛ هیچ کاربر، نشست یا توکن ورود ایجاد نشده است.
+        کد OAuth و توکن‌های ورود در مرورگر نمایش یا ذخیره نمی‌شوند.
       </p>
 
-      <AppButton size="lg" block @click="router.replace({ name: 'home' })">
+      <AppButton size="lg" block @click="returnToAfraz">
         بازگشت به افراز
       </AppButton>
     </section>

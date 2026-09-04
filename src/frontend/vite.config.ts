@@ -1,33 +1,14 @@
 /// <reference types="vitest/config" />
 
-import { readFileSync } from 'node:fs'
 import { fileURLToPath, URL } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig, loadEnv } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
-interface BackendSettings {
-  Google?: {
-    ClientId?: string
-  }
-}
-
-function readBackendGoogleClientId() {
-  try {
-    const settingsPath = fileURLToPath(
-      new URL('../backend/Afraz.Api/appsettings.json', import.meta.url),
-    )
-    const settings = JSON.parse(readFileSync(settingsPath, 'utf8')) as BackendSettings
-    return settings.Google?.ClientId?.trim() ?? ''
-  } catch {
-    return ''
-  }
-}
-
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const googleClientId = env.VITE_GOOGLE_CLIENT_ID?.trim() || readBackendGoogleClientId()
+  const googleClientId = env.VITE_GOOGLE_CLIENT_ID?.trim() || ''
 
   return {
     base: '/',

@@ -8,6 +8,10 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://+:8080
+      Jwt__SigningKey: ${JWT_SIGNING_KEY:?JWT_SIGNING_KEY must be set}
+      Google__ClientId: ${GOOGLE_CLIENT_ID:?GOOGLE_CLIENT_ID must be set}
+      Google__ClientSecret: ${GOOGLE_CLIENT_SECRET:?GOOGLE_CLIENT_SECRET must be set}
+      Google__RedirectUri: ${GOOGLE_REDIRECT_URI:?GOOGLE_REDIRECT_URI must be set}
 
     ports:
       - "127.0.0.1:5080:8080"

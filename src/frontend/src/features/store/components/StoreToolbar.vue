@@ -53,7 +53,7 @@ function chooseSort(value: StoreSort) {
     </button>
   </div>
 
-  <AppBottomSheet v-model="isSortOpen" title="مرتب‌سازی محصولات">
+  <AppBottomSheet v-model="isSortOpen" title="مرتب‌سازی محصولات" flush-bottom>
     <div class="store-sort-options" role="radiogroup" aria-label="روش مرتب‌سازی محصولات">
       <button
         v-for="option in sortOptions"

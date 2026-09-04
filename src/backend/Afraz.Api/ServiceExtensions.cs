@@ -90,26 +90,19 @@ public static class ServiceExtensions
 
     public static IServiceCollection AddAuthenticationInternal(
         this IServiceCollection services,
-        IConfiguration configuration,
-        IHostEnvironment environment)
+        IConfiguration configuration)
     {
         var jwt = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>() ?? new JwtOptions();
         if (string.IsNullOrWhiteSpace(jwt.SigningKey))
         {
-            if (!environment.IsDevelopment())
-                throw new InvalidOperationException("Jwt:SigningKey must be configured outside Development.");
-            jwt = new JwtOptions
-            {
-                Issuer = jwt.Issuer,
-                Audience = jwt.Audience,
-                AccessTokenMinutes = jwt.AccessTokenMinutes,
-                RefreshTokenDays = jwt.RefreshTokenDays,
-                SigningKey = Convert.ToBase64String(System.Security.Cryptography.RandomNumberGenerator.GetBytes(48)),
-            };
+            throw new InvalidOperationException("Jwt:SigningKey configuration is required.");
         }
 
+        var google = configuration.GetSection(GoogleOptions.SectionName).Get<GoogleOptions>()
+            ?? new GoogleOptions();
+
         services.AddSingleton(Microsoft.Extensions.Options.Options.Create(jwt));
-        services.Configure<GoogleOptions>(configuration.GetSection(GoogleOptions.SectionName));
+        services.AddSingleton(Microsoft.Extensions.Options.Options.Create(google));
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUser, HttpCurrentUser>();
         services.AddScoped<IAuthRepository, AuthRepository>();

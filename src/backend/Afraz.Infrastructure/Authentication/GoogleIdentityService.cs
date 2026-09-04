@@ -49,7 +49,9 @@ public sealed class GoogleIdentityService(HttpClient httpClient, IOptions<Google
 
     private void EnsureConfigured()
     {
-        if (string.IsNullOrWhiteSpace(_options.ClientId) || string.IsNullOrWhiteSpace(_options.ClientSecret))
+        if (string.IsNullOrWhiteSpace(_options.ClientId)
+            || string.IsNullOrWhiteSpace(_options.ClientSecret)
+            || string.IsNullOrWhiteSpace(_options.RedirectUri))
             throw new InvalidOperationException("Google OAuth server configuration is missing.");
     }
 
