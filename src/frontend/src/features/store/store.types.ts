@@ -28,3 +28,43 @@ export interface StoreProduct {
   createdAt: string
   sales: number
 }
+
+export type ProductTabId = 'specifications' | 'overview' | 'reviews'
+
+export interface ProductGalleryImage {
+  src: string
+  alt: string
+}
+
+export interface ProductSpecification {
+  label: string
+  value: string
+}
+
+export interface ProductReview {
+  id: string
+  author: string
+  date: string
+  rating: number
+  title?: string
+  body: string
+  likes: number
+  dislikes: number
+  variant: string
+}
+
+export interface StoreProductDetails {
+  product: StoreProduct
+  categoryLabel: string
+  tagline: string
+  price: number
+  introduction: string
+  overview: string
+  gallery: ProductGalleryImage[]
+  specifications: ProductSpecification[]
+  benefits: string[]
+  rating: number
+  reviewCount: number
+  ratingDistribution: Array<{ stars: number; percent: number }>
+  reviews: ProductReview[]
+}

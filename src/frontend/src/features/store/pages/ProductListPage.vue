@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { PackageSearch, SlidersHorizontal } from '@lucide/vue'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import AppBottomSheet from '../../../components/ui/AppBottomSheet.vue'
 import AppEmptyState from '../../../components/ui/AppEmptyState.vue'
 import AppSwitch from '../../../components/ui/AppSwitch.vue'
@@ -14,6 +14,7 @@ import { storeCategories, storeProducts } from '../data/products.mock'
 import type { StoreCategory, StoreProduct, StoreSort } from '../store.types'
 
 const route = useRoute()
+const router = useRouter()
 const search = ref('')
 const sort = ref<StoreSort>('newest')
 const selectedCategory = ref<StoreCategory>('all')
@@ -76,7 +77,7 @@ function toggleAdded(product: StoreProduct) {
 }
 
 function previewProduct(product: StoreProduct) {
-  announcement.value = `${product.title} انتخاب شد.`
+  void router.push({ name: 'store-product', params: { productId: product.id } })
 }
 
 onMounted(() => {

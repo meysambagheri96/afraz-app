@@ -10,6 +10,7 @@ const AuthFallbackPage = () => import('../features/auth/pages/AuthFallbackPage.v
 const GoogleOAuthCallbackPage = () => import('../features/auth/pages/GoogleOAuthCallbackPage.vue')
 const ExplorePage = () => import('../features/explore/pages/ExplorePage.vue')
 const ProductListPage = () => import('../features/store/pages/ProductListPage.vue')
+const ProductDetailsPage = () => import('../features/store/pages/ProductDetailsPage.vue')
 const ProfilePage = () => import('../features/profile/pages/ProfilePage.vue')
 
 const shellRoutes: RouteRecordRaw[] = [
@@ -172,6 +173,12 @@ const shellRoutes: RouteRecordRaw[] = [
     name: 'store',
     component: ProductListPage,
     meta: { navigation: 'store' },
+  },
+  {
+    path: 'store/:productId',
+    name: 'store-product',
+    component: ProductDetailsPage,
+    meta: { navigation: 'store', focusedFlow: true },
   },
   {
     path: 'profile',
