@@ -411,6 +411,7 @@ public class Order : AggregateRoot
         Guard.Positive(totalPrice, nameof(totalPrice));
         Guard.MaxLength(description, 200, nameof(description));
 
+        Id = Guid.NewGuid();
         var @event = new OrderCreated(
             channel,
             customerId,
